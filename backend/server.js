@@ -19,49 +19,49 @@ mongoose.Promise = Promise;
 const port = process.env.PORT || 8080;
 const app = express();
 
-// dotenv.config();
+dotenv.config();
 
-// const cloudinary = cloudinaryFramework.v2;
-// cloudinary.config({
-//   cloud_name: "dmolotv8a",
-//   api_key: process.env.CLOUDINARY_API_KEY,
-//   api_secret: process.env.CLOUDINARY_API_SECRET,
-// });
+const cloudinary = cloudinaryFramework.v2;
+cloudinary.config({
+  cloud_name: "dmolotv8a",
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET,
+});
 
-// const storage = cloudinaryStorage({
-//   cloudinary,
-//   params: {
-//     folder: "images",
-//     allowedFormats: ["jpg", "png"],
-//     transformation: [{ width: 500, height: 500, crop: "limit" }],
-//   },
-// });
-// const parser = multer({ storage });
+const storage = cloudinaryStorage({
+  cloudinary,
+  params: {
+    folder: "images",
+    allowedFormats: ["jpg", "png"],
+    transformation: [{ width: 500, height: 500, crop: "limit" }],
+  },
+});
+const parser = multer({ storage });
 
 // model for activities
-// const SightSeeingSchema = new mongoose.Schema({
-//   name: {
-//     type: String,
-//     required: true,
-//   },
-//   country: {
-//     type: String,
-//     required: true,
-//     enum: ["Sweden", "Norway", "Denmark"],
-//   },
-//   imageUrl: String,
-//   createdAt: {
-//     type: Number,
-//     default: Date.now,
-//   },
-//   description: {
-//     type: String,
-//     trim: true,
-//     maxlength: 140,
-//     minlength: 5,
-//     required: true,
-//   },
-// });
+const SightSeeingSchema = new mongoose.Schema({
+  name: {
+    type: String,
+    required: true,
+  },
+  country: {
+    type: String,
+    required: true,
+    enum: ["Sweden", "Norway", "Denmark"],
+  },
+  imageUrl: String,
+  createdAt: {
+    type: Number,
+    default: Date.now,
+  },
+  description: {
+    type: String,
+    trim: true,
+    maxlength: 140,
+    minlength: 5,
+    required: true,
+  },
+});
 
 const UserSchema = new mongoose.Schema({
   username: {
@@ -121,21 +121,21 @@ app.get("/", (req, res) => {
   res.send("Hello world");
 });
 
-// app.post("/sightseeing", parser.single("image"), async (req, res) => {
-//   try {
-//     const newSightseeing = await new Sightseeing({
-//       name: req.body.name,
-//       country: req.body.country,
-//       imageUrl: req.file.path,
-//     }).save();
-//     res.json({
-//       response: newSightseeing,
-//       success: true,
-//     });
-//   } catch (error) {
-//     res.status(400).json({ errors: err.errors, success: false });
-//   }
-// });
+app.post("/sightseeing", parser.single("image"), async (req, res) => {
+  try {
+    const newSightseeing = await new Sightseeing({
+      name: req.body.name,
+      country: req.body.country,
+      imageUrl: req.file.path,
+    }).save();
+    res.json({
+      response: newSightseeing,
+      success: true,
+    });
+  } catch (error) {
+    res.status(400).json({ errors: err.errors, success: false });
+  }
+});
 
 app.post("/signup", async (req, res) => {
   const { username, password, email } = req.body;
