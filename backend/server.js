@@ -23,7 +23,7 @@ dotenv.config();
 
 const cloudinary = cloudinaryFramework.v2;
 cloudinary.config({
-  cloud_name: "dmolotv8a",
+  cloud_name: process.env.CLOUDINARY_NAME,
   api_key: process.env.CLOUDINARY_API_KEY,
   api_secret: process.env.CLOUDINARY_API_SECRET,
 });
@@ -99,22 +99,22 @@ const User = mongoose.model("User", UserSchema);
 app.use(cors());
 app.use(express.json());
 
-const authenticateUser = async (req, res, next) => {
-  const accessToken = req.header("Authorization");
-  try {
-    const user = await User.findOne({ accessToken });
-    if (user) {
-      req.user = user;
-      next();
-    } else {
-      res
-        .status(401)
-        .json({ response: "User not found, please login", success: false });
-    }
-  } catch (error) {
-    res.status(400).json({ response: error, success: false });
-  }
-};
+// const authenticateUser = async (req, res, next) => {
+//   const accessToken = req.header("Authorization");
+//   try {
+//     const user = await User.findOne({ accessToken });
+//     if (user) {
+//       req.user = user;
+//       next();
+//     } else {
+//       res
+//         .status(401)
+//         .json({ response: "User not found, please login", success: false });
+//     }
+//   } catch (error) {
+//     res.status(400).json({ response: error, success: false });
+//   }
+// };
 
 // Start defining your routes here
 app.get("/", (req, res) => {
@@ -133,7 +133,7 @@ app.post("/sightseeing", parser.single("image"), async (req, res) => {
       success: true,
     });
   } catch (error) {
-    res.status(400).json({ errors: err.errors, success: false });
+    res.status(400).json({ errors: error.errors, success: false });
   }
 });
 
