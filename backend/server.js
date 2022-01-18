@@ -59,7 +59,7 @@ const SightSeeingSchema = new mongoose.Schema({
     trim: true,
     maxlength: 140,
     minlength: 5,
-    required: true,
+    required: false,
   },
 });
 
@@ -93,7 +93,7 @@ const UserSchema = new mongoose.Schema({
   },
 });
 
-// const Sightseeing = mongoose.model("Sightseeing", SightSeeingSchema);
+const Sightseeing = mongoose.model("Sightseeing", SightSeeingSchema);
 const User = mongoose.model("User", UserSchema);
 // Add middlewares to enable cors and json body parsing
 app.use(cors());
