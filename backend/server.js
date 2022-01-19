@@ -9,7 +9,11 @@ import crypto from "crypto";
 import bcrypt from "bcrypt";
 
 const mongoUrl = process.env.MONGO_URL || "mongodb://localhost/finalProject";
-mongoose.connect(mongoUrl, { useNewUrlParser: true, useUnifiedTopology: true });
+mongoose.connect(mongoUrl, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+  useCreateIndex: true,
+});
 mongoose.Promise = Promise;
 
 // Defines the port the app will run on. Defaults to 8080, but can be
@@ -49,7 +53,10 @@ const SightSeeingSchema = new mongoose.Schema({
     required: true,
     enum: ["Sweden", "Norway", "Denmark"],
   },
-  imageUrl: String,
+  imageUrl: {
+    type: String,
+    required: true,
+  },
   createdAt: {
     type: Number,
     default: Date.now,
@@ -57,9 +64,30 @@ const SightSeeingSchema = new mongoose.Schema({
   description: {
     type: String,
     trim: true,
-    maxlength: 140,
+    maxlength: 800,
     minlength: 5,
-    required: false,
+    required: true,
+  },
+  link: {
+    type: String,
+    required: true,
+  },
+  location: {
+    type: String,
+    required: true,
+  },
+  category: {
+    type: String,
+    enum: ["food", "culture", "activity"],
+    required: true,
+  },
+  rating: {
+    type: Number,
+    required: true,
+  },
+  user: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User",
   },
 });
 
@@ -95,45 +123,140 @@ const UserSchema = new mongoose.Schema({
 
 const Sightseeing = mongoose.model("Sightseeing", SightSeeingSchema);
 const User = mongoose.model("User", UserSchema);
+// const UserStories = mongoose.model("UserStories", UserStoriesSchema);
+
 // Add middlewares to enable cors and json body parsing
 app.use(cors());
 app.use(express.json());
 
-// const authenticateUser = async (req, res, next) => {
-//   const accessToken = req.header("Authorization");
-//   try {
-//     const user = await User.findOne({ accessToken });
-//     if (user) {
-//       req.user = user;
-//       next();
-//     } else {
-//       res
-//         .status(401)
-//         .json({ response: "User not found, please login", success: false });
-//     }
-//   } catch (error) {
-//     res.status(400).json({ response: error, success: false });
-//   }
-// };
+const authenticateUser = async (req, res, next) => {
+  const accessToken = req.header("Authorization");
+  try {
+    const user = await User.findOne({ accessToken });
+    if (user) {
+      req.user = user;
+      next();
+    } else {
+      res
+        .status(401)
+        .json({ response: "User not found, please login", success: false });
+    }
+  } catch (error) {
+    res.status(400).json({ response: error, success: false });
+  }
+};
 
 // Start defining your routes here
 app.get("/", (req, res) => {
   res.send("Hello world");
 });
 
-app.post("/sightseeing", parser.single("image"), async (req, res) => {
+app.post("/stories", authenticateUser);
+app.post("/stories", parser.single("image"), async (req, res) => {
+  const { name, description, location, link, category, rating, country } =
+    req.body;
+  // const { imageUrl } = req.file.path;
   try {
-    const newSightseeing = await new Sightseeing({
-      name: req.body.name,
-      country: req.body.country,
+    const story = await new Sightseeing({
+      name,
+      description,
       imageUrl: req.file.path,
+      location,
+      country,
+      link,
+      category,
+      rating,
+      user: req.user._id,
+      username: req.user.username,
     }).save();
-    res.json({
-      response: newSightseeing,
+    res.status(201).json({
+      response: story,
       success: true,
     });
   } catch (error) {
     res.status(400).json({ errors: error.errors, success: false });
+  }
+});
+
+app.get("/users/:id/mystories", async (req, res) => {
+  const userFound = await User.findById(req.params.id);
+  console.log(userFound);
+  if (userFound) {
+    const stories = await Sightseeing.find({
+      user: mongoose.Types.ObjectId(userFound._id),
+    });
+    res.json({
+      User: userFound.username,
+      Stories: stories,
+    });
+  } else {
+    res.status(404).json({ error: "User not found." });
+  }
+});
+app.get("/stories", async (req, res) => {
+  const { name, description, category, country } = req.query;
+
+  try {
+    const story = await Sightseeing.find({
+      $or: [
+        { name: { $regex: name, $options: "i" } },
+        { description: { $regex: description, $options: "i" } },
+        { category: { $regex: category, $options: "i" } },
+        { country: { $regex: country, $options: "i" } },
+      ],
+    });
+
+    res.status(200).json({ response: story, success: true });
+  } catch (error) {
+    res.status(400).json({ error: error, success: false });
+  }
+});
+
+app.get("/stories/:id/story", async (req, res) => {
+  const { id } = req.params;
+  try {
+    const story = await Sightseeing.findById(id);
+    if (story) {
+      res.status(200).json({ response: story, success: true });
+    } else {
+      res.status(404).json({ response: "Not found", success: false });
+    }
+  } catch (error) {
+    res.status(400).json({ error: error, success: false });
+  }
+});
+
+app.get("/country/:country", async (req, res) => {
+  const { country } = req.params;
+  const chosenCountry = await Sightseeing.find({
+    country: { $regex: country, $options: "i" },
+  });
+  if (chosenCountry.length === 0) {
+    res.status(404).json({
+      response: "Sorry, there is no country with this name",
+      success: false,
+    });
+  } else {
+    res.status(200).json({ response: thoughts, success: true });
+  }
+});
+
+app.get("/category/:category", async (req, res) => {
+  const { category } = req.params;
+  try {
+    const choosenCategory = await Sightseeing.find({
+      category: { $regex: category, $options: "i" },
+    });
+    if (choosenCategory.length === 0) {
+      res.status(404).json({
+        response: `Sorry, there is no such category`,
+        success: false,
+      });
+    } else {
+      res.status(200).json({ response: choosenCategory, success: true });
+    }
+  } catch (error) {
+    res.status(400).json({ error: error, success: false });
   }
 });
 
@@ -186,9 +309,6 @@ app.post("/signin", async (req, res) => {
     res.status(400).json({ response: error, success: false });
   }
 });
-
-// app.get("/user", authenticateUser);
-// app.get("/user", async (req, res) => {});
 
 // Start the server
 app.listen(port, () => {
