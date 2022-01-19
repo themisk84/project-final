@@ -179,6 +179,32 @@ app.post("/stories", parser.single("image"), async (req, res) => {
   }
 });
 
+app.post("/stories/:storyId/like", async (req, res) => {
+  const { storyId } = req.params;
+  try {
+    const addLike = await Sightseeing.findByIdAndUpdate(
+      storyId,
+      {
+        $inc: {
+          hearts: 1,
+        },
+      },
+      { new: true }
+    );
+    if (addLike) {
+      res.status(200).json({ response: addLike, success: true });
+    } else {
+      res.status(404).json({ response: "invalid id", success: false });
+    }
+  } catch (error) {
+    res.status(400).json({
+      response: "can´t find a thought with this id",
+      errors: error.error,
+      success: false,
+    });
+  }
+});
+
 app.get("/users/:id/mystories", async (req, res) => {
   const userFound = await User.findById(req.params.id);
   console.log(userFound);
@@ -213,6 +239,19 @@ app.get("/stories", async (req, res) => {
   }
 });
 
+app.get("stories/search", async (req, res) => {
+  try {
+    let question = await Sightseeing.find(req.query);
+    if (question) {
+      res.status(200).json({ response: question, success: true });
+    } else {
+      res.status(404).json({ response: "Nothing was found", success: false });
+    }
+  } catch (error) {
+    res.status(400).json({ error: error, success: false });
+  }
+});
+
 app.get("/stories/:id/story", async (req, res) => {
   const { id } = req.params;
   try {
@@ -221,19 +260,6 @@ app.get("/stories/:id/story", async (req, res) => {
       res.status(200).json({ response: story, success: true });
     } else {
       res.status(404).json({ response: "Not found", success: false });
-    }
-  } catch (error) {
-    res.status(400).json({ error: error, success: false });
-  }
-});
-
-app.get("stories/search", async (req, res) => {
-  try {
-    let question = await Sightseeing.find(req.query);
-    if (question) {
-      res.status(200).json({ response: question, success: true });
-    } else {
-      res.status(404).json({ response: "Nothing was found", success: false });
     }
   } catch (error) {
     res.status(400).json({ error: error, success: false });
