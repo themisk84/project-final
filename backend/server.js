@@ -227,6 +227,19 @@ app.get("/stories/:id/story", async (req, res) => {
   }
 });
 
+app.get("stories/search", async (req, res) => {
+  try {
+    let question = await Sightseeing.find(req.query);
+    if (question) {
+      res.status(200).json({ response: question, success: true });
+    } else {
+      res.status(404).json({ response: "Nothing was found", success: false });
+    }
+  } catch (error) {
+    res.status(400).json({ error: error, success: false });
+  }
+});
+
 app.get("/country/:country", async (req, res) => {
   const { country } = req.params;
   const chosenCountry = await Sightseeing.find({
