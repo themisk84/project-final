@@ -7,6 +7,7 @@ import multer from "multer";
 import cloudinaryStorage from "multer-storage-cloudinary";
 import crypto from "crypto";
 import bcrypt from "bcrypt";
+import { runInNewContext } from "vm";
 
 const mongoUrl = process.env.MONGO_URL || "mongodb://localhost/finalProject";
 mongoose.connect(mongoUrl, {
@@ -307,6 +308,21 @@ app.post("/signin", async (req, res) => {
     }
   } catch (error) {
     res.status(400).json({ response: error, success: false });
+  }
+});
+
+app.delete("/stories/:id", authenticateUser);
+app.delete("/stories/:id", async (req, res) => {
+  const { id } = req.params;
+  const stories = await Sightseeing.find({ user: req.user._id });
+  if (stories) {
+    const deletedStory = await Sightseeing.findOneAndDelete({ _id: id });
+    res.status(200).json({
+      response: deletedStory,
+      success: true,
+    });
+  } else {
+    res.status(404).json({ response: "Story not found", success: false });
   }
 });
 
