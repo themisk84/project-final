@@ -90,6 +90,7 @@ const SightSeeingSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: "User",
   },
+  // likes : { type: Number, default: 0 },
 });
 
 const UserSchema = new mongoose.Schema({
@@ -179,31 +180,31 @@ app.post("/stories", parser.single("image"), async (req, res) => {
   }
 });
 
-app.post("/stories/:storyId/like", async (req, res) => {
-  const { storyId } = req.params;
-  try {
-    const addLike = await Sightseeing.findByIdAndUpdate(
-      storyId,
-      {
-        $inc: {
-          hearts: 1,
-        },
-      },
-      { new: true }
-    );
-    if (addLike) {
-      res.status(200).json({ response: addLike, success: true });
-    } else {
-      res.status(404).json({ response: "invalid id", success: false });
-    }
-  } catch (error) {
-    res.status(400).json({
-      response: "can´t find a thought with this id",
-      errors: error.error,
-      success: false,
-    });
-  }
-});
+// app.post("/stories/:storyId/like", async (req, res) => {
+//   const { storyId } = req.params;
+//   try {
+//     const addLike = await Sightseeing.findByIdAndUpdate(
+//       storyId,
+//       {
+//         $inc: {
+//           likes: 1,
+//         },
+//       },
+//       { new: true }
+//     );
+//     if (addLike) {
+//       res.status(200).json({ response: addLike, success: true });
+//     } else {
+//       res.status(404).json({ response: "invalid id", success: false });
+//     }
+//   } catch (error) {
+//     res.status(400).json({
+//       response: "can´t find a story with this id",
+//       errors: error.error,
+//       success: false,
+//     });
+//   }
+// });
 
 app.get("/users/:id/mystories", async (req, res) => {
   const userFound = await User.findById(req.params.id);
