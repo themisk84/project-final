@@ -195,6 +195,7 @@ app.post('/stories', parser.single('image'), async (req, res) => {
   const { name, description, location, link, category, rating, country } =
     req.body
   // const { imageUrl } = req.file.path;
+  const queredUser = await User.findById(req.user._id)
   try {
     const story = await new Sightseeing({
       name,
@@ -205,9 +206,9 @@ app.post('/stories', parser.single('image'), async (req, res) => {
       link,
       category,
       rating,
-      user: req.user._id,
-      // ask on-call support username: req.user.username,
+      user: queredUser,
     }).save()
+    story.populate('user')
     res.status(201).json({
       response: story,
       success: true,
@@ -250,6 +251,9 @@ app.get('/users/:id/mystories', async (req, res) => {
     const stories = await Sightseeing.find({
       user: mongoose.Types.ObjectId(userFound._id),
     })
+    // ---------------QUESTION-------------
+    // .populate('comments').populate('user')
+    // ---------------QUESTION-------------
     res.json({
       User: userFound.username,
       Stories: stories,
@@ -270,7 +274,7 @@ app.post('/stories/:storyId/comment', async (req, res) => {
       user: req.user._id,
     }).save()
 
-    const postRelated = await Sightseeing.findById(storyId)
+    const postRelated = await Sightseeing.findById(storyId).populate('comments').populate('user')
     postRelated.comments.push(comment)
     await postRelated.save()
     if (postRelated) {
@@ -301,6 +305,13 @@ app.get('/stories', async (req, res) => {
     res.status(400).json({ error: error, success: false })
   }
 })
+
+// app.get('/stories/:id', async (req, res) => {
+//   const { id } = req.params
+
+//   const story = await Sightseeing.findById(id).populate('comments')
+//   res.status(200).json({ response: story, success: true })
+// })
 
 // app.get('stories/search', async (req, res) => {
 //   try {
