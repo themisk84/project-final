@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { batch, useDispatch, useSelector } from "react-redux";
-import { useNavigate, Link } from "react-router-dom";
-import styled from "styled-components";
+import { useNavigate } from "react-router-dom";
+// import styled from "styled-components";
 
 import user from "reducers/user";
 
@@ -10,14 +10,14 @@ const Signin = () => {
   const [password, setPassword] = useState("");
 
   const accessToken = useSelector((store) => store.user.accessToken);
-  const error = useSelector((store) => store.user.error);
+  //   const error = useSelector((store) => store.user.error);
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
   useEffect(() => {
     if (accessToken) {
-      navigate("/user");
+      navigate("/userPage");
     }
   }, [accessToken, navigate]);
 
@@ -54,16 +54,32 @@ const Signin = () => {
           });
         }
       });
+
+    const handleUsernameChange = (event) => setUsername(event.target.value);
+    const handlePasswordChange = (event) => setPassword(event.target.value);
   };
   return (
     <main>
       <form onSubmit={onHandleSignIn}>
-        <label>
-          <input></input>
+        <label htmlFor="username">
+          <input
+            placeholder="username"
+            id="username"
+            type="text"
+            value={username}
+            onChange={handleUsernameChange}
+          ></input>
         </label>
-        <label>
-          <input></input>
+        <label htmlFor="password">
+          <input
+            placeholder="password"
+            id="password"
+            type="text"
+            value={password}
+            onChange={handlePasswordChange}
+          ></input>
         </label>
+        <button primary type="submit"></button>
       </form>
     </main>
   );
