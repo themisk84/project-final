@@ -187,18 +187,18 @@ const Signin = () => {
               </Label>
             </LabelContainer>
           )}
-          <Buttons>
-            <RegisterBtn primary type="submit">
-              Register
-            </RegisterBtn>
-
-            {mode === "signup" ? (
-              <SignButton onClick={() => setMode("signin")}>Sign In</SignButton>
-            ) : (
-              <SignButton onClick={() => setMode("signup")}>Sign Up</SignButton>
-            )}
-          </Buttons>
         </Form>
+        <Buttons>
+          <RegisterBtn primary type="submit">
+            Register
+          </RegisterBtn>
+
+          {mode === "signup" ? (
+            <SignButton onClick={() => setMode("signin")}>Sign In</SignButton>
+          ) : (
+            <SignButton onClick={() => setMode("signup")}>Sign Up</SignButton>
+          )}
+        </Buttons>
       </FormContainer>
     </StyledMain>
   );
