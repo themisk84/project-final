@@ -6,6 +6,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Start from "./pages/Start";
 import Country from "./pages/Country";
 import UserPage from "./pages/UserPage";
+import Signin from "./components/Signin";
 
 import user from "./reducers/user";
 import sightseeing from "reducers/sightseeing";
@@ -23,6 +24,7 @@ export const App = () => {
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Start />} />
+          <Route path="/signin" element={<Signin />} />
           {/* <Route path="/country/:country" element={<Country />} />
           <Route path="/user" element={<UserPage />} />
           <Route path="*" element={<ErrorPage />} /> */}
