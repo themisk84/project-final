@@ -7,24 +7,27 @@ const sightseeing = createSlice({
   },
   reducers: {
     addSightseeing: (store, action) => {
-      const newSightseeing = {
-        id: action.payload,
-        name: action.payload,
-        country: action.payload,
-        description: action.payload,
-        category: action.payload,
-        link: action.payload,
-        location: action.payload,
-        user: action.payload,
-        rating: action.payload,
-        createdAt: action.payload,
-        comments: action.payload,
-        likes: action.payload,
-        imageUrl: action.payload,
-        error: action.payload,
-      };
-
-      store.sightseeings = [...store.sightseeings, newSightseeing];
+      const payloadsArray = action.payload;
+      const onePayload = payloadsArray.map((item) => {
+        const newSightseeing = {
+          _id: item._id,
+          name: item.name,
+          country: item.country,
+          description: item.description,
+          category: item.category,
+          link: item.link,
+          location: item.location,
+          user: item.user,
+          rating: item.rating,
+          createdAt: item.createdAt,
+          comments: item.comments,
+          likes: item.likes,
+          imageUrl: item.imageUrl,
+          user: item.user,
+        };
+        return newSightseeing;
+      });
+      store.sightseeings = [...store.sightseeings, onePayload];
     },
   },
 });

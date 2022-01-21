@@ -19,7 +19,7 @@ mongoose.Promise = Promise;
 
 // Defines the port the app will run on. Defaults to 8080, but can be
 // overridden when starting the server. For example:
-//
+
 //   PORT=9000 npm start
 const port = process.env.PORT || 8080;
 const app = express();
@@ -82,7 +82,7 @@ const SightSeeingSchema = new mongoose.Schema({
   },
   category: {
     type: String,
-    enum: ["food", "culture", "activity"],
+    enum: ["food", "culture", "activity", "music"],
     required: true,
   },
   rating: {
@@ -290,14 +290,13 @@ app.get("/stories", async (req, res) => {
 
   try {
     const story = await Sightseeing.find();
-
-    // $or: [
-    //   { name: { $regex: name, $options: "i" } },
-    //   { description: { $regex: description, $options: "i" } },
-    //   { category: { $regex: category, $options: "i" } },
-    //   { country: { $regex: country, $options: "i" } },
-    // ],
-    res.status(200).json({ response: story, success: true });
+    $or: [
+      { name: { $regex: name, $options: "i" } },
+      { description: { $regex: description, $options: "i" } },
+      { category: { $regex: category, $options: "i" } },
+      { country: { $regex: country, $options: "i" } },
+    ],
+      res.status(200).json({ response: story, success: true });
   } catch (error) {
     res.status(400).json({ error: error, success: false });
   }

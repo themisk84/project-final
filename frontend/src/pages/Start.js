@@ -10,24 +10,30 @@ const Start = () => {
       .then((res) => res.json())
       .then((data) => {
         console.log(data);
+        const info = data.response;
+        const info2 = data.response.map((item) => item);
+        console.log(info2);
         if (data.success) {
-          dispatch(sightseeing.actions.addSightseeing(data.response));
+          info.map((item) => {
+            console.log(item);
+            //dispatch(sightseeing.actions.addSightseeing(item));
+          });
         } else {
         }
       });
   }, []);
 
-  const sightseeing = useSelector((store) => store.sightseeing.sightseeings);
+  // const sightseeingSearch = useSelector(
+  //   (store) => store.sightseeing.sightseeings
+  // );
+
   return (
     <div>
       {/* <StyledHero></StyledHero>  */}
       <div>
-        {sightseeing.map((item) => {
-          <p>{item.country}</p>;
-        })}
-        {data.map((item) => {
-          <p>{item.country}</p>;
-        })}
+        {/* {sightseeingSearch.map((item) => {
+          <p>{item.name}</p>;
+        })} */}
         <h1>Heeeeej</h1>
         {/* <button onClick={()=> setCountry("Sweden")}>Sweden</button>
         <button>Denmark</button>
