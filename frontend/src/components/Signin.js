@@ -50,9 +50,6 @@ const FormContainer = styled.div`
   }
 `;
 
-// const Img = styled.img`
-//   width: 400px;
-// `;
 const ImageContainer = styled.div`
   display: none;
   background-image: url("assets/man.jpeg");
@@ -103,11 +100,16 @@ const SignButton = styled.button`
   color: white;
   border: none;
 `;
+
 const Buttons = styled.div`
   display: flex;
-  flex-direction: row;
-  margin: 10px;
+  flex-direction: column;
+
+  @media (min-width: 768px) {
+    margin-bottom: 10px;
+  }
 `;
+
 const RegisterBtn = styled.button`
   padding: 7px;
   width: 150px;
@@ -130,6 +132,10 @@ const ButtonContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+
+  @media (min-width: 992px) {
+    margin: auto;
+  }
 `;
 
 const SignParagraph = styled.p`
@@ -249,7 +255,7 @@ const Signin = () => {
             {mode === "signup" ? (
               <ButtonContainer>
                 <SignParagraph>
-                  Do you already have an account? Then sign in!
+                  Do you already have an account? Sign in!
                 </SignParagraph>
                 <SignButton onClick={() => setMode("signin")}>
                   Sign In
@@ -258,7 +264,7 @@ const Signin = () => {
             ) : (
               <ButtonContainer>
                 <SignParagraph>
-                  Do not have an account? Then sign up!
+                  Do you not have an account? Sign up!
                 </SignParagraph>
                 <SignButton onClick={() => setMode("signup")}>
                   Sign Up
@@ -267,9 +273,7 @@ const Signin = () => {
             )}
           </Buttons>
         </FormContainer>
-        <ImageContainer>
-          {/* <Img src="assets/man.jpeg" alt="man on a cliff" /> */}
-        </ImageContainer>
+        <ImageContainer />
       </OuterFormContainer>
     </StyledMain>
   );
