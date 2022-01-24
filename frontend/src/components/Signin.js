@@ -3,6 +3,7 @@ import { batch, useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 
+import Navbar from "./Navbar";
 import user from "reducers/user";
 import { API_URL } from "../utilis/urls";
 
@@ -139,9 +140,10 @@ const Signin = () => {
   const handleEmailChange = (event) => setEmail(event.target.value);
   return (
     <StyledMain>
-      <LogoContainer>
+      {/* <LogoContainer>
         <h1>Go Scandinavia</h1>
-      </LogoContainer>
+      </LogoContainer> */}
+      <Navbar />
       <FormContainer>
         {mode === "signin" ? (
           <FormHeader>Sign In</FormHeader>

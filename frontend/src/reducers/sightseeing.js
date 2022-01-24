@@ -27,7 +27,7 @@ const sightseeing = createSlice({
         };
         return newSightseeing;
       });
-      store.sightseeings = [...store.sightseeings, onePayload];
+      store.sightseeings = onePayload;
     },
   },
 });
