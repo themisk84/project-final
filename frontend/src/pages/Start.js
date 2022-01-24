@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
 import { useSelector, useDispatch, batch } from 'react-redux'
+import { Link } from 'react-router-dom'
 import sightseeing from '../reducers/sightseeing'
 import Navbar from '../components/Navbar'
 import Searchbar from '../components/Searchbar'
@@ -25,18 +26,12 @@ const Start = () => {
       })
   }, [])
 
-  // const sightseeingSearch = useSelector(
-  //   (store) => store.sightseeing.sightseeings
-  // );
   const cities = ['Norway', 'Sweden', 'Denmark']
 
   return (
     <StyledHero>
       <Navbar />
       <StyledContainer>
-        {/* {sightseeingSearch.map((item) => {
-          <p>{item.name}</p>;
-        })} */}
         <StyledHeadline>Explore</StyledHeadline>
         <StyledHeadline>Scandinavia</StyledHeadline>
         <StyledParagraph>
@@ -47,16 +42,15 @@ const Start = () => {
         </StyledParagraph>
         <Searchbar />
         <StyledContainerCountry>
-          {cities.map((item) => (
-            <StyledCountryWrapper>
-              <StyledCountry item={item}></StyledCountry>
-              <StyledTitle item={item}>{item}</StyledTitle>
-            </StyledCountryWrapper>
+          {cities.map((item, index) => (
+            <StyledLink key={index} to={`/country/${item}`}>
+              <StyledCountryWrapper>
+                <StyledCountry item={item}></StyledCountry>
+                <StyledTitle item={item}>{item}</StyledTitle>
+              </StyledCountryWrapper>
+            </StyledLink>
           ))}
         </StyledContainerCountry>
-        {/* <button onClick={()=> setCountry("Sweden")}>Sweden</button>
-        <button>Denmark</button>
-        <button>Norway</button> */}
       </StyledContainer>
     </StyledHero>
   )
@@ -74,6 +68,9 @@ const StyledHero = styled.div`
   display: flex;
   flex-direction: column;
   position: absolute;
+  @media (min-width: 390px) {
+    background-position: center;
+  }
 `
 
 const StyledHeader = styled.nav`
@@ -105,6 +102,9 @@ const StyledHeadline = styled.h1`
   color: white;
   margin: 2px;
   font-size: 40px;
+  @media (min-width: 390px) {
+    margin-top: 10px;
+  }
 `
 
 const StyledContainer = styled.div`
@@ -119,28 +119,36 @@ const StyledParagraph = styled.p`
 
 const StyledContainerCountry = styled.div`
   display: flex;
-  margin: 10px 0;
-  overflow: auto;
-  border: 1px solid red;
-  width: 1000px;
-  flex-wrap: wrap;
+  margin: 10px 10px 0 -25px;
+  overflow-x: auto;
+  width: 100vw;
+  padding-left: 25px;
   div {
     display: flex;
+    /* padding: 14px; */
     text-align: center;
+  }
+  &::-webkit-scrollbar {
+    display: none;
+  }
+  @media (min-width: 390px) {
+    margin: 40px 10px 0 -25px;
   }
 `
 const StyledCountryWrapper = styled.div`
   display: flex;
   flex-direction: column;
   width: 200px;
+  margin-right: 25px;
 `
 const StyledCountry = styled.div`
   height: 250px;
+  width: 200px;
   background-size: cover;
   border-radius: 12px;
   ${(props) =>
     props.item === 'Norway'
-      ? `background-image: url('/assets/norway.jpg')`
+      ? `background-image: url('/assets/norway.jpg'); background-position: right`
       : props.item === 'Sweden'
       ? `background-image:url('/assets/sweden.jpg')`
       : `background-image:url('/assets/denmark.jpg')`}
@@ -152,8 +160,11 @@ const StyledTitle = styled.p`
 
   ${(props) =>
     props.item === 'Norway'
-      ? `color: #56baa0`
+      ? `color: #96e2af`
       : props.item === 'Sweden'
-      ? `color: #638eca`
-      : `color: #bedaa8`}
+      ? `color: #86e7ff`
+      : `color: #fdedaa`}
+`
+const StyledLink = styled(Link)`
+  text-decoration: none;
 `
