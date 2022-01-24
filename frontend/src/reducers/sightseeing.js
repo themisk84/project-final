@@ -23,7 +23,6 @@ const sightseeing = createSlice({
           comments: item.comments,
           likes: item.likes,
           imageUrl: item.imageUrl,
-          user: item.user,
         };
         return newSightseeing;
       });

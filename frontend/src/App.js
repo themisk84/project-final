@@ -25,9 +25,9 @@ export const App = () => {
         <Routes>
           <Route path="/" element={<Start />} />
           <Route path="/signin" element={<Signin />} />
-          {/* <Route path="/country/:country" element={<Country />} />
-          <Route path="/user" element={<UserPage />} />
-          <Route path="*" element={<ErrorPage />} /> */}
+          <Route path="/country" element={<Country />} />
+          {/* // <Route path="/user" element={<UserPage />} />
+          // <Route path="*" element={<ErrorPage />} />  */}
         </Routes>
       </BrowserRouter>
     </Provider>

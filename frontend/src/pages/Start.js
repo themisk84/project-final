@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { useSelector, useDispatch, batch } from "react-redux";
+
+import { API_URL } from "utilis/urls";
 import sightseeing from "../reducers/sightseeing";
 import Navbar from "../components/Navbar";
 import Searchbar from "../components/Searchbar";
@@ -8,7 +10,7 @@ import Searchbar from "../components/Searchbar";
 const Start = () => {
   const dispatch = useDispatch();
   useEffect(() => {
-    fetch("https://go-scandinavia.herokuapp.com/stories")
+    fetch(API_URL("stories"))
       .then((res) => res.json())
       .then((data) => {
         console.log(data);

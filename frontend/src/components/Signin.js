@@ -17,26 +17,64 @@ const StyledMain = styled.main`
   background-repeat: no-repeat;
   background-size: cover;
   height: 110vh;
+
+  @media (min-width: 768px) {
+    flex-direction: row;
+  }
 `;
 
-const LogoContainer = styled.div`
-width: 100%
-height: 70px;
-color: white;
+const OuterFormContainer = styled.div`
+  display: flex;
+  margin: auto;
+  width: 90%;
+
+  @media (min-width: 768px) {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  @media (min-width: 992px) {
+    flex-direction: row;
+  }
 `;
 
 const FormContainer = styled.div`
   display: flex;
   flex-direction: column;
-  margin: 30px auto;
+  margin: auto;
+
+  @media (min-width: 768px) {
+    background-color: rgba(255, 255, 255, 0.18);
+    width: 50%;
+    height: 600px;
+  }
+`;
+
+// const Img = styled.img`
+//   width: 400px;
+// `;
+const ImageContainer = styled.div`
+  display: none;
+  background-image: url("assets/man.jpeg");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+
+  @media (min-width: 998px) {
+    display: flex;
+    width: 50%;
+    min-height: 600px;
+  }
 `;
 
 const Form = styled.form`
   display: flex;
   flex-direction: column;
+  margin: auto;
 `;
 
 const FormHeader = styled.h1`
+  margin: 50px;
   color: white;
   font-size: 20px;
   text-align: center;
@@ -49,16 +87,18 @@ const LabelContainer = styled.div`
 `;
 
 const StyledInput = styled.input`
-  height: 25px;
-  width: 200px;
+  height: 35px;
+  width: 225px;
   border: 1px solid white;
   border-radius: 5px;
   background-color: rgba(255, 255, 255, 0.3);
 `;
 
 const SignButton = styled.button`
+  padding: 7px;
+  width: 150px;
   font-size: 20px;
-  border-radius: 10px;
+  border-radius: 20px;
   background-color: rgb(120, 196, 195);
   color: white;
   border: none;
@@ -69,11 +109,14 @@ const Buttons = styled.div`
   margin: 10px;
 `;
 const RegisterBtn = styled.button`
+  padding: 7px;
+  width: 150px;
   font-size: 20px;
-  border-radius: 10px;
+  border-radius: 20px;
   background-color: rgb(120, 196, 195);
   color: white;
   border: none;
+  margin: 30px auto;
 `;
 
 const Label = styled.label`
@@ -81,6 +124,17 @@ const Label = styled.label`
   flex-direction: column;
   color: white;
   padding-bottom: 3px;
+`;
+
+const ButtonContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`;
+
+const SignParagraph = styled.p`
+  color: white;
+  font-size: 16px;
 `;
 const Signin = () => {
   const [username, setUsername] = useState("");
@@ -140,68 +194,83 @@ const Signin = () => {
   const handleEmailChange = (event) => setEmail(event.target.value);
   return (
     <StyledMain>
-      {/* <LogoContainer>
-        <h1>Go Scandinavia</h1>
-      </LogoContainer> */}
       <Navbar />
-      <FormContainer>
-        {mode === "signin" ? (
-          <FormHeader>Sign In</FormHeader>
-        ) : (
-          <FormHeader>Sign Up</FormHeader>
-        )}
-        <Form onSubmit={onHandleSignIn}>
-          <LabelContainer>
-            <Label htmlFor="username">
-              Username
-              <StyledInput
-                // placeholder="username"
-                id="username"
-                type="text"
-                value={username}
-                onChange={handleUsernameChange}
-              ></StyledInput>
-            </Label>
-          </LabelContainer>
-          <LabelContainer>
-            <Label htmlFor="password">
-              Password
-              <StyledInput
-                // placeholder="password"
-                id="password"
-                type="text"
-                value={password}
-                onChange={handlePasswordChange}
-              ></StyledInput>
-            </Label>
-          </LabelContainer>
-          {mode === "signup" && (
+      <OuterFormContainer>
+        <FormContainer>
+          {mode === "signin" ? (
+            <FormHeader>Sign In</FormHeader>
+          ) : (
+            <FormHeader>Sign Up</FormHeader>
+          )}
+          <Form onSubmit={onHandleSignIn}>
             <LabelContainer>
-              <Label htmlFor="email">
-                Email
+              <Label htmlFor="username">
+                Username
                 <StyledInput
-                  // placeholder="Email"
-                  id="email"
-                  type="email"
-                  value={email}
-                  onChange={handleEmailChange}
+                  // placeholder="username"
+                  id="username"
+                  type="text"
+                  value={username}
+                  onChange={handleUsernameChange}
                 ></StyledInput>
               </Label>
             </LabelContainer>
-          )}
-        </Form>
-        <Buttons>
-          <RegisterBtn primary type="submit">
-            Register
-          </RegisterBtn>
-
-          {mode === "signup" ? (
-            <SignButton onClick={() => setMode("signin")}>Sign In</SignButton>
-          ) : (
-            <SignButton onClick={() => setMode("signup")}>Sign Up</SignButton>
-          )}
-        </Buttons>
-      </FormContainer>
+            <LabelContainer>
+              <Label htmlFor="password">
+                Password
+                <StyledInput
+                  // placeholder="password"
+                  id="password"
+                  type="text"
+                  value={password}
+                  onChange={handlePasswordChange}
+                ></StyledInput>
+              </Label>
+            </LabelContainer>
+            {mode === "signup" && (
+              <LabelContainer>
+                <Label htmlFor="email">
+                  Email
+                  <StyledInput
+                    // placeholder="Email"
+                    id="email"
+                    type="email"
+                    value={email}
+                    onChange={handleEmailChange}
+                  ></StyledInput>
+                </Label>
+              </LabelContainer>
+            )}
+            <RegisterBtn primary type="submit">
+              Register
+            </RegisterBtn>
+          </Form>
+          <Buttons>
+            {mode === "signup" ? (
+              <ButtonContainer>
+                <SignParagraph>
+                  Do you already have an account? Then sign in!
+                </SignParagraph>
+                <SignButton onClick={() => setMode("signin")}>
+                  Sign In
+                </SignButton>
+              </ButtonContainer>
+            ) : (
+              <ButtonContainer>
+                <SignParagraph>
+                  Do not have an account? Then sign up!
+                </SignParagraph>
+                <SignButton onClick={() => setMode("signup")}>
+                  Sign Up
+                </SignButton>
+              </ButtonContainer>
+            )}
+          </Buttons>
+        </FormContainer>
+        <ImageContainer>
+          {/* <Img src="assets/man.jpeg" alt="man on a cliff" /> */}
+        </ImageContainer>
+      </OuterFormContainer>
     </StyledMain>
   );
 };
