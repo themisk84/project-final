@@ -347,7 +347,7 @@ app.get("/country/:country", async (req, res) => {
       success: false,
     });
   } else {
-    res.status(200).json({ response: thoughts, success: true });
+    res.status(200).json({ response: chosenCountry, success: true });
   }
 });
 
