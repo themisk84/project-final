@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { useSelector, useDispatch, batch } from "react-redux";
-
-import { API_URL } from "utilis/urls";
+import { Link } from "react-router-dom";
 import sightseeing from "../reducers/sightseeing";
 import Navbar from "../components/Navbar";
 import Searchbar from "../components/Searchbar";
@@ -10,7 +9,7 @@ import Searchbar from "../components/Searchbar";
 const Start = () => {
   const dispatch = useDispatch();
   useEffect(() => {
-    fetch(API_URL("stories"))
+    fetch("https://go-scandinavia.herokuapp.com/stories")
       .then((res) => res.json())
       .then((data) => {
         console.log(data);
@@ -18,22 +17,21 @@ const Start = () => {
         const info2 = data.response.map((item) => item);
         console.log(info2);
         if (data.success) {
-          dispatch(sightseeing.actions.addSightseeing(data.response));
+          info.map((item) => {
+            console.log(item);
+            //dispatch(sightseeing.actions.addSightseeing(item));
+          });
+        } else {
         }
       });
   }, []);
 
-  // const sightseeingSearch = useSelector(
-  //   (store) => store.sightseeing.sightseeings
-  // );
+  const cities = ["Norway", "Sweden", "Denmark"];
 
   return (
     <StyledHero>
       <Navbar />
       <StyledContainer>
-        {/* {sightseeingSearch.map((item) => {
-          <p>{item.name}</p>;
-        })} */}
         <StyledHeadline>Explore</StyledHeadline>
         <StyledHeadline>Scandinavia</StyledHeadline>
         <StyledParagraph>
@@ -43,9 +41,16 @@ const Start = () => {
           aliquip ex ea commodo consequat."
         </StyledParagraph>
         <Searchbar />
-        {/* <button onClick={()=> setCountry("Sweden")}>Sweden</button>
-        <button>Denmark</button>
-        <button>Norway</button> */}
+        <StyledContainerCountry>
+          {cities.map((item, index) => (
+            <StyledLink key={index} to={`/country/${item}`}>
+              <StyledCountryWrapper>
+                <StyledCountry item={item}></StyledCountry>
+                <StyledTitle item={item}>{item}</StyledTitle>
+              </StyledCountryWrapper>
+            </StyledLink>
+          ))}
+        </StyledContainerCountry>
       </StyledContainer>
     </StyledHero>
   );
@@ -59,16 +64,47 @@ const StyledHero = styled.div`
   background-repeat: no-repeat;
   background-position: right;
   width: 100%;
-  height: 100%;
+  height: 110%;
   display: flex;
   flex-direction: column;
   position: absolute;
+  @media (min-width: 390px) {
+    background-position: center;
+  }
+`;
+
+const StyledHeader = styled.nav`
+  width: 100%;
+  height: 70px;
+  backdrop-filter: blur(12px);
+  position: fixed;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 25px;
+`;
+const StyledHamburger = styled.div`
+  display: flex;
+  width: 25px;
+  height: 25px;
+  flex-direction: column;
+  justify-content: space-between;
+
+  div {
+    width: 30px;
+    height: 3px;
+    background-color: #56baa0;
+    border-radius: 5px;
+  }
 `;
 
 const StyledHeadline = styled.h1`
   color: white;
   margin: 2px;
   font-size: 40px;
+  @media (min-width: 390px) {
+    margin-top: 10px;
+  }
 `;
 
 const StyledContainer = styled.div`
@@ -79,4 +115,56 @@ const StyledParagraph = styled.p`
   color: white;
   line-height: 1.3;
   font-size: 14px;
+`;
+
+const StyledContainerCountry = styled.div`
+  display: flex;
+  margin: 10px 10px 0 -25px;
+  overflow-x: auto;
+  width: 100vw;
+  padding-left: 25px;
+  div {
+    display: flex;
+    /* padding: 14px; */
+    text-align: center;
+  }
+  &::-webkit-scrollbar {
+    display: none;
+  }
+  @media (min-width: 390px) {
+    margin: 40px 10px 0 -25px;
+  }
+`;
+const StyledCountryWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  width: 200px;
+  margin-right: 25px;
+`;
+const StyledCountry = styled.div`
+  height: 250px;
+  width: 200px;
+  background-size: cover;
+  border-radius: 12px;
+  ${(props) =>
+    props.item === "Norway"
+      ? `background-image: url('/assets/norway.jpg'); background-position: right`
+      : props.item === "Sweden"
+      ? `background-image:url('/assets/sweden.jpg')`
+      : `background-image:url('/assets/denmark.jpg')`}
+`;
+const StyledTitle = styled.p`
+  text-align: center;
+  font-weight: bold;
+  text-transform: uppercase;
+
+  ${(props) =>
+    props.item === "Norway"
+      ? `color: #96e2af`
+      : props.item === "Sweden"
+      ? `color: #86e7ff`
+      : `color: #fdedaa`}
+`;
+const StyledLink = styled(Link)`
+  text-decoration: none;
 `;
