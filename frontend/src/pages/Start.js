@@ -12,15 +12,8 @@ const Start = () => {
     fetch("https://go-scandinavia.herokuapp.com/stories")
       .then((res) => res.json())
       .then((data) => {
-        console.log(data);
-        const info = data.response;
-        const info2 = data.response.map((item) => item);
-        console.log(info2);
         if (data.success) {
-          info.map((item) => {
-            console.log(item);
-            //dispatch(sightseeing.actions.addSightseeing(item));
-          });
+          dispatch(sightseeing.actions.addSightseeing(data.response));
         } else {
         }
       });

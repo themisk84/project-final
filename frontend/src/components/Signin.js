@@ -104,6 +104,7 @@ const SignButton = styled.button`
 const Buttons = styled.div`
   display: flex;
   flex-direction: column;
+  cursor: pointer;
 
   @media (min-width: 768px) {
     margin-bottom: 10px;
@@ -119,6 +120,7 @@ const RegisterBtn = styled.button`
   color: white;
   border: none;
   margin: 30px auto;
+  cursor: pointer;
 `;
 
 const Label = styled.label`
@@ -154,11 +156,11 @@ const Signin = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  useEffect(() => {
-    if (accessToken) {
-      navigate("/userPage");
-    }
-  }, [accessToken, navigate]);
+  // useEffect(() => {
+  //   if (accessToken) {
+  //     navigate("/userPage");
+  //   }
+  // }, [accessToken, navigate]);
 
   const onHandleSignIn = (event) => {
     event.preventDefault();
@@ -170,6 +172,7 @@ const Signin = () => {
       body: JSON.stringify({
         username,
         password,
+        email,
       }),
     };
 

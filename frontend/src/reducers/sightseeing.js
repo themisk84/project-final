@@ -7,6 +7,7 @@ const sightseeing = createSlice({
   },
   reducers: {
     addSightseeing: (store, action) => {
+      console.log(action.payload);
       const payloadsArray = action.payload;
       const onePayload = payloadsArray.map((item) => {
         const newSightseeing = {
@@ -27,6 +28,35 @@ const sightseeing = createSlice({
         return newSightseeing;
       });
       store.sightseeings = onePayload;
+    },
+    addLike: (store, action) => {
+      const updatedSightseeings = store.sightseeings.map((item) => {
+        if (item._id === action.payload._id) {
+          const updatedSight = {
+            ...item,
+            likes: action.payload.likes,
+          };
+          return updatedSight;
+        } else {
+          return item;
+        }
+      });
+      store.sightseeings = updatedSightseeings;
+    },
+
+    addComment: (store, action) => {
+      const updatedSightseeings = store.sightseeings.map((item) => {
+        if (item._id === action.payload._id) {
+          const updateComments = {
+            ...item,
+            comments: action.payload.comments,
+          };
+          return updateComments;
+        } else {
+          return item;
+        }
+      });
+      store.sightseeings = updatedSightseeings;
     },
   },
 });
