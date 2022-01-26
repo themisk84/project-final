@@ -33,7 +33,9 @@ const Start = () => {
           minim veniam, quis nostrud exercitation ullamco laboris nisi ut
           aliquip ex ea commodo consequat."
         </StyledParagraph>
+        <StyledCircle></StyledCircle>
         <Searchbar />
+        <StyledChooseCountry>Choose a country</StyledChooseCountry>
         <StyledContainerCountry>
           {cities.map((item, index) => (
             <StyledLink key={index} to={`/country/${item}`}>
@@ -57,37 +59,12 @@ const StyledHero = styled.div`
   background-repeat: no-repeat;
   background-position: right;
   width: 100%;
-  height: 110%;
+  min-height: 100%;
   display: flex;
   flex-direction: column;
   position: absolute;
   @media (min-width: 390px) {
     background-position: center;
-  }
-`;
-
-const StyledHeader = styled.nav`
-  width: 100%;
-  height: 70px;
-  backdrop-filter: blur(12px);
-  position: fixed;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 25px;
-`;
-const StyledHamburger = styled.div`
-  display: flex;
-  width: 25px;
-  height: 25px;
-  flex-direction: column;
-  justify-content: space-between;
-
-  div {
-    width: 30px;
-    height: 3px;
-    background-color: #56baa0;
-    border-radius: 5px;
   }
 `;
 
@@ -98,16 +75,36 @@ const StyledHeadline = styled.h1`
   @media (min-width: 390px) {
     margin-top: 10px;
   }
+  @media (min-width: 768px) {
+   font-size: 60px;
+    margin: 0;
+    /* padding: 10px 50px; */
+  }
 `;
 
 const StyledContainer = styled.div`
   margin-top: 100px;
-  padding: 0 25px 25px 25px;
+  padding: 25px;
+  width: 100%;
+  @media (min-width: 768px) {
+    padding: 25px 50px;
+    overflow-x: hidden;
+  }
+  @media (min-width: 992px) {
+    padding: 25px 80px;
+    overflow-x: hidden;
+    max-width: 1300px;
+    margin: 100px auto 0 auto;
+  }
 `;
 const StyledParagraph = styled.p`
   color: white;
   line-height: 1.3;
   font-size: 14px;
+  @media (min-width: 768px) {
+    max-width: 55%;
+    font-size: 20px;
+  }
 `;
 
 const StyledContainerCountry = styled.div`
@@ -118,7 +115,6 @@ const StyledContainerCountry = styled.div`
   padding-left: 25px;
   div {
     display: flex;
-    /* padding: 14px; */
     text-align: center;
   }
   &::-webkit-scrollbar {
@@ -126,6 +122,16 @@ const StyledContainerCountry = styled.div`
   }
   @media (min-width: 390px) {
     margin: 40px 10px 0 -25px;
+  } 
+  @media (min-width: 768px) {
+    margin: 0; 
+    padding: 0;
+    overflow-x: hidden;
+    width: auto;
+    justify-content: center;
+  } 
+  @media (min-width: 992px) {
+    justify-content: left;
   }
 `;
 const StyledCountryWrapper = styled.div`
@@ -133,31 +139,80 @@ const StyledCountryWrapper = styled.div`
   flex-direction: column;
   width: 200px;
   margin-right: 25px;
-`;
+  @media (min-width: 992px) {
+    width: 250px;
+  }
+
+`
 const StyledCountry = styled.div`
   height: 250px;
   width: 200px;
   background-size: cover;
   border-radius: 12px;
+  @media (min-width: 992px) {
+    height: 300px;
+    width: 250px;
+  }
   ${(props) =>
     props.item === "Norway"
       ? `background-image: url('/assets/norway.jpg'); background-position: right`
       : props.item === "Sweden"
-      ? `background-image:url('/assets/sweden.jpg')`
-      : `background-image:url('/assets/denmark.jpg')`}
+        ? `background-image:url('/assets/sweden.jpg')`
+        : `background-image:url('/assets/denmark.jpg')`}
+  
 `;
 const StyledTitle = styled.p`
   text-align: center;
   font-weight: bold;
   text-transform: uppercase;
+  @media (min-width: 992px) {
+    font-size: 22px;
+  }
 
   ${(props) =>
     props.item === "Norway"
       ? `color: #96e2af`
       : props.item === "Sweden"
-      ? `color: #86e7ff`
-      : `color: #fdedaa`}
+        ? `color: #86e7ff`
+        : `color: #fdedaa`}
 `;
 const StyledLink = styled(Link)`
   text-decoration: none;
 `;
+
+const StyledCircle = styled.div`
+    display: none;
+    @media (min-width: 768px) {
+      display: flex;
+      height: 300px;
+      width: 300px;
+      border-radius: 50%;
+      background-image: url('/assets/man.jpeg');
+      position: absolute;
+      background-size: cover;
+      top: 250px;
+      right: 40px;
+    }
+    @media (min-width: 992px) {
+      height: 30vw;
+      width: 30vw;
+      top: 130px;
+      right: 40px;
+    }
+  `
+const StyledChooseCountry = styled.p`
+    color: white;
+    margin-bottom: 5px;
+    font-size: 16px;
+    text-align:left;
+    font-weight: bold;
+    @media(min-width: 768px) {
+      text-align: center;
+    }
+    @media(min-width: 768px) {
+      text-align: left;
+      font-size: 20px;
+      margin-top: 40px;
+      margin-bottom: 10px;
+    }
+ `

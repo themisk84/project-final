@@ -15,7 +15,9 @@ const Navbar = () => {
 
   return (
     <StyledHeader>
-      <StyledLogo />
+      <Link to='/'>
+        <StyledLogo />
+      </Link>
       <StyledHamburger onClick={showMenu}>
         <div></div>
         <div></div>
@@ -26,14 +28,23 @@ const Navbar = () => {
           <Link to="/signin">
             <p>Sign In</p>
           </Link>
-          <Link to="/signin">
-            <p>Sign Up</p>
-          </Link>
           <Link to="/about">
             <p>About</p>
           </Link>
         </StyledMobileNav>
       )}
+      <StyledNav>
+        <StyledList>
+          <StyledLink to="/signin">
+            Signin
+          </StyledLink>
+        </StyledList>
+        <StyledList>
+          <StyledLink to="/about">
+            About
+          </StyledLink>
+        </StyledList>
+      </StyledNav>
     </StyledHeader>
   )
 }
@@ -49,6 +60,11 @@ const StyledHeader = styled.nav`
   align-items: center;
   justify-content: space-between;
   padding: 25px;
+  @media (min-width: 768px) {
+
+    height: 100px;
+    padding: 25px 50px;
+  }
 `
 const StyledHamburger = styled.div`
   display: flex;
@@ -63,14 +79,37 @@ const StyledHamburger = styled.div`
     background-color: #56baa0;
     border-radius: 5px;
   }
-`
 
+  @media (min-width: 768px) {
+    display: none
+  }
+`
+const StyledNav = styled.nav`
+  display: none;
+  
+  @media (min-width: 768px) {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 100%;
+    width: 200px;
+    font-size: 22px;
+  }
+`
+const StyledList = styled.ul`
+  list-style-type: none;
+  padding: 0;
+`
 const StyledLogo = styled.div`
   background-image: url('/assets/logo.png');
   background-size: contain;
   background-repeat: no-repeat;
   height: 18px;
   width: 250px;
+
+  @media (min-width: 768px) {
+    height: 22px;
+  }
 `
 const StyledMobileNav = styled.div`
   position: absolute;
@@ -85,8 +124,10 @@ const StyledMobileNav = styled.div`
   background-color: #56baa0;
   padding: 25px;
   font-weight: bold;
-
-  a {
-    text-decoration: none;
-  }
 `
+const StyledLink = styled(Link)`
+  text-decoration: none;
+      color: #56baa0;
+
+`
+
