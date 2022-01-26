@@ -9,7 +9,6 @@ import user from "../reducers/user";
 import { API_URL } from "utilis/urls";
 import Navbar from "components/Navbar";
 import Searchbar from "../components/Searchbar";
-import FilteringDiv from "../components/FilteringDiv";
 
 const AttractionContainer = styled.div`
   display: flex;
@@ -92,23 +91,8 @@ const Country = () => {
   const [land, setLand] = useState(country);
 
   const accessToken = useSelector((store) => store.user.accessToken);
-
   const dispatch = useDispatch();
-
   const navigate = useNavigate();
-
-  console.log("Country from params", country);
-  console.log(useParams());
-
-  useEffect(() => {
-    fetch(API_URL(`country/${country}`))
-      .then((res) => res.json())
-      .then((data) => {
-        if (data.success) {
-          dispatch(sightseeing.actions.addSightseeing(data.response));
-        }
-      });
-  }, [country]);
 
   // useEffect(() => {
   //   // fetch(API_URL(`country/${land}`))
@@ -123,7 +107,22 @@ const Country = () => {
   //   console.log(land);
   // }, [land]);
 
-  const attractions = useSelector((store) => store.sightseeing.sightseeings);
+  let attractions = useSelector((store) =>
+    store.sightseeing.sightseeings.filter((item) => item.country === land)
+  );
+  console.log(attractions);
+
+  const categoryAttractions = attractions.filter(
+    (item) => item.category === category
+  );
+
+  console.log(categoryAttractions);
+
+  console.log("category", categoryAttractions);
+
+  // const changeCategory = () => {
+
+  // }
 
   const handleLike = (storyId) => {
     const options = {
@@ -170,21 +169,22 @@ const Country = () => {
     }
   };
   const categories = ["food", "culture", "activity", "music"];
-  const countries = ["Sweden", "Norway", "Denmark"];
+  const countries = ["all", "Sweden", "Norway", "Denmark"];
 
   const handleCategory = (event) => {
+    // setCountry("");
     setCategory(event.target.value);
   };
 
-  const fetchCategory = (category) => {
-    fetch(API_URL(`category/${category ? category : "culture"}`))
-      .then((res) => res.json())
-      .then((data) => {
-        if (data.success) {
-          console.log("Category", data);
-        }
-      });
-  };
+  // const fetchCategory = (category) => {
+  //   fetch(API_URL(`category/${category ? category : "culture"}`))
+  //     .then((res) => res.json())
+  //     .then((data) => {
+  //       if (data.success) {
+  //         console.log("Category", data);
+  //       }
+  //     });
+  // };
 
   return (
     <>
@@ -192,16 +192,6 @@ const Country = () => {
       <SearchBarContainer>
         <Searchbar />
       </SearchBarContainer>
-      {/* <FilteringDiv
-        country={country}
-        category={category}
-        visible={visible}
-        showMenu={showMenu}
-        categories={categories}
-        handleCategory={handleCategory}
-        fetchCategory={fetchCategory}
-        countries={countries}
-      /> */}
       <StyledToggle onClick={showMenu}>
         <FilterText>Filter Menu</FilterText>
         <FaSortDown style={{ marginBottom: 5 }} />
@@ -217,16 +207,9 @@ const Country = () => {
               onChange={(event) => {
                 setLand(event.target.value); //asychronous
                 navigate(`/country/${event.target.value}`);
+                setCategory("");
               }}
             >
-              {console.log("Country", country)}
-              {console.log("Land", land)}
-              {console.log("Type", typeof land)}
-              {console.log("Type", typeof country)}
-              {/* <option disabled value="">
-
-                  Change country
-                </option> */}
               {countries.map((option, index) => (
                 <option key={index} value={option}>
                   {option}
@@ -235,7 +218,7 @@ const Country = () => {
             </Select>
           </form>
           <div>
-            <div onClick={fetchCategory(category)}>
+            <div>
               {categories.map((category) => (
                 <button
                   key={category}
@@ -250,38 +233,117 @@ const Country = () => {
         </div>
       )}
       <AttractionContainer>
-        {attractions.map((item) => (
-          <AttractionCard
-            key={item._id}
-            style={{ backgroundImage: `url(${item.imageUrl})` }}
-          >
-            <CommentContainer>
-              <span>&#128172;</span>
-            </CommentContainer>
-            <LikeContainer>
-              <button onClick={() => handleLike(item._id)}>
-                <span>&hearts;</span>
-              </button>
-              x {item.likes}
-            </LikeContainer>
-            <HeaderContainer>
-              <Header>{item.name}</Header>
-              <Description>{item.description}</Description>
-              <Description>{item.country}</Description>
-            </HeaderContainer>
-            <h2></h2>
-
-            {/* <p>{item.category}</p> */}
-            {/* <a href={item.link}>{item.link}</a> */}
-            {/* <div>{item.location}</div>
-            <div>{item.user}</div>
-            <div>{item.rating}</div>
-            <div>{item.createdAt}</div> */}
-
-            {/* <div>{item._id}</div> */}
-          </AttractionCard>
-        ))}
+        {category === ""
+          ? attractions.map((item) => (
+              <AttractionCard
+                key={item._id}
+                style={{ backgroundImage: `url(${item.imageUrl})` }}
+              >
+                <CommentContainer>
+                  <span>&#128172;</span>
+                </CommentContainer>
+                <LikeContainer>
+                  <button onClick={() => handleLike(item._id)}>
+                    <span>&hearts;</span>
+                  </button>
+                  x {item.likes}
+                </LikeContainer>
+                <HeaderContainer>
+                  <Header>{item.name}</Header>
+                  <Description>{item.description}</Description>
+                  <Description>{item.country}</Description>
+                </HeaderContainer>
+              </AttractionCard>
+            ))
+          : categoryAttractions.map((item) => (
+              <AttractionCard
+                key={item._id}
+                style={{ backgroundImage: `url(${item.imageUrl})` }}
+              >
+                <CommentContainer>
+                  <span>&#128172;</span>
+                </CommentContainer>
+                <LikeContainer>
+                  <button onClick={() => handleLike(item._id)}>
+                    <span>&hearts;</span>
+                  </button>
+                  x {item.likes}
+                </LikeContainer>
+                <HeaderContainer>
+                  <Header>{item.name}</Header>
+                  <Description>{item.description}</Description>
+                  <Description>{item.country}</Description>
+                </HeaderContainer>
+              </AttractionCard>
+            ))}
       </AttractionContainer>
+      {/* <AttractionContainer> */}
+      {/* {categoryAttractions &&
+          categoryAttractions.map((item) => (
+            <AttractionCard
+              key={item._id}
+              style={{ backgroundImage: `url(${item.imageUrl})` }}
+            >
+              <CommentContainer>
+                <span>&#128172;</span>
+              </CommentContainer>
+              <LikeContainer>
+                <button onClick={() => handleLike(item._id)}>
+                  <span>&hearts;</span>
+                </button>
+                x {item.likes}
+              </LikeContainer>
+              <HeaderContainer>
+                <Header>{item.name}</Header>
+                <Description>{item.description}</Description>
+                <Description>{item.country}</Description>
+              </HeaderContainer>
+            </AttractionCard>
+          ))}
+      </AttractionContainer> */}
+      {/* {country
+        ? attractions.map((item) => (
+            <AttractionCard
+              key={item._id}
+              style={{ backgroundImage: `url(${item.imageUrl})` }}
+            >
+              <CommentContainer>
+                <span>&#128172;</span>
+              </CommentContainer>
+              <LikeContainer>
+                <button onClick={() => handleLike(item._id)}>
+                  <span>&hearts;</span>
+                </button>
+                x {item.likes}
+              </LikeContainer>
+              <HeaderContainer>
+                <Header>{item.name}</Header>
+                <Description>{item.description}</Description>
+                <Description>{item.country}</Description>
+              </HeaderContainer>
+            </AttractionCard>
+          ))
+        : categoryAttractions.map((item) => (
+            <AttractionCard
+              key={item._id}
+              style={{ backgroundImage: `url(${item.imageUrl})` }}
+            >
+              <CommentContainer>
+                <span>&#128172;</span>
+              </CommentContainer>
+              <LikeContainer>
+                <button onClick={() => handleLike(item._id)}>
+                  <span>&hearts;</span>
+                </button>
+                x {item.likes}
+              </LikeContainer>
+              <HeaderContainer>
+                <Header>{item.name}</Header>
+                <Description>{item.description}</Description>
+                <Description>{item.country}</Description>
+              </HeaderContainer>
+            </AttractionCard>
+          ))} */}
     </>
   );
 };

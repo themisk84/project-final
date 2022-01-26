@@ -21,6 +21,9 @@ const Start = () => {
 
   const cities = ["Norway", "Sweden", "Denmark"];
 
+  const countries = useSelector((store) => store.sightseeing.sightseeings);
+  console.log(countries.map((item) => item.country));
+
   return (
     <StyledHero>
       <Navbar />
