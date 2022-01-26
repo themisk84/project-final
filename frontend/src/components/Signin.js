@@ -156,11 +156,11 @@ const Signin = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  // useEffect(() => {
-  //   if (accessToken) {
-  //     navigate("/userPage");
-  //   }
-  // }, [accessToken, navigate]);
+  useEffect(() => {
+    if (accessToken) {
+      navigate("/");
+    }
+  }, [accessToken, navigate]);
 
   const onHandleSignIn = (event) => {
     event.preventDefault();
