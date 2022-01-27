@@ -288,17 +288,17 @@ app.post("/stories/:storyId/comment", async (req, res) => {
 app.get("/stories", async (req, res) => {
   const { name, description, category, country } = req.query;
   let story = await Sightseeing.find();
-  // if (req.query) {
-  //   story = await Sightseeing.find({
-  //     $or: [
-  //       { name: { $regex: name, $options: "i" } },
-  //       { description: { $regex: description, $options: "i" } },
-  //       { category: { $regex: category, $options: "i" } },
-  //       { country: { $regex: country, $options: "i" } },
-  //     ]
-  //   });
-  // }
-  res.status(200).json({ response: story, success: true })
+  if (name || description || category || country) {
+    story = await Sightseeing.find({
+      $or: [
+        { name: { $regex: name, $options: "i" } },
+        { description: { $regex: description, $options: "i" } },
+        { category: { $regex: category, $options: "i" } },
+        { country: { $regex: country, $options: "i" } },
+      ],
+    });
+  }
+  res.status(200).json({ response: story, success: true });
 });
 
 // try {
@@ -313,7 +313,6 @@ app.get("/stories", async (req, res) => {
 // } catch (error) {
 //   res.status(400).json({ error: error, success: false });
 // }
-
 
 //  app.get('/stories/:id', async (req, res) => {
 //    const { id } = req.params
