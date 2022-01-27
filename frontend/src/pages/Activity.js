@@ -1,6 +1,11 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import styled from 'styled-components'
+import { useDispatch, useSelector } from 'react-redux'
+import { useParams } from 'react-router-dom'
+
 import Navbar from '../components/Navbar'
+import sightseeing from '../reducers/sightseeing'
+import user from '../reducers/user'
 
 import { FaChevronLeft } from 'react-icons/fa'
 import { FaHeart } from 'react-icons/fa'
@@ -8,6 +13,43 @@ import { FaRegCompass } from 'react-icons/fa'
 import { FaPlus } from 'react-icons/fa'
 
 const Activity = () => {
+  const { activityId } = useParams()
+  const dispatch = useDispatch()
+  // const navigate = useNavigate();
+  // const accessToken = useSelector((store) => store.user.accessToken);
+
+  useEffect(() => {
+    fetch('https://go-scandinavia.herokuapp.com/stories')
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.success) {
+          dispatch(sightseeing.actions.addSightseeing(data.response))
+        } else {
+        }
+      })
+      .finally(() => {})
+  }, [])
+
+  const thisActivity = useSelector((store) =>
+    store.sightseeing.sightseeings.find((item) => item._id === activityId),
+  )
+  console.log('activity: ', thisActivity)
+
+  // const {
+  //   name,
+  //   country,
+  //   imageUrl,
+  //   createdAt,
+  //   description,
+  //   link,
+  //   location,
+  //   category,
+  //   rating,
+  //   user,
+  //   likes,
+  //   comments,
+  // } = thisActivity
+
   return (
     <StyledHero>
       <Navbar />
@@ -33,7 +75,8 @@ const Activity = () => {
                   fontSize: '11px',
                   margin: '0',
                 }}>
-                100
+                {thisActivity && `${thisActivity.likes}`}
+                {/* ${likes} */}
               </h6>
             </LikesContainer>
           </ActivityImage>
@@ -42,8 +85,10 @@ const Activity = () => {
               style={{
                 margin: '0',
               }}>
-              Norr mälarstrand
+              {thisActivity && `${thisActivity.name}`}
+              {/* ${name} */}
             </h2>
+
             <LocationWrapper>
               <FaRegCompass
                 style={{
@@ -56,7 +101,8 @@ const Activity = () => {
                   fontSize: '14px',
                   fontStyle: 'italic',
                 }}>
-                Stockholm, Sweden
+                {thisActivity && `${thisActivity.location}`}
+                {/* ${location} */}
               </p>
             </LocationWrapper>
 
@@ -65,13 +111,18 @@ const Activity = () => {
                 margin: '0',
                 fontSize: '15px',
               }}>
-              Contrary to popular belief, Lorem Ipsum is not simply random text.
-              It has roots in a piece of classical Latin literature from 45 BC,
-              making it over 2000 years old.
+              {thisActivity && `${thisActivity.description}`}
+              {/* ${description} */}
             </p>
             <PosterWrapper>
-              <h5>By: Username</h5>
-              <h5>Posted: 01/01/2022</h5>
+              <h5>
+                By:
+                {/* ${user}   //How to find users by id?*/}
+              </h5>
+              <h5>
+                Posted:
+                {/* ${createdAt} */}
+              </h5>
             </PosterWrapper>
             <CommentsWrapper>
               <h3>Comments</h3>
@@ -89,14 +140,21 @@ const Activity = () => {
                 />
               </AddComment>
             </CommentsWrapper>
-            <p
-              style={{
-                fontSize: '16px',
-                fontStyle: 'italic',
-                margin: '0',
-              }}>
-              No comments yet
-            </p>
+            {thisActivity && thisActivity.comments === '' && (
+              <p
+                style={{
+                  fontSize: '16px',
+                  fontStyle: 'italic',
+                  margin: '0',
+                }}>
+                No comments yet
+              </p>
+            )}
+            {/* {comments && (                //How to find comments by id?
+              comments.map((item) => {
+                console.log(item.message)
+              }),
+            )} */}
           </ActivityInfoContainer>
         </ActivityWrapper>
       </StyledContainer>
