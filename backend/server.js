@@ -287,20 +287,33 @@ app.post("/stories/:storyId/comment", async (req, res) => {
 
 app.get("/stories", async (req, res) => {
   const { name, description, category, country } = req.query;
-
-  try {
-    const story = await Sightseeing.find();
-    $or: [
-      { name: { $regex: name, $options: "i" } },
-      { description: { $regex: description, $options: "i" } },
-      { category: { $regex: category, $options: "i" } },
-      { country: { $regex: country, $options: "i" } },
-    ],
-      res.status(200).json({ response: story, success: true });
-  } catch (error) {
-    res.status(400).json({ error: error, success: false });
-  }
+  let story = await Sightseeing.find();
+  // if (req.query) {
+  //   story = await Sightseeing.find({
+  //     $or: [
+  //       { name: { $regex: name, $options: "i" } },
+  //       { description: { $regex: description, $options: "i" } },
+  //       { category: { $regex: category, $options: "i" } },
+  //       { country: { $regex: country, $options: "i" } },
+  //     ]
+  //   });
+  // }
+  res.status(200).json({ response: story, success: true })
 });
+
+// try {
+//   const story = await Sightseeing.find();
+//   $or: [
+//     { name: { $regex: name, $options: "i" } },
+//     { description: { $regex: description, $options: "i" } },
+//     { category: { $regex: category, $options: "i" } },
+//     { country: { $regex: country, $options: "i" } },
+//   ],
+//     res.status(200).json({ response: story, success: true });
+// } catch (error) {
+//   res.status(400).json({ error: error, success: false });
+// }
+
 
 //  app.get('/stories/:id', async (req, res) => {
 //    const { id } = req.params

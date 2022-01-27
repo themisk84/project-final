@@ -18,6 +18,24 @@ const reducer = combineReducers({
 
 const store = configureStore({ reducer });
 
+// const reducer = combineReducers({
+//   user: user.reducer,
+//   sightseeing: sightseeing.reducer
+// })
+// const persistedState = localStorage.getItem('redux')
+//   ? JSON.parse(localStorage.getItem('redux'))
+//   : {}
+
+// const store = createStore(
+//   reducer,
+//   persistedState,
+//   window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
+// )
+
+// store.subscribe(() => {
+//   localStorage.setItem("redux", JSON.stringify(store.getState()));
+// })
+
 export const App = () => {
   return (
     <Provider store={store}>

@@ -1,12 +1,23 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 
 import styled from "styled-components";
 
 const Searchbar = () => {
+  const [query, setQuery] = useState('');
+
+  const onQueryChange = (event) => {
+    setQuery(event.target.value)
+    // fetch(`https://go-scandinavia.herokuapp.com//stories?name=${query}&description=${query}&category=${query}&country=${query}`)
+    //   .then((res) => res.json())
+    //   .then((data) => {
+    //     console.log(data)
+    //   })
+  }
+
   return (
     <StyledContainerSearch>
       <StyledSearch>Search</StyledSearch>
-      <StyledInput type="text" />
+      <StyledInput type="text" value={query} onChange={onQueryChange} />
     </StyledContainerSearch>
   );
 };
