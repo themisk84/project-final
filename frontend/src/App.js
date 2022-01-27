@@ -10,6 +10,8 @@ import Signin from "./components/Signin";
 
 import user from "./reducers/user";
 import sightseeing from "reducers/sightseeing";
+import SearchPage from "pages/SearchPage";
+import ErrorMessage from "./pages/ErrorMessage";
 
 const reducer = combineReducers({
   user: user.reducer,
@@ -44,8 +46,9 @@ export const App = () => {
           <Route path="/" element={<Start />} />
           <Route path="/signin" element={<Signin />} />
           <Route path="/country/:country" element={<Country />} />
-          {/* // <Route path="/user" element={<UserPage />} />
-          // <Route path="*" element={<ErrorPage />} />  */}
+          <Route path="/search" element={<SearchPage />} />
+          {/* <Route path="/user" element={<UserPage />} /> */}
+          <Route path="*" element={<ErrorMessage />} />
         </Routes>
       </BrowserRouter>
     </Provider>

@@ -1,30 +1,44 @@
 import React, { useEffect, useState } from "react";
-
 import styled from "styled-components";
+import { useNavigate } from "react-router-dom";
+import { useSelector, dispatch, useDispatch } from "react-redux";
 
 const Searchbar = () => {
-  const [query, setQuery] = useState('');
-
+  const [query, setQuery] = useState("");
+  const navigate = useNavigate();
   const onQueryChange = (event) => {
-    setQuery(event.target.value)
-    // fetch(`https://go-scandinavia.herokuapp.com//stories?name=${query}&description=${query}&category=${query}&country=${query}`)
-    //   .then((res) => res.json())
-    //   .then((data) => {
-    //     console.log(data)
-    //   })
-  }
+    setQuery(event.target.value);
+  };
 
+  const dispatch = useDispatch();
+
+  const onFormSubmit = (event) => {
+    event.preventDefault();
+    navigate(
+      `/search?name=${query}&description=${query}&country=${query}&category=${query}`
+    );
+  };
+
+  const stories = useSelector((store) => store.sightseeing.sightseeings);
+  // console.log(stories);
   return (
     <StyledContainerSearch>
-      <StyledSearch>Search</StyledSearch>
-      <StyledInput type="text" value={query} onChange={onQueryChange} />
+      <StyledForm className="input-form" onSubmit={onFormSubmit}>
+        <StyledSearch htmlFor="search">Search</StyledSearch>
+        <StyledInput
+          type="text"
+          id="search"
+          value={query}
+          onChange={onQueryChange}
+        />
+      </StyledForm>
     </StyledContainerSearch>
   );
 };
 
 export default Searchbar;
 
-const StyledSearch = styled.p`
+const StyledSearch = styled.label`
   color: white;
   margin-bottom: 5px;
   font-size: 16px;
@@ -56,11 +70,17 @@ const StyledInput = styled.input`
   }
 `;
 const StyledContainerSearch = styled.div`
-@media (min-width: 768px) {
-  margin: 20px 0 50px;
-  display: flex;
-  flex-direction: column;
-  justify-content: left;
-  align-items: left;
-}
-`
+  @media (min-width: 768px) {
+    margin: 20px 0 50px;
+    display: flex;
+    flex-direction: column;
+    justify-content: left;
+    align-items: left;
+  }
+`;
+const StyledForm = styled.form`
+  @media (min-width: 768px) {
+    display: flex;
+    flex-direction: column;
+  }
+`;

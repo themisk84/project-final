@@ -7,20 +7,25 @@ import { FaSortDown } from "react-icons/fa";
 import Navbar from "components/Navbar";
 import Searchbar from "../components/Searchbar";
 import AttractionCards from "components/AttractionCards";
+import { API_URL } from "utilis/urls";
+import sightseeing from "reducers/sightseeing";
 
 const Country = () => {
   const { country } = useParams();
-  const [visible, setVisible] = useState(true);
+  const [visible, setVisible] = useState(false);
   const [category, setCategory] = useState("");
   const [land, setLand] = useState(country); //land takes the place of country in useParams
 
+  const dispatch = useDispatch();
   const navigate = useNavigate();
+  const accessToken = useSelector((store) => store.user.accessToken);
+
+  //const sights = useSelector((store) => store.sightseeing.sightseeings);
 
   let attractions = useSelector((store) =>
     store.sightseeing.sightseeings.filter((item) => item.country === land)
   );
   console.log(attractions);
-
   const categoryAttractions = attractions.filter(
     (item) => item.category === category
   );
@@ -28,7 +33,6 @@ const Country = () => {
   console.log(categoryAttractions);
 
   console.log("category", categoryAttractions);
-
 
   const showMenu = () => {
     if (visible) {
@@ -38,71 +42,95 @@ const Country = () => {
     }
   };
   const categories = ["food", "culture", "activity", "music"];
-  const countries = ["all", "Sweden", "Norway", "Denmark"];
+  const countries = ["Sweden", "Norway", "Denmark"];
 
   const handleCategory = (event) => {
-    // setCountry("");
     setCategory(event.target.value);
   };
+  // FOR ACTIVITY PAGE "ADD A COMMENT"
+  const handleComments = (storyId) => {
+    const options = {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: accessToken,
+      },
+    };
 
+    fetch(API_URL(`stories/${storyId}/comments`), options)
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.success) {
+          dispatch(sightseeing.actions.addComment(data.response));
+        } else {
+        }
+      });
+  };
 
   return (
     <>
       <Navbar />
-      <SearchBarContainer>
-        <Searchbar />
-      </SearchBarContainer>
-      <StyledToggle onClick={showMenu}>
-        <FilterText>Filter Menu</FilterText>
-        <FaSortDown style={{ marginBottom: 5 }} />
-      </StyledToggle>
-      {visible && (
-        <div>
-          <FilterText>Country</FilterText>
-          <form>
-            <label htmlFor="country"></label>
-            <Select
-              id="country"
-              value={land}
-              onChange={(event) => {
-                setLand(event.target.value); //asychronous
-                navigate(`/country/${event.target.value}`);
-                setCategory("");
-              }}
-            >
-              {countries.map((option, index) => (
-                <option key={index} value={option}>
-                  {option}
-                </option>
-              ))}
-            </Select>
-          </form>
+      <div>
+        <SearchBarContainer>
+          <Searchbar />
+        </SearchBarContainer>
+        <StyledToggle onClick={showMenu}>
+          <FilterText>Filter Menu</FilterText>
+          <FaSortDown style={{ width: 23, height: 25, marginLeft: 5 }} />
+        </StyledToggle>
+        {visible && (
           <div>
-            <div>
-              {categories.map((category) => (
-                <button
-                  key={category}
-                  value={category}
-                  onClick={handleCategory}
+            <CountryChooseCountainer>
+              <FilterText>Country</FilterText>
+              <form>
+                <label htmlFor="country"></label>
+                <Select
+                  id="country"
+                  value={land}
+                  // if (
+                  //   land === "all" &&
+                  //   sights.map((item) => (
+                  //     <AttractionCards item={item} key={item._id} />
+                  //   ))
+                  // )
+                  onChange={(event) => {
+                    setLand(event.target.value); //asychronous
+                    navigate(`/country/${event.target.value}`);
+                    setCategory("");
+                  }}
                 >
-                  {category}
-                </button>
-              ))}
+                  {countries.map((option, index) => (
+                    <option key={index} value={option}>
+                      {option}
+                    </option>
+                  ))}
+                </Select>
+              </form>
+            </CountryChooseCountainer>
+            <div>
+              <ButtonContainer>
+                {categories.map((category) => (
+                  <FilteringButton
+                    key={category}
+                    value={category}
+                    onClick={handleCategory}
+                  >
+                    {category}
+                  </FilteringButton>
+                ))}
+              </ButtonContainer>
             </div>
           </div>
-        </div>
-      )}
+        )}
+      </div>
       <AttractionContainer>
         {category === ""
           ? attractions.map((item) => (
-            <AttractionCards
-              item={item} key={item.id}
-            />
-
-          ))
+              <AttractionCards item={item} key={item._id} />
+            ))
           : categoryAttractions.map((item) => (
-            <AttractionCards key={item.id} item={item} />
-          ))}
+              <AttractionCards key={item._id} item={item} />
+            ))}
       </AttractionContainer>
     </>
   );
@@ -110,12 +138,12 @@ const Country = () => {
 
 export default Country;
 
-
 const AttractionContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
   padding: 100px;
+  background-color: white;
 `;
 const StyledToggle = styled.div`
   color: white;
@@ -131,8 +159,7 @@ const Select = styled.select`
   width: 100%;
   height: 35px;
   margin: 5px 0;
-  padding: 10px;
-  font-size: 18px;
+  font-size: 15px;
   }
 `;
 
@@ -145,6 +172,33 @@ const FilterText = styled.p`
 const SearchBarContainer = styled.div`
   padding: 100px 25px 0px 25px;
 `;
+
+const CountryChooseCountainer = styled.div`
+  padding: 0px 25px 0px 25px;
+`;
+
+const ButtonContainer = styled.div`
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-column-gap: 5px;
+  justify-items: center;
+  width: 80%;
+`;
+
+const FilteringButton = styled.button`
+  border: none;
+  border-radius: 10px;
+  padding: 8px 5px;
+  width: 100px;
+  margin: 10px;
+  background-color: rgba(255, 255, 255, 0.4);
+  cursor: pointer;
+  &:hover {
+    background-color: #56baa0;
+    color: white;
+  }
+`;
+
 // const AttractionCard = styled.div`
 //   display: flex;
 //   flex-direction: column;

@@ -2,8 +2,8 @@ import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 
-import { API_URL } from '../utilis/urls';
-import sightseeing from '../reducers/sightseeing'
+import { API_URL } from "../utilis/urls";
+import sightseeing from "../reducers/sightseeing";
 
 const AttractionCards = ({ item }) => {
   const dispatch = useDispatch();
@@ -24,13 +24,10 @@ const AttractionCards = ({ item }) => {
         } else {
         }
       });
-  }
-
+  };
 
   return (
-    <AttractionCard
-      style={{ backgroundImage: `url(${item.imageUrl})` }}
-    >
+    <AttractionCard style={{ backgroundImage: `url(${item.imageUrl})` }}>
       <CommentContainer>
         <span>&#128172;</span>
       </CommentContainer>
@@ -46,10 +43,10 @@ const AttractionCards = ({ item }) => {
         <Description>{item.country}</Description>
       </HeaderContainer>
     </AttractionCard>
-  )
-}
+  );
+};
 
-export default AttractionCards
+export default AttractionCards;
 
 const AttractionCard = styled.div`
   display: flex;
