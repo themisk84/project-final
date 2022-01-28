@@ -50,30 +50,25 @@ const sightseeing = createSlice({
 
         //"_id": "61eff08569d872002971e973", sightseeing
         // ==== "61f402c8a48461002973e6c3", comment
-        if (item._id === action.payload._id) {
-          const updateComments = {
-            ...item,
-            comments: action.payload,
-          }
-          return updateComments
-        } else {
-          return item
+        //   if (item._id === action.payload._id) {
+        //     const updateComments = {
+        //       ...item,
+        //       comments: action.payload,
+        //     }
+        //     return updateComments
+        //   } else {
+        //     return item
+        //   }
+        // })
+        const updateComments = {
+          ...item,
+          comments: [...item.comments, action.payload]
         }
+        return updateComments
       })
       store.sightseeings = updatedSightseeings
     },
-    // addTodo: (store, action) => {
 
-    //   const { input, category } = action.payload
-
-    //   const newTodo = {
-    //     id: uniqid(),
-    //     text: input,
-    //     isComplete: false,
-    //     category: category
-    //   }
-    //   store.items = [newTodo, ...store.items]
-    // },
   },
 })
 export default sightseeing
