@@ -268,11 +268,15 @@ app.post('/stories/:storyId/comment', async (req, res) => {
       user: req.user._id,
     }).save()
 
-    const postRelated = await Sightseeing.findByIdAndUpdate(storyId, {
-      $push: {
-        comments: comment,
+    const postRelated = await Sightseeing.findByIdAndUpdate(
+      storyId,
+      {
+        $push: {
+          comments: comment,
+        },
       },
-    })
+      { new: true },
+    )
     //unset
 
     if (postRelated) {

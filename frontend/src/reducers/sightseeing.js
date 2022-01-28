@@ -1,14 +1,14 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice } from '@reduxjs/toolkit'
 
 const sightseeing = createSlice({
-  name: "sightseeing",
+  name: 'sightseeing',
   initialState: {
     sightseeings: [],
   },
   reducers: {
     addSightseeing: (store, action) => {
-      console.log(action.payload);
-      const payloadsArray = action.payload;
+      console.log(action.payload)
+      const payloadsArray = action.payload
       const onePayload = payloadsArray.map((item) => {
         const newSightseeing = {
           _id: item._id,
@@ -24,10 +24,10 @@ const sightseeing = createSlice({
           comments: item.comments,
           likes: item.likes,
           imageUrl: item.imageUrl,
-        };
-        return newSightseeing;
-      });
-      store.sightseeings = onePayload;
+        }
+        return newSightseeing
+      })
+      store.sightseeings = onePayload
     },
     addLike: (store, action) => {
       const updatedSightseeings = store.sightseeings.map((item) => {
@@ -35,29 +35,45 @@ const sightseeing = createSlice({
           const updatedSight = {
             ...item,
             likes: action.payload.likes,
-          };
-          return updatedSight;
+          }
+          return updatedSight
         } else {
-          return item;
+          return item
         }
-      });
-      store.sightseeings = updatedSightseeings;
+      })
+      store.sightseeings = updatedSightseeings
     },
 
     addComment: (store, action) => {
       const updatedSightseeings = store.sightseeings.map((item) => {
+        console.log(action.payload)
+
+        //"_id": "61eff08569d872002971e973", sightseeing
+        // ==== "61f402c8a48461002973e6c3", comment
         if (item._id === action.payload._id) {
           const updateComments = {
             ...item,
-            comments: action.payload.comments,
-          };
-          return updateComments;
+            comments: action.payload,
+          }
+          return updateComments
         } else {
-          return item;
+          return item
         }
-      });
-      store.sightseeings = updatedSightseeings;
+      })
+      store.sightseeings = updatedSightseeings
     },
+    // addTodo: (store, action) => {
+
+    //   const { input, category } = action.payload
+
+    //   const newTodo = {
+    //     id: uniqid(),
+    //     text: input,
+    //     isComplete: false,
+    //     category: category
+    //   }
+    //   store.items = [newTodo, ...store.items]
+    // },
   },
-});
-export default sightseeing;
+})
+export default sightseeing
