@@ -268,6 +268,7 @@ app.post('/stories/:storyId/comment', async (req, res) => {
       message,
       user: req.user._id,
     }).save()
+    // comment.populate('user').populate('sightseeing') // Tried to populate the action.payload
 
     const postRelated = await Sightseeing.findByIdAndUpdate(
       storyId,
@@ -278,10 +279,12 @@ app.post('/stories/:storyId/comment', async (req, res) => {
       },
       { new: true },
     )
+      .populate('user')
+      .populate('comments')
     //unset
 
     if (postRelated) {
-      res.status(200).json({ response: comment, success: true })
+      res.status(200).json({ response: postRelated, success: true }) // response: comment
     } else {
       res.status(404).json({ response: 'post not found', success: false })
     }
