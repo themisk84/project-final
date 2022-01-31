@@ -50,18 +50,19 @@ const sightseeing = createSlice({
         //"_id": "61eff08569d872002971e973", sightseeing
         // ==== "61f402c8a48461002973e6c3", comment
         // if (item._id === action.payload.sightseeing) {
-        //   const updateComments = {
-        //     ...item,
-        //     comments: [...item.comments, action.payload],
-        //   }
-        //   return updateComments
-        // } else {
-        //   return item
-        // }
-        const updateComments = {
-          ...item,
-          comments: [...item.comments, action.payload],
+        if (item._id === action.payload._id) {
+          const updateComments = {
+            ...item,
+            comments: [...item.comments, action.payload],
+          }
+          return updateComments
+        } else {
+          return item
         }
+        // const updateComments = {
+        //   ...item,
+        //   comments: [...item.comments, action.payload],
+        // }
       })
       store.sightseeings = updatedSightseeings
       // store.sightseeings = [...store.sightseeings, action.payload];
