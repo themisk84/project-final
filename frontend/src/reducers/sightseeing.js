@@ -30,6 +30,7 @@ const sightseeing = createSlice({
       store.sightseeings = onePayload
     },
     addLike: (store, action) => {
+      console.log('Post liked!', action.payload)
       const updatedSightseeings = store.sightseeings.map((item) => {
         if (item._id === action.payload._id) {
           const updatedSight = {
