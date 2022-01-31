@@ -293,20 +293,28 @@ app.post("/stories/:storyId/comment", async (req, res) => {
 app.get("/stories", async (req, res) => {
   const { name, description, category, country } = req.query;
   let story = await Sightseeing.find()
-    .populate("user")
+    // const person = await Person.findOne({ name: "John" }).populate([
+    //   {
+    //     path: "address",
+    //     model: "Address",
+    //     select: "street zipCode",
+    //   },
+    //   {
+    //     path: "friends",
+    //     model: "Person",
+    //     select: "age",
+    //   },
+    // ])
+    // .populate("user")
     .populate([
+      { path: "user", model: "User" },
       {
         path: "comments",
         model: "Comment",
-        populate: {
-          path: "sightseeing",
-          model: "Sightseeing",
-          // select: "_id"
-        },
-        populate: {
-          path: "user",
-          model: "User",
-        },
+        populate: [
+          { path: "sightseeing", model: "Sightseeing" },
+          { path: "user", model: "User" },
+        ],
       },
     ]);
   if (name || description || category || country) {
@@ -321,18 +329,6 @@ app.get("/stories", async (req, res) => {
   }
   res.status(200).json({ response: story, success: true });
 });
-
-// const person = await Person.findOne({ name: "John" }).populate([
-//   {
-//     path: 'address',
-//     model: 'Address',
-//     select: 'street zipCode'
-//      populate: {
-//      path: 'country',
-//      model: 'Country',
-//      }
-//   },
-// ])
 
 // try {
 //   const story = await Sightseeing.find();

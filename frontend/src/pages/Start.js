@@ -1,19 +1,29 @@
 import React, { useEffect } from "react";
 import styled from "styled-components";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+import { ui } from "../reducers/ui";
+
 import sightseeing from "../reducers/sightseeing";
 import Navbar from "../components/Navbar";
 import Searchbar from "../components/Searchbar";
+// import Lottie from "react-lottie";
+import { API_URL } from "utilis/urls";
+import Loader from "../components/Loader";
 
 const Start = () => {
+  const loading = useSelector((store) => store.ui.loading);
   const dispatch = useDispatch();
   useEffect(() => {
-    fetch("https://go-scandinavia.herokuapp.com/stories")
+    dispatch(ui.actions.setLoading(true));
+    fetch(API_URL("stories"))
       .then((res) => res.json())
       .then((data) => {
         if (data.success) {
-          dispatch(sightseeing.actions.addSightseeing(data.response));
+          setTimeout(() => {
+            dispatch(sightseeing.actions.addSightseeing(data.response));
+            dispatch(ui.actions.setLoading(false));
+          }, 2000);
         } else {
         }
       });
@@ -22,32 +32,38 @@ const Start = () => {
   const cities = ["Norway", "Sweden", "Denmark"];
 
   return (
-    <StyledHero>
-      <Navbar />
-      <StyledContainer>
-        <StyledHeadline>Explore</StyledHeadline>
-        <StyledHeadline>Scandinavia</StyledHeadline>
-        <StyledParagraph>
-          "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-          eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
-          minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-          aliquip ex ea commodo consequat."
-        </StyledParagraph>
-        <StyledCircle></StyledCircle>
-        <Searchbar />
-        <StyledChooseCountry>Choose a country</StyledChooseCountry>
-        <StyledContainerCountry>
-          {cities.map((item, index) => (
-            <StyledLink key={index} to={`/country/${item}`}>
-              <StyledCountryWrapper>
-                <StyledCountry item={item}></StyledCountry>
-                <StyledTitle item={item}>{item}</StyledTitle>
-              </StyledCountryWrapper>
-            </StyledLink>
-          ))}
-        </StyledContainerCountry>
-      </StyledContainer>
-    </StyledHero>
+    <>
+      {loading ? (
+        <Loader />
+      ) : (
+        <StyledHero>
+          <Navbar />
+          <StyledContainer>
+            <StyledHeadline>Explore</StyledHeadline>
+            <StyledHeadline>Scandinavia</StyledHeadline>
+            <StyledParagraph>
+              "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+              eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
+              enim ad minim veniam, quis nostrud exercitation ullamco laboris
+              nisi ut aliquip ex ea commodo consequat."
+            </StyledParagraph>
+            <StyledCircle></StyledCircle>
+            <Searchbar />
+            <StyledChooseCountry>Choose a country</StyledChooseCountry>
+            <StyledContainerCountry>
+              {cities.map((item, index) => (
+                <StyledLink key={index} to={`/country/${item}`}>
+                  <StyledCountryWrapper>
+                    <StyledCountry item={item}></StyledCountry>
+                    <StyledTitle item={item}>{item}</StyledTitle>
+                  </StyledCountryWrapper>
+                </StyledLink>
+              ))}
+            </StyledContainerCountry>
+          </StyledContainer>
+        </StyledHero>
+      )}
+    </>
   );
 };
 
