@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { useDispatch, useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { API_URL } from "utilis/urls";
+import moment from "moment";
+import { FaTrashAlt } from "react-icons/fa";
 
-import Navbar from "../components/Navbar";
 import sightseeing from "../reducers/sightseeing";
 import Like from "../components/Like";
 
@@ -17,38 +18,48 @@ import { FaPlus } from "react-icons/fa";
 
 const Activity = () => {
   const { activityId } = useParams();
-  // console.log(activityId)
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const [visible, setVisible] = useState(false);
   const [comment, setComment] = useState("");
 
-  // const navigate = useNavigate();
   const accessToken = useSelector((store) => store.user.accessToken);
 
   const thisActivity = useSelector((store) =>
     store.sightseeing.sightseeings.find((item) => item._id === activityId)
   );
-  // console.log('activity: ', thisActivity)
+  const userId = useSelector((store) => store.user.userId);
 
-  // const {
-  //   name,
-  //   country,
-  //   imageUrl,
-  //   createdAt,
-  //   description,
-  //   link,
-  //   location,
-  //   category,
-  //   rating,
-  //   user,
-  //   likes,
-  //   comments,
-  // } = thisActivity
   const showInput = () => {
     if (visible) {
       setVisible(false);
     } else {
       setVisible(true);
+    }
+  };
+
+  const handleDeletePost = (id) => {
+    const options = {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: accessToken,
+      },
+    };
+    console.log(comment);
+
+    if (userId === thisActivity.user._id) {
+      fetch(API_URL(`stories/${id}`), options)
+        .then((res) => res.json())
+        .then((data) => {
+          console.log(data);
+          if (data.success) {
+            console.log(data);
+            dispatch(sightseeing.actions.deletePost(data.response._id));
+            navigate("/");
+          } else {
+          }
+        });
     }
   };
 
@@ -80,101 +91,120 @@ const Activity = () => {
 
   return (
     <StyledHero>
-      <Navbar />
       <StyledContainer>
         <ActivityWrapper>
-          <ActivityImage image={thisActivity.imageUrl}>
-            <FaChevronLeft
-              style={{
-                color: "white",
-                height: "20",
-              }}
-            />
-          </ActivityImage>
-          <ActivityInfoContainer>
-            <h2
-              style={{
-                margin: "0",
-              }}
-            >
-              {thisActivity.name}
-            </h2>
-
-            <LocationWrapper>
-              <FaRegCompass
+          <Div>
+            <ActivityImage image={thisActivity?.imageUrl}>
+              <FaChevronLeft
                 style={{
-                  marginRight: "6",
-                  height: "14",
+                  color: "white",
+                  height: "20",
                 }}
               />
-              <p
-                style={{
-                  fontSize: "14px",
-                  fontStyle: "italic",
-                }}
-              >
-                {thisActivity.location}
-              </p>
-            </LocationWrapper>
-
-            <p
-              style={{
-                margin: "0",
-                fontSize: "15px",
-              }}
-            >
-              {thisActivity.description}
-            </p>
-            <PosterWrapper>
-              {/* <h5>By: {thisActivity.user.username}</h5> */}
-              <h5>Posted: {thisActivity.createdAt}</h5>
-            </PosterWrapper>
-            <CommentsWrapper>
-              <h3>Comments</h3>
               {accessToken && (
-                <AddComment onClick={showInput}>
-                  <h5
-                    style={{
-                      margin: "0",
-                    }}
-                  >
-                    Add
-                  </h5>
-                  <FaPlus
-                    style={{
-                      height: "12",
-                    }}
-                  />
-                </AddComment>
-              )}
-            </CommentsWrapper>
-            {visible && (
-              <form
-                onSubmit={(event) => handleComments(thisActivity._id, event)}
-              >
-                <textarea
-                  maxLength="140"
-                  value={comment}
-                  onChange={(event) => setComment(event.target.value)}
+                <FaTrashAlt
+                  style={{ height: 30, width: 30, color: "white" }}
+                  onClick={() => handleDeletePost(thisActivity?._id)}
                 />
-                <button type="submit">Submit</button>
-              </form>
-            )}
-            {thisActivity.comments.map((item) => {
-              return <p key={item._id}>{item.message}</p>;
-            })}
-            {thisActivity.comments === "" && (
-              <p
+              )}
+            </ActivityImage>
+
+            <ActivityInfoContainer>
+              <h2
                 style={{
-                  fontSize: "16px",
-                  fontStyle: "italic",
                   margin: "0",
                 }}
               >
-                No comments yet
+                {thisActivity?.name}
+              </h2>
+
+              <LocationWrapper>
+                <FaRegCompass
+                  style={{
+                    marginRight: "6",
+                    height: "14",
+                  }}
+                />
+                <p
+                  style={{
+                    fontSize: "14px",
+                    fontStyle: "italic",
+                  }}
+                >
+                  {thisActivity?.location}
+                </p>
+              </LocationWrapper>
+              <LikeContainer>
+                <Like item={thisActivity ? thisActivity : ""} />
+              </LikeContainer>
+              <p
+                style={{
+                  margin: "0",
+                  fontSize: "15px",
+                }}
+              >
+                {thisActivity?.description}
               </p>
-            )}
-          </ActivityInfoContainer>
+              <PosterWrapper>
+                <h5>By: {thisActivity?.user.username}</h5>
+                <h5>
+                  Posted:{" "}
+                  {moment(thisActivity?.createdAt).format("MMM Do YYYY")}
+                </h5>
+              </PosterWrapper>
+              <CommentsWrapper>
+                <h3>Comments</h3>
+                {accessToken && (
+                  <AddComment onClick={showInput}>
+                    <h5
+                      style={{
+                        margin: "0",
+                      }}
+                    >
+                      Add
+                    </h5>
+                    <FaPlus
+                      style={{
+                        height: "12",
+                      }}
+                    />
+                  </AddComment>
+                )}
+              </CommentsWrapper>
+              {visible && (
+                <form
+                  onSubmit={(event) => handleComments(thisActivity?._id, event)}
+                >
+                  <textarea
+                    maxLength="140"
+                    value={comment}
+                    onChange={(event) => setComment(event.target.value)}
+                  />
+                  <button type="submit">Submit</button>
+                </form>
+              )}
+              {thisActivity?.comments.map((item) => {
+                return (
+                  <div style={{ backgroundColor: "lightblue" }}>
+                    <p key={item._id}>{item.message}</p>
+                    <h6>{item.user.username}</h6>
+                    <h6>{moment(item.user.createdAt).format("MMM Do YYYY")}</h6>
+                  </div>
+                );
+              })}
+              {thisActivity?.comments === "" && (
+                <p
+                  style={{
+                    fontSize: "16px",
+                    fontStyle: "italic",
+                    margin: "0",
+                  }}
+                >
+                  No comments yet
+                </p>
+              )}
+            </ActivityInfoContainer>
+          </Div>
         </ActivityWrapper>
       </StyledContainer>
     </StyledHero>
@@ -232,6 +262,9 @@ const ActivityImage = styled.div`
 //   align-items: center;
 //   justify-content: center;
 // `
+const Div = styled.div`
+  position: relative;
+`;
 
 const ActivityInfoContainer = styled.div`
   background-color: white;
@@ -266,4 +299,9 @@ const AddComment = styled.button`
   text-transform: uppercase;
   border-radius: 8px;
   background-color: whitesmoke;
+`;
+const LikeContainer = styled.div`
+  position: absolute;
+  right: 80px;
+  top: 100px;
 `;

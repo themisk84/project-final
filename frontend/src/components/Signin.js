@@ -148,7 +148,7 @@ const Signin = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [email, setEmail] = useState("");
-  const [mode, setMode] = useState("signup");
+  const [mode, setMode] = useState("signin");
 
   const accessToken = useSelector((store) => store.user.accessToken);
   //   const error = useSelector((store) => store.user.error);
@@ -158,7 +158,7 @@ const Signin = () => {
 
   useEffect(() => {
     if (accessToken) {
-      navigate("/");
+      navigate("/user");
     }
   }, [accessToken, navigate]);
 
@@ -203,7 +203,6 @@ const Signin = () => {
   const handleEmailChange = (event) => setEmail(event.target.value);
   return (
     <StyledMain>
-      <Navbar />
       <OuterFormContainer>
         <FormContainer>
           {mode === "signin" ? (
@@ -251,7 +250,7 @@ const Signin = () => {
               </LabelContainer>
             )}
             <RegisterBtn primary type="submit">
-              Register
+              {mode === "signin" ? "Log In" : "Register"}
             </RegisterBtn>
           </Form>
           <Buttons>

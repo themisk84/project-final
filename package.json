@@ -3,5 +3,8 @@
   "version": "1.0.0",
   "scripts": {
     "postinstall": "npm install --prefix backend"
+  },
+  "dependencies": {
+    "moment": "^2.29.1"
   }
 }

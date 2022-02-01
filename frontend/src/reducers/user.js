@@ -7,6 +7,7 @@ const user = createSlice({
     userId: null,
     accessToken: null,
     error: null,
+    form: false,
   },
   reducers: {
     setUsername: (store, action) => {
@@ -20,6 +21,9 @@ const user = createSlice({
     },
     setError: (store, action) => {
       store.error = action.payload;
+    },
+    setForm: (store, action) => {
+      store.form = action.payload;
     },
   },
 });

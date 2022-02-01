@@ -1,59 +1,98 @@
-import React, { useState } from 'react'
-import { Link } from 'react-router-dom'
-import styled from 'styled-components'
+import React, { useState } from "react";
+import { Link } from "react-router-dom";
+import styled from "styled-components";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import user from "../reducers/user";
+
+import PostSightseeing from "./PostSightseeing";
 
 const Navbar = () => {
-  const [visible, setVisible] = useState(false)
+  const [visible, setVisible] = useState(false);
+  const navigate = useNavigate();
+  const accessToken = useSelector((store) => store.user.accessToken);
+  const dispatch = useDispatch();
 
   const showMenu = () => {
     if (visible) {
-      setVisible(false)
+      setVisible(false);
     } else {
-      setVisible(true)
+      setVisible(true);
     }
-  }
+  };
+
+  const logOut = () => {
+    dispatch(user.actions.setAccessToken(null));
+    navigate("/");
+  };
+
+  let onFormChange = () => {
+    dispatch(user.actions.setForm(true));
+  };
 
   return (
     <StyledHeader>
-      <Link to='/'>
+      <Link to="/">
         <StyledLogo />
       </Link>
-      <StyledHamburger onClick={showMenu}>
-        <div></div>
-        <div></div>
-        <div></div>
-      </StyledHamburger>
+      {!accessToken ? (
+        <StyledHamburger onClick={showMenu}>
+          <div></div>
+          <div></div>
+          <div></div>
+        </StyledHamburger>
+      ) : (
+        <div onClick={showMenu}>
+          <h1>Placeholder for avatar</h1>
+        </div>
+      )}
+
       {visible && (
         <StyledMobileNav>
-          <Link to="/signin">
-            <p>Sign In</p>
-          </Link>
-          <Link to="/about">
-            <p>About</p>
-          </Link>
+          {!accessToken ? (
+            <>
+              <Link to="/signin">
+                <p>Sign In</p>
+              </Link>
+              <Link to="/about">
+                <p>About</p>
+              </Link>
+            </>
+          ) : (
+            <>
+              <p onClick={onFormChange}>Add a post</p>
+              <p>My posts</p>
+              <p>Liked Posts</p>
+              <p onClick={logOut}>Log out</p>
+            </>
+          )}
         </StyledMobileNav>
       )}
+
       <StyledNav>
         <StyledList>
-          <StyledLink to="/signin">
-            Signin
-          </StyledLink>
+          {!accessToken && <StyledLink to="/signin">Signin</StyledLink>}
+          <StyledContainerButtons>
+            {accessToken && <button onClick={onFormChange}>Add post</button>}
+            {accessToken && <button>My post</button>}
+            {accessToken && <button>Liked Post</button>}
+            {accessToken && <button onClick={logOut}>Log out</button>}
+          </StyledContainerButtons>
         </StyledList>
         <StyledList>
-          <StyledLink to="/about">
-            About
-          </StyledLink>
+          {!accessToken && <StyledLink to="/about">About</StyledLink>}
         </StyledList>
       </StyledNav>
     </StyledHeader>
-  )
-}
+  );
+};
 
-export default Navbar
+export default Navbar;
 
 const StyledHeader = styled.nav`
   width: 100%;
   height: 70px;
+  z-index: 10;
   backdrop-filter: blur(12px);
   position: fixed;
   display: flex;
@@ -61,11 +100,10 @@ const StyledHeader = styled.nav`
   justify-content: space-between;
   padding: 25px;
   @media (min-width: 768px) {
-
     height: 100px;
     padding: 25px 50px;
   }
-`
+`;
 const StyledHamburger = styled.div`
   display: flex;
   width: 25px;
@@ -81,12 +119,12 @@ const StyledHamburger = styled.div`
   }
 
   @media (min-width: 768px) {
-    display: none
+    display: none;
   }
-`
+`;
 const StyledNav = styled.nav`
   display: none;
-  
+
   @media (min-width: 768px) {
     display: flex;
     align-items: center;
@@ -95,13 +133,13 @@ const StyledNav = styled.nav`
     width: 200px;
     font-size: 22px;
   }
-`
+`;
 const StyledList = styled.ul`
   list-style-type: none;
   padding: 0;
-`
+`;
 const StyledLogo = styled.div`
-  background-image: url('/assets/logo.png');
+  background-image: url("/assets/logo.png");
   background-size: contain;
   background-repeat: no-repeat;
   height: 18px;
@@ -110,7 +148,7 @@ const StyledLogo = styled.div`
   @media (min-width: 768px) {
     height: 22px;
   }
-`
+`;
 const StyledMobileNav = styled.div`
   position: absolute;
   display: flex;
@@ -124,10 +162,13 @@ const StyledMobileNav = styled.div`
   background-color: #56baa0;
   padding: 25px;
   font-weight: bold;
-`
+`;
 const StyledLink = styled(Link)`
   text-decoration: none;
-      color: #56baa0;
+  color: #56baa0;
+`;
 
-`
-
+const StyledContainerButtons = styled.div`
+  display: flex;
+  color: #56baa0;
+`;
