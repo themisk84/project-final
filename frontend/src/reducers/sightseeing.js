@@ -44,16 +44,12 @@ const sightseeing = createSlice({
       })
       store.sightseeings = updatedSightseeings
     },
-
     addComment: (store, action) => {
-      console.log('payload', action.payload)
-
+      console.log('action.payload', action.payload)
       const updatedSightseeings = store.sightseeings.map((item) => {
         if (item._id === action.payload._id) {
-          const commentsArray = action.payload.comments
-          const newestComment = commentsArray.pop()
+          const newestComment = action.payload.comments.pop()
           console.log('Newest comment: ', newestComment)
-
           const updateComments = {
             ...item,
             comments: [...item.comments, newestComment],
