@@ -49,41 +49,22 @@ const sightseeing = createSlice({
       console.log('payload', action.payload)
 
       const updatedSightseeings = store.sightseeings.map((item) => {
-        //"_id": "61eff08569d872002971e973", sightseeing
-        // ==== "61f402c8a48461002973e6c3", comment
-        // if (item._id === action.payload.sightseeing) {
         if (item._id === action.payload._id) {
           const commentsArray = action.payload.comments
-          const newestComment = commentsArray[commentsArray.length - 1]
-          console.log(newestComment)
+          const newestComment = commentsArray.pop()
+          console.log('Newest comment: ', newestComment)
 
           const updateComments = {
             ...item,
-            // comments: [...item.comments, action.payload],
-            // comments: action.payload.comments,
             comments: [...item.comments, newestComment],
           }
           return updateComments
         } else {
           return item
         }
-        // const updateComments = {
-        //   ...item,
-        //   comments: [...item.comments, action.payload],
-        // }
       })
       store.sightseeings = updatedSightseeings
-      // store.sightseeings = [...store.sightseeings, action.payload];
     },
-    // const updateComments = {
-    //   ...item,
-    //   comments: action.payload,
-    // };
-    // return updateComments;
-    //     }
-    //     store.sightseeings = updatedSightseeings;
-    //   });
-    // },
     deletePost: (store, action) => {
       const deletedPost = store.sightseeings.filter(
         (item) => item._id !== action.payload,
