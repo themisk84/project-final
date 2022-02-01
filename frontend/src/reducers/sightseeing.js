@@ -53,10 +53,15 @@ const sightseeing = createSlice({
         // ==== "61f402c8a48461002973e6c3", comment
         // if (item._id === action.payload.sightseeing) {
         if (item._id === action.payload._id) {
+          const commentsArray = action.payload.comments
+          const newestComment = commentsArray[commentsArray.length - 1]
+          console.log(newestComment)
+
           const updateComments = {
             ...item,
-            comments: action.payload.comments,
             // comments: [...item.comments, action.payload],
+            // comments: action.payload.comments,
+            comments: [...item.comments, newestComment],
           }
           return updateComments
         } else {
