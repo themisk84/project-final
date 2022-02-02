@@ -268,7 +268,6 @@ app.post('/stories/:storyId/comment', async (req, res) => {
       message,
       user: req.user._id,
     }).save()
-    // comment.populate('user').populate('sightseeing') // Tried to populate the action.payload
 
     const postRelated = await Sightseeing.findByIdAndUpdate(
       storyId,
@@ -279,8 +278,19 @@ app.post('/stories/:storyId/comment', async (req, res) => {
       },
       { new: true },
     )
-      .populate('user')
-      .populate('comments')
+      // .populate('user')
+      // .populate('comments')
+      .populate([
+        { path: 'user', model: 'User', select: 'username' },
+        {
+          path: 'comments',
+          model: 'Comment',
+          populate: [
+            { path: 'sightseeing', model: 'Sightseeing', select: 'name' },
+            { path: 'user', model: 'User', select: 'username' },
+          ],
+        },
+      ])
     //unset
 
     if (postRelated) {
