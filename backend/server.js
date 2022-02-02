@@ -5,7 +5,7 @@ import dotenv from 'dotenv'
 import cloudinaryFramework from 'cloudinary'
 import multer from 'multer'
 import cloudinaryStorage from 'multer-storage-cloudinary'
-import crypto from 'crypto'
+// import crypto from 'crypto' // Moved to user model
 import bcrypt from 'bcrypt'
 import { runInNewContext } from 'vm'
 
@@ -46,120 +46,16 @@ const storage = cloudinaryStorage({
 })
 const parser = multer({ storage })
 
-// Schemas
+// Previous syntax for Models
 
-const SightSeeingSchema = new mongoose.Schema({
-  name: {
-    type: String,
-    required: true,
-  },
-  country: {
-    type: String,
-    required: true,
-    enum: ['Sweden', 'Norway', 'Denmark'],
-  },
-  imageUrl: {
-    type: String,
-    required: true,
-  },
-  createdAt: {
-    type: Number,
-    default: Date.now,
-  },
-  description: {
-    type: String,
-    trim: true,
-    maxlength: 800,
-    minlength: 5,
-    required: true,
-  },
-  link: {
-    type: String,
-    required: true,
-  },
-  location: {
-    type: String,
-    required: true,
-  },
-  category: {
-    type: String,
-    enum: ['food', 'culture', 'activity', 'music'],
-    required: true,
-  },
-  rating: {
-    type: Number,
-    required: true,
-  },
-  user: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'User',
-  },
-  likes: {
-    type: Number,
-    default: 0,
-  },
-  comments: [
-    {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'Comment',
-    },
-  ],
-})
+// const Sightseeing = mongoose.model('Sightseeing', SightSeeingSchema)
+// const User = mongoose.model('User', UserSchema)
+// const Comment = mongoose.model('Comment', CommentSchema)
 
-const UserSchema = new mongoose.Schema({
-  username: {
-    type: String,
-    unique: true,
-    required: true,
-  },
-  password: {
-    type: String,
-    required: true,
-  },
-  email: {
-    type: String,
-    required: true,
-    unique: true,
-    trim: true,
-    validate: {
-      validator: (v) => {
-        let re = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/
-        const result = re.test(v)
-        return result
-      },
-      message: 'Please fill a valid email address',
-    },
-  },
-  accessToken: {
-    type: String,
-    default: () => crypto.randomBytes(128).toString('hex'),
-  },
-})
-
-const CommentSchema = new mongoose.Schema({
-  message: {
-    type: String,
-    required: true,
-  },
-  createdAt: {
-    type: Number,
-    default: Date.now,
-  },
-  user: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'User',
-  },
-  sightseeing: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'Sightseeing',
-  },
-})
-
-// Models
-
-const Sightseeing = mongoose.model('Sightseeing', SightSeeingSchema)
-const User = mongoose.model('User', UserSchema)
-const Comment = mongoose.model('Comment', CommentSchema)
+// Import of models
+const Sightseeing = require('./models/sightseeing')
+const User = require('./models/user')
+const Comment = require('./models/comment')
 
 // Middlewares
 
@@ -267,7 +163,8 @@ app.post('/stories/:storyId/comment', async (req, res) => {
     const comment = await new Comment({
       message,
       user: req.user._id,
-    }).save()
+    }).save() // Have tried populating here but doesn't work
+    // comment.populate('user').populate('sightseeing') // Not here either
 
     const postRelated = await Sightseeing.findByIdAndUpdate(
       storyId,
@@ -277,16 +174,11 @@ app.post('/stories/:storyId/comment', async (req, res) => {
         },
       },
       { new: true },
-    )
-      // .populate('comments')
-      .populate({
-        path: 'comments',
-        model: 'Comment',
-        populate: [
-          { path: 'sightseeing', model: 'Sightseeing', select: 'name' },
-          { path: 'user', model: 'User', select: 'username' },
-        ],
-      })
+    ).populate({
+      path: 'comments',
+      model: 'Comment',
+      populate: { path: 'user', model: 'User', select: 'username' },
+    })
     //unset
 
     if (postRelated) {
@@ -301,32 +193,18 @@ app.post('/stories/:storyId/comment', async (req, res) => {
 
 app.get('/stories', async (req, res) => {
   const { name, description, category, country } = req.query
-  let story = await Sightseeing.find()
-    // const person = await Person.findOne({ name: "John" }).populate([
-    //   {
-    //     path: "address",
-    //     model: "Address",
-    //     select: "street zipCode",
-    //   },
-    //   {
-    //     path: "friends",
-    //     model: "Person",
-    //     select: "age",
-    //   },
-    // ])
-    // .populate("user")
-    .populate([
-      { path: 'user', model: 'User', select: 'username' },
-      {
-        path: 'comments',
-        model: 'Comment',
-        populate: [
-          // _id is populated automatically below without specifying it in the select
-          { path: 'sightseeing', model: 'Sightseeing', select: 'name' },
-          { path: 'user', model: 'User', select: 'username' },
-        ],
-      },
-    ])
+  let story = await Sightseeing.find().populate([
+    { path: 'user', model: 'User', select: 'username' },
+    {
+      path: 'comments',
+      model: 'Comment',
+      populate: [
+        // _id is populated automatically below without specifying it in the select
+        { path: 'sightseeing', model: 'Sightseeing', select: 'name' },
+        { path: 'user', model: 'User', select: 'username' },
+      ],
+    },
+  ])
   if (name || description || category || country) {
     story = await Sightseeing.find({
       $or: [
