@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import user from "../reducers/user";
 
-import PostSightseeing from "./PostSightseeing";
+import PostSightseeing from '../pages/PostSightseeing'
 
 const Navbar = () => {
   const [visible, setVisible] = useState(false);
@@ -29,6 +29,19 @@ const Navbar = () => {
   let onFormChange = () => {
     dispatch(user.actions.setForm(true));
   };
+
+  const onButtonClick = () => {
+    navigate('/add')
+    setVisible(false)
+  }
+  const onButtonClickTwo = () => {
+    navigate('/user')
+    setVisible(false)
+  }
+  const onButtonClickThree = () => {
+    navigate('/savedPosts')
+    setVisible(false)
+  }
 
   return (
     <StyledHeader>
@@ -60,22 +73,23 @@ const Navbar = () => {
             </>
           ) : (
             <>
-              <p onClick={onFormChange}>Add a post</p>
-              <p>My posts</p>
-              <p>Liked Posts</p>
+              <p onClick={onButtonClick}>Add a post</p>
+              <p onClick={onButtonClickTwo}>My posts</p>
+              <p onClick={onButtonClickThree}>Saved Posts</p>
               <p onClick={logOut}>Log out</p>
             </>
           )}
         </StyledMobileNav>
-      )}
+      )
+      }
 
       <StyledNav>
         <StyledList>
           {!accessToken && <StyledLink to="/signin">Signin</StyledLink>}
           <StyledContainerButtons>
-            {accessToken && <button onClick={onFormChange}>Add post</button>}
-            {accessToken && <button>My post</button>}
-            {accessToken && <button>Liked Post</button>}
+            {accessToken && <button onClick={() => navigate('/add')}>Add post</button>}
+            {accessToken && <button onClick={() => navigate('/user')}>My posts</button>}
+            {/* {accessToken && <button>Liked Post</button>} instead saving sightseeings in favorites */}
             {accessToken && <button onClick={logOut}>Log out</button>}
           </StyledContainerButtons>
         </StyledList>
@@ -83,7 +97,7 @@ const Navbar = () => {
           {!accessToken && <StyledLink to="/about">About</StyledLink>}
         </StyledList>
       </StyledNav>
-    </StyledHeader>
+    </StyledHeader >
   );
 };
 

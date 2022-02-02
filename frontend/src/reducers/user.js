@@ -7,7 +7,8 @@ const user = createSlice({
     userId: null,
     accessToken: null,
     error: null,
-    form: false,
+    likedSights: []
+    // form: false,
   },
   reducers: {
     setUsername: (store, action) => {
@@ -22,9 +23,16 @@ const user = createSlice({
     setError: (store, action) => {
       store.error = action.payload;
     },
-    setForm: (store, action) => {
-      store.form = action.payload;
-    },
+    addLikedPosts: (store, action) => {
+      if (store.likedSights?.length === 0) {
+        store.likedSights = [action.payload]
+      } else if (store.likedSights?.length > 0) {
+        store.likedSights = [...store.likedSights, action.payload]
+      }
+    }
+    // setForm: (store, action) => {
+    //   store.form = action.payload;
+    // },
   },
 });
 

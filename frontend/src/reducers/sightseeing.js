@@ -67,6 +67,26 @@ const sightseeing = createSlice({
       )
       store.sightseeings = deletedPost
     },
+    addPost: (store, action) => {
+      // const payloadObject = action.payload
+      const newSightseeing = {
+        _id: action.payload._id,
+        name: action.payload.name,
+        country: action.payload.country,
+        description: action.payload.description,
+        category: action.payload.category,
+        link: action.payload.link,
+        location: action.payload.location,
+        user: action.payload.user,
+        rating: action.payload.rating,
+        createdAt: action.payload.createdAt,
+        comments: action.payload.comments,
+        likes: action.payload.likes,
+        imageUrl: action.payload.imageUrl,
+      }
+
+      store.sightseeings = [...store.sightseeings, newSightseeing]
+    }
   },
 })
 export default sightseeing

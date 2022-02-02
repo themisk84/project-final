@@ -5,6 +5,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import { API_URL } from "utilis/urls";
 import moment from "moment";
 import { FaTrashAlt } from "react-icons/fa";
+import { FaBookmark } from "react-icons/fa";
 
 import sightseeing from "../reducers/sightseeing";
 import Like from "../components/Like";
@@ -56,12 +57,15 @@ const Activity = () => {
           if (data.success) {
             console.log(data);
             dispatch(sightseeing.actions.deletePost(data.response._id));
-            navigate("/");
+            navigate(-1)
           } else {
           }
         });
     }
   };
+  const savePost = () => {
+    dispatch(user.actions.addLikedPosts(thisActivity))
+  }
 
   const handleComments = (id, event) => {
     event.preventDefault();
@@ -95,7 +99,7 @@ const Activity = () => {
         <ActivityWrapper>
           <Div>
             <ActivityImage image={thisActivity?.imageUrl}>
-              <FaChevronLeft
+              <FaChevronLeft onClick={() => navigate(-1)}
                 style={{
                   color: "white",
                   height: "20",
@@ -117,7 +121,7 @@ const Activity = () => {
               >
                 {thisActivity?.name}
               </h2>
-
+              <FaBookmark onClick={savePost} />
               <LocationWrapper>
                 <FaRegCompass
                   style={{

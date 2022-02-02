@@ -8,6 +8,8 @@ import Country from "./pages/Country";
 import UserPage from "./pages/UserPage";
 import Activity from "./pages/Activity";
 import Navbar from "components/Navbar";
+import PostSightseeing from "./pages/PostSightseeing";
+import SavedPosts from './pages/SavedPosts'
 
 import user from "./reducers/user";
 import sightseeing from "reducers/sightseeing";
@@ -16,32 +18,32 @@ import ErrorMessage from "./pages/ErrorMessage";
 import Signin from "./components/Signin";
 import { ui } from "./reducers/ui";
 
-// const reducer = combineReducers({
-//   user: user.reducer,
-//   sightseeing: sightseeing.reducer,
-//   ui: ui.reducer,
-// });
-
-// const store = configureStore({ reducer });
-
 const reducer = combineReducers({
   user: user.reducer,
   sightseeing: sightseeing.reducer,
   ui: ui.reducer,
 });
-const persistedState = localStorage.getItem("redux")
-  ? JSON.parse(localStorage.getItem("redux"))
-  : {};
 
-const store = createStore(
-  reducer,
-  persistedState,
-  window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
-);
+const store = configureStore({ reducer });
 
-store.subscribe(() => {
-  localStorage.setItem("redux", JSON.stringify(store.getState()));
-});
+// const reducer = combineReducers({
+//   user: user.reducer,
+//   sightseeing: sightseeing.reducer,
+//   ui: ui.reducer,
+// });
+// const persistedState = localStorage.getItem("redux")
+//   ? JSON.parse(localStorage.getItem("redux"))
+//   : {};
+
+// const store = createStore(
+//   reducer,
+//   persistedState,
+//   window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
+// );
+
+// store.subscribe(() => {
+//   localStorage.setItem("redux", JSON.stringify(store.getState()));
+// });
 
 export const App = () => {
   return (
@@ -55,6 +57,8 @@ export const App = () => {
           <Route path="/search" element={<SearchPage />} />
           <Route path="/activity/:activityId" element={<Activity />} />
           <Route path="/user" element={<UserPage />} />
+          <Route path="/add" element={<PostSightseeing />} />
+          <Route path="/savedPosts" element={<SavedPosts />} />
           <Route path="*" element={<ErrorMessage />} />
         </Routes>
       </BrowserRouter>
