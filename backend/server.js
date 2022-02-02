@@ -278,19 +278,15 @@ app.post('/stories/:storyId/comment', async (req, res) => {
       },
       { new: true },
     )
-      // .populate('user')
       // .populate('comments')
-      .populate([
-        { path: 'user', model: 'User', select: 'username' },
-        {
-          path: 'comments',
-          model: 'Comment',
-          populate: [
-            { path: 'sightseeing', model: 'Sightseeing', select: 'name' },
-            { path: 'user', model: 'User', select: 'username' },
-          ],
-        },
-      ])
+      .populate({
+        path: 'comments',
+        model: 'Comment',
+        populate: [
+          { path: 'sightseeing', model: 'Sightseeing', select: 'name' },
+          { path: 'user', model: 'User', select: 'username' },
+        ],
+      })
     //unset
 
     if (postRelated) {
