@@ -233,6 +233,7 @@ app.post('/signin', async (req, res) => {
           userId: user._id,
           username: user.username,
           accessToken: user.accessToken,
+          avatar: user.avatar
         },
         success: true,
       });
