@@ -1,5 +1,5 @@
-import mongoose from 'mongoose'
-import crypto from 'crypto'
+import mongoose from "mongoose";
+import crypto from "crypto";
 
 const UserSchema = new mongoose.Schema({
   username: {
@@ -18,17 +18,23 @@ const UserSchema = new mongoose.Schema({
     trim: true,
     validate: {
       validator: (v) => {
-        let re = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/
-        const result = re.test(v)
-        return result
+        let re = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+        const result = re.test(v);
+        return result;
       },
-      message: 'Please fill a valid email address',
+      message: "Please fill a valid email address",
     },
   },
   accessToken: {
     type: String,
-    default: () => crypto.randomBytes(128).toString('hex'),
+    default: () => crypto.randomBytes(128).toString("hex"),
   },
-})
+  avatarUrl: {
+    type: String,
+  },
+  avatar: {
+    type: String,
+  },
+});
 
-module.exports = mongoose.model('User', UserSchema)
+module.exports = mongoose.model("User", UserSchema);

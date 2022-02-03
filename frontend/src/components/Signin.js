@@ -3,7 +3,7 @@ import { batch, useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 
-import Navbar from "./Navbar";
+import Avatar from "./Avatar";
 import user from "reducers/user";
 import { API_URL } from "../utilis/urls";
 
@@ -12,7 +12,7 @@ const StyledMain = styled.main`
   flex-direction: column;
   width: 100%;
   height: 700px;
-  background-image: url("../assets/background.png");
+  background-image: url("/assets/background.png");
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
@@ -149,12 +149,17 @@ const Signin = () => {
   const [password, setPassword] = useState("");
   const [email, setEmail] = useState("");
   const [mode, setMode] = useState("signin");
+  const [avatar, setAvatar] = useState("");
+
+  console.log(typeof avatar);
 
   const accessToken = useSelector((store) => store.user.accessToken);
   //   const error = useSelector((store) => store.user.error);
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
+  const avatars = ["astronaut", "bear", "man", "woman", "user"];
 
   useEffect(() => {
     if (accessToken) {
@@ -173,6 +178,7 @@ const Signin = () => {
         username,
         password,
         email,
+        avatar,
       }),
     };
 
@@ -185,6 +191,7 @@ const Signin = () => {
             dispatch(user.actions.setUserId(data.response.userId));
             dispatch(user.actions.setUsername(data.response.username));
             dispatch(user.actions.setAccessToken(data.response.accessToken));
+            dispatch(user.actions.setAvatar(data.response.avatar));
             dispatch(user.actions.setError(null));
           });
         } else {
@@ -201,6 +208,8 @@ const Signin = () => {
   const handleUsernameChange = (event) => setUsername(event.target.value);
   const handlePasswordChange = (event) => setPassword(event.target.value);
   const handleEmailChange = (event) => setEmail(event.target.value);
+  const handleAvatarChange = (event) => setAvatar(event.target.value);
+
   return (
     <StyledMain>
       <OuterFormContainer>
@@ -236,18 +245,30 @@ const Signin = () => {
               </Label>
             </LabelContainer>
             {mode === "signup" && (
-              <LabelContainer>
-                <Label htmlFor="email">
-                  Email
-                  <StyledInput
-                    // placeholder="Email"
-                    id="email"
-                    type="email"
-                    value={email}
-                    onChange={handleEmailChange}
-                  ></StyledInput>
-                </Label>
-              </LabelContainer>
+              <>
+                <LabelContainer>
+                  <Label htmlFor="email">
+                    Email
+                    <StyledInput
+                      // placeholder="Email"
+                      id="email"
+                      type="email"
+                      value={email}
+                      onChange={handleEmailChange}
+                    ></StyledInput>
+                  </Label>
+                </LabelContainer>
+
+                {avatars.map((av, index) => (
+                  <Avatar
+                    key={index}
+                    av={av}
+                    avatar={avatar}
+                    image={require(`../avatarAssets/${av}.png`)}
+                    onChange={(e) => setAvatar(e.target.value)}
+                  />
+                ))}
+              </>
             )}
             <RegisterBtn primary type="submit">
               {mode === "signin" ? "Log In" : "Register"}

@@ -31,7 +31,7 @@ const Start = () => {
     // }
   }, [])
 
-  const cities = ['Norway', 'Sweden', 'Denmark']
+  const cities = ["Norway", "Sweden", "Denmark"];
 
   return (
     <>
@@ -173,9 +173,10 @@ const StyledCountry = styled.div`
     props.item === 'Norway'
       ? `background-image: url('/assets/norway.jpg'); background-position: right`
       : props.item === 'Sweden'
-      ? `background-image:url('/assets/sweden.jpg')`
-      : `background-image:url('/assets/denmark.jpg')`}
+        ? `background-image:url('/assets/sweden.jpg')`
+        : `background-image:url('/assets/denmark.jpg')`}
 `
+
 const StyledTitle = styled.p`
   text-align: center;
   font-weight: bold;
@@ -188,8 +189,8 @@ const StyledTitle = styled.p`
     props.item === 'Norway'
       ? `color: #96e2af`
       : props.item === 'Sweden'
-      ? `color: #86e7ff`
-      : `color: #fdedaa`}
+        ? `color: #86e7ff`
+        : `color: #fdedaa`}
 `
 const StyledLink = styled(Link)`
   text-decoration: none;

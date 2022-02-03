@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import user from '../reducers/user'
 
-import PostSightseeing from '../pages/PostSightseeing'
+import PostSightseeing from "../pages/PostSightseeing";
 
 import { FaUserCircle } from 'react-icons/fa'
 
@@ -15,6 +15,8 @@ const Navbar = () => {
   const accessToken = useSelector((store) => store.user.accessToken)
   const user = useSelector((store) => store.user)
   const dispatch = useDispatch()
+
+  const avatar = useSelector((store) => store.user.avatar);
 
   const showMenu = () => {
     if (visible) {
@@ -34,17 +36,17 @@ const Navbar = () => {
   }
 
   const onButtonClick = () => {
-    navigate('/add')
-    setVisible(false)
-  }
+    navigate("/add");
+    setVisible(false);
+  };
   const onButtonClickTwo = () => {
-    navigate('/user')
-    setVisible(false)
-  }
+    navigate("/user");
+    setVisible(false);
+  };
   const onButtonClickThree = () => {
-    navigate('/savedPosts')
-    setVisible(false)
-  }
+    navigate("/savedPosts");
+    setVisible(false);
+  };
 
   return (
     <StyledHeader>
@@ -60,9 +62,9 @@ const Navbar = () => {
       ) : (
         <div onClick={showMenu}>
           <FaUserCircle style={{ height: 35, width: 35, color: '#56baa0' }} />
+          <img src={require(`../avatarAssets/${avatar}.png`)} />
         </div>
       )}
-
       {visible && (
         <StyledMobileNav>
           {!accessToken ? (
@@ -121,7 +123,7 @@ const Navbar = () => {
               <button onClick={() => navigate('/add')}>Add post</button>
             )}
             {accessToken && (
-              <button onClick={() => navigate('/user')}>My posts</button>
+              <button onClick={() => navigate("/user")}>My posts</button>
             )}
             {/* {accessToken && <button>Liked Post</button>} instead saving sightseeings in favorites */}
             {accessToken && <button onClick={logOut}>Log out</button>}

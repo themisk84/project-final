@@ -7,7 +7,9 @@ const user = createSlice({
     userId: null,
     accessToken: null,
     error: null,
-    likedSights: []
+    avatarUrl: "",
+    avatar: "",
+    likedSights: [],
     // form: false,
   },
   reducers: {
@@ -25,14 +27,17 @@ const user = createSlice({
     },
     addLikedPosts: (store, action) => {
       if (store.likedSights?.length === 0) {
-        store.likedSights = [action.payload]
+        store.likedSights = [action.payload];
       } else if (store.likedSights?.length > 0) {
-        store.likedSights = [...store.likedSights, action.payload]
+        store.likedSights = [...store.likedSights, action.payload];
       }
-    }
-    // setForm: (store, action) => {
-    //   store.form = action.payload;
-    // },
+    },
+    setAvatar: (store, action) => {
+      store.avatar = action.payload;
+    },
+    setAvatarUrl: (store, action) => {
+      store.avatarUrl = action.payload;
+    },
   },
 });
 

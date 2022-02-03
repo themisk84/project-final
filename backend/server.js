@@ -1,61 +1,64 @@
-import express from 'express'
-import listEndpoints from 'express-list-endpoints'
-import cors from 'cors'
-import mongoose from 'mongoose'
-import dotenv from 'dotenv'
-import bcrypt from 'bcrypt'
+import express from "express";
+import cors from "cors";
+import mongoose from "mongoose";
+import dotenv from "dotenv";
+import cloudinaryFramework from "cloudinary";
+import multer from "multer";
+import cloudinaryStorage from "multer-storage-cloudinary";
+// import crypto from 'crypto' // Moved to user model
+import bcrypt from "bcrypt";
+import { runInNewContext } from "vm";
 
-import cloudinaryFramework from 'cloudinary'
-import cloudinaryStorage from 'multer-storage-cloudinary'
-import multer from 'multer'
-
-import { runInNewContext } from 'vm' // What is this?
-
-// Database
-
-const mongoUrl = process.env.MONGO_URL || 'mongodb://localhost/finalProject'
+const mongoUrl = process.env.MONGO_URL || "mongodb://localhost/finalProject";
 mongoose.connect(mongoUrl, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
   useCreateIndex: true,
   useFindAndModify: false,
-})
-mongoose.Promise = Promise
+});
+mongoose.Promise = Promise;
 
-const port = process.env.PORT || 8080
-const app = express()
+// Defines the port the app will run on. Defaults to 8080, but can be
+// overridden when starting the server. For example:
 
-dotenv.config()
+//   PORT=9000 npm start
+const port = process.env.PORT || 8080;
+const app = express();
+
+dotenv.config();
 
 // Image upload storage
 
-const cloudinary = cloudinaryFramework.v2
+const cloudinary = cloudinaryFramework.v2;
 cloudinary.config({
   cloud_name: process.env.CLOUDINARY_NAME,
   api_key: process.env.CLOUDINARY_API_KEY,
   api_secret: process.env.CLOUDINARY_API_SECRET,
-})
+});
 
 const storage = cloudinaryStorage({
   cloudinary,
   params: {
-    folder: 'images',
-    allowedFormats: ['jpg', 'png'],
-    transformation: [{ width: 500, height: 500, crop: 'limit' }],
+    folder: "images",
+    allowedFormats: ["jpg", "png"],
+    transformation: [{ width: 500, height: 500, crop: "limit" }],
   },
-})
-const parser = multer({ storage })
+});
+
+
+const parser = multer({ storage });
 
 // Models
 
-const Sightseeing = require('./models/sightseeing')
-const User = require('./models/user')
-const Comment = require('./models/comment')
+// Import of models
+const Sightseeing = require("./models/sightseeing");
+const User = require("./models/user");
+const Comment = require("./models/comment");
 
 // Middlewares
 
-app.use(cors())
-app.use(express.json())
+app.use(cors());
+app.use(express.json());
 
 // Authorization
 // Auth now happens just before async (eg. POST '/stories' below)
@@ -140,21 +143,21 @@ app.post('/stories/:storyId/like', async (req, res) => {
           likes: 1,
         },
       },
-      { new: true },
-    )
+      { new: true }
+    );
     if (addLike) {
-      res.status(200).json({ response: addLike, success: true })
+      res.status(200).json({ response: addLike, success: true });
     } else {
-      res.status(404).json({ response: 'invalid id', success: false })
+      res.status(404).json({ response: "invalid id", success: false });
     }
   } catch (error) {
     res.status(400).json({
       response: "can't find a story with this id",
       errors: error.error,
       success: false,
-    })
+    });
   }
-})
+});
 
 // POST: COMMENT
 app.post('/stories/:storyId/comment', authenticateUser, async (req, res) => {
@@ -173,7 +176,7 @@ app.post('/stories/:storyId/comment', authenticateUser, async (req, res) => {
           comments: comment,
         },
       },
-      { new: true },
+      { new: true }
     ).populate({
       path: 'comments',
       model: 'Comment',
@@ -181,25 +184,26 @@ app.post('/stories/:storyId/comment', authenticateUser, async (req, res) => {
     })
 
     if (postRelated) {
-      res.status(200).json({ response: postRelated, success: true }) // response: comment
+      res.status(200).json({ response: postRelated, success: true }); // response: comment
     } else {
-      res.status(404).json({ response: 'post not found', success: false })
+      res.status(404).json({ response: "post not found", success: false });
     }
   } catch (error) {
-    res.status(400).json({ errors: error, success: false })
+    res.status(400).json({ errors: error, success: false });
   }
-})
+});
 
 // POST: SIGNUP
 app.post('/signup', async (req, res) => {
-  const { username, password, email } = req.body
+  const { username, password, email, avatar } = req.body
   try {
-    const salt = bcrypt.genSaltSync()
+    const salt = bcrypt.genSaltSync();
     const newUser = await new User({
       username,
       password: bcrypt.hashSync(password, salt),
       email,
-    }).save()
+      avatar,
+    }).save();
 
     res.status(201).json({
       response: {
@@ -207,20 +211,21 @@ app.post('/signup', async (req, res) => {
         username: newUser.username,
         email: newUser.email,
         accessToken: newUser.accessToken,
+        avatar: newUser.avatar,
       },
       success: true,
-    })
+    });
   } catch (error) {
-    res.status(400).json({ error: error, success: false })
+    res.status(400).json({ error: error, success: false });
   }
-})
+});
 
 // POST: SIGNIN
 app.post('/signin', async (req, res) => {
   const { username, password } = req.body
 
   try {
-    const user = await User.findOne({ username })
+    const user = await User.findOne({ username });
 
     if (user && bcrypt.compareSync(password, user.password)) {
       res.status(200).json({
@@ -230,32 +235,32 @@ app.post('/signin', async (req, res) => {
           accessToken: user.accessToken,
         },
         success: true,
-      })
+      });
     } else {
       res.status(404).json({
         response: "Username or password doesn't match",
         success: false,
-      })
+      });
     }
   } catch (error) {
-    res.status(400).json({ response: error, success: false })
+    res.status(400).json({ response: error, success: false });
   }
-})
+});
 
 // DELETE: SIGHTSEEING
 app.delete('/stories/:id', authenticateUser, async (req, res) => {
   const { id } = req.params
   const stories = await Sightseeing.find({ user: req.user._id })
   if (stories) {
-    const deletedStory = await Sightseeing.findOneAndDelete({ _id: id })
+    const deletedStory = await Sightseeing.findOneAndDelete({ _id: id });
     res.status(200).json({
       response: deletedStory,
       success: true,
-    })
+    });
   } else {
-    res.status(404).json({ response: 'Story not found', success: false })
+    res.status(404).json({ response: "Story not found", success: false });
   }
-})
+});
 
 // app.get('/users/:id/mystories', async (req, res) => {
 //   // const userFound = await User.findById(req.params.id);
@@ -355,5 +360,5 @@ app.delete('/stories/:id', authenticateUser, async (req, res) => {
 // Start the server
 app.listen(port, () => {
   // eslint-disable-next-line
-  console.log(`Server running on http://localhost:${port}`)
-})
+  console.log(`Server running on http://localhost:${port}`);
+});

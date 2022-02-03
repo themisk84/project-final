@@ -1,16 +1,19 @@
 import React from "react";
 
-import PostSightseeing from "./PostSightseeing";
-
-const Avatar = () => {
+const Avatar = ({ av, avatar, onChange, image }) => {
   return (
     <div>
-      <div>
-        <h1>{username}</h1>
-      </div>
-      <button onClick={handleForm}>Add post</button>
-      <button>My Stories</button>
-      {form && <PostSightseeing />}
+      <label htmlFor="profileImage">
+        <input
+          type="radio"
+          id="profileImage"
+          value={av}
+          onChange={onChange}
+          required
+          checked={avatar === av}
+        />
+        <img src={image} />
+      </label>
     </div>
   );
 };
