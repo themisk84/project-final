@@ -29,7 +29,7 @@ const Start = () => {
         }
       })
     // }
-  }, [])
+  }, [dispatch])
 
   const cities = ["Norway", "Sweden", "Denmark"];
 

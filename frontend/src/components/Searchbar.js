@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
-import { useSelector, dispatch, useDispatch } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 
 const Searchbar = () => {
   const [query, setQuery] = useState("");
@@ -10,7 +10,7 @@ const Searchbar = () => {
     setQuery(event.target.value);
   };
 
-  const dispatch = useDispatch();
+
 
   const onFormSubmit = (event) => {
     event.preventDefault();
@@ -19,7 +19,7 @@ const Searchbar = () => {
     );
   };
 
-  const stories = useSelector((store) => store.sightseeing.sightseeings);
+  // const stories = useSelector((store) => store.sightseeing.sightseeings);
   // console.log(stories);
   return (
     <StyledContainerSearch>

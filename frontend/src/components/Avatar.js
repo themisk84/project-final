@@ -12,7 +12,7 @@ const Avatar = ({ av, avatar, onChange, image }) => {
           required
           checked={avatar === av}
         />
-        <img src={image} />
+        <img src={image} alt="avatar" />
       </label>
     </div>
   );

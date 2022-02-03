@@ -208,7 +208,7 @@ const Signin = () => {
   const handleUsernameChange = (event) => setUsername(event.target.value);
   const handlePasswordChange = (event) => setPassword(event.target.value);
   const handleEmailChange = (event) => setEmail(event.target.value);
-  const handleAvatarChange = (event) => setAvatar(event.target.value);
+  // const handleAvatarChange = (event) => setAvatar(event.target.value);
 
   return (
     <StyledMain>

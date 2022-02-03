@@ -61,6 +61,23 @@ const sightseeing = createSlice({
       })
       store.sightseeings = updatedSightseeings
     },
+    deleteComment: (store, action) => {
+      const updatedSightseeings = store.sightseeings.map((item) => {
+        if (item._id === action.payload._id) {
+          const newestComment = action.payload.comments.pop()
+          console.log('Newest comment: ', newestComment)
+          const updateComments = {
+            ...item,
+            comments: [...item.comments, newestComment],
+          }
+          return updateComments
+        } else {
+          return item
+        }
+      })
+      store.sightseeings = updatedSightseeings
+    },
+
     deletePost: (store, action) => {
       const deletedPost = store.sightseeings.filter(
         (item) => item._id !== action.payload,

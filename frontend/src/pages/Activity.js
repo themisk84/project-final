@@ -190,7 +190,7 @@ const Activity = () => {
                 </form>
               )}
               {thisActivity?.comments.map((comment) => {
-                return <Comment key={comment._id} comment={comment} />
+                return <Comment thisActivity={thisActivity} key={comment._id} comment={comment} />
               })}
               {thisActivity?.comments === '' && (
                 <p

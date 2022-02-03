@@ -66,11 +66,11 @@ const authenticateUser = require('./auth/auth')
 
 // Endpoints
 
-app.get('/', (req, res) => {
-  res.json({
-    endpoints: listEndpoints(app),
-  })
-})
+// app.get('/', (req, res) => {
+//   res.json({
+//     endpoints: listEndpoints(app),
+//   })
+// })
 
 // POST: SIGHTSEEING
 app.post(
@@ -262,6 +262,64 @@ app.delete('/stories/:id', authenticateUser, async (req, res) => {
     res.status(404).json({ response: "Story not found", success: false });
   }
 });
+
+// app.delete('/stories/:storyId/comments/:commentId', authenticateUser, async (req, res) => {
+//   // const { commentId } = req.params
+//   // const comments = await Comment.find({ user: req.user._id })
+//   // if (comments) {
+//   //   const deletedComment = await Comment.findOneAndDelete({ _id: commentId })
+//   //   res.status(200).json({
+//   //     response: deletedComment,
+//   //     success: true,
+//   //   });
+//   // } else {
+//   //   res.status(404).json({ response: "Comment not found", success: false });
+//   // }
+
+//   // Comment.findOne(
+//   //   {
+//   //     $unset: 
+//   //           
+//   //            { _id: { commentId } }
+//   //         
+//   //   }
+//   // )
+
+//   const { commentId } = req.params
+//   // console.log(commentId)
+//   const { storyId } = req.params
+//   // const oneComment = await Comment.findOne({ _id: commentId })
+//   // console.log(oneComment)
+//   try {
+//     const sight = await Sightseeing.findOne({ _id: storyId })
+//     // console.log(sight)
+//     const oneComment = await sight.comments.findOne({ _id: commentId })
+//     console.log(oneComment)
+//     // const oneComment = await Comment.findOne({ commentId })
+//     // const commentRelated = await Sightseeing.findByIdAndUpdate(
+//     //   storyId,
+//     //   {
+//     //     $unset: {
+//     //       comments: oneComment,
+//     //     },
+//     //   },
+//     //   { new: true }
+//     // ).populate({
+//     //   path: 'comments',
+//     //   model: 'Comment',
+//     //   populate: { path: 'user', model: 'User', select: 'username' },
+//     // })
+//     if (oneComment) {
+//       res.status(200).json({ response: oneComment, success: true }); // response: comment
+//     } else {
+//       res.status(404).json({ response: "Comment not found", success: false });
+//     }
+
+
+//   } catch (error) {
+//     res.status(400).json({ errors: error, success: false });
+//   }
+// })
 
 // app.get('/users/:id/mystories', async (req, res) => {
 //   // const userFound = await User.findById(req.params.id);

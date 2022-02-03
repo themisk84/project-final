@@ -35,9 +35,9 @@ const user = createSlice({
     setAvatar: (store, action) => {
       store.avatar = action.payload;
     },
-    setAvatarUrl: (store, action) => {
-      store.avatarUrl = action.payload;
-    },
+    // setAvatarUrl: (store, action) => {
+    //   store.avatarUrl = action.payload;
+    // },
   },
 });
 

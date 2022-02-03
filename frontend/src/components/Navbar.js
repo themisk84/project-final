@@ -13,7 +13,6 @@ const Navbar = () => {
   const [visible, setVisible] = useState(false)
   const navigate = useNavigate()
   const accessToken = useSelector((store) => store.user.accessToken)
-  const user = useSelector((store) => store.user)
   const dispatch = useDispatch()
 
   const avatar = useSelector((store) => store.user.avatar);
@@ -29,10 +28,6 @@ const Navbar = () => {
   const logOut = () => {
     dispatch(user.actions.setAccessToken(null))
     navigate('/')
-  }
-
-  let onFormChange = () => {
-    dispatch(user.actions.setForm(true))
   }
 
   const onButtonClick = () => {
@@ -62,7 +57,7 @@ const Navbar = () => {
       ) : (
         <div onClick={showMenu}>
           <FaUserCircle style={{ height: 35, width: 35, color: '#56baa0' }} />
-          <img src={require(`../avatarAssets/${avatar}.png`)} />
+          <img src={require(`../avatarAssets/${avatar}.png`)} alt="avatar" />
         </div>
       )}
       {visible && (
