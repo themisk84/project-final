@@ -68,12 +68,6 @@ const Country = () => {
                 <Select
                   id="country"
                   value={land}
-                  // if (
-                  //   land === "all" &&
-                  //   sights.map((item) => (
-                  //     <AttractionCards item={item} key={item._id} />
-                  //   ))
-                  // )
                   onChange={(event) => {
                     setLand(event.target.value); //asychronous
                     navigate(`/country/${event.target.value}`);

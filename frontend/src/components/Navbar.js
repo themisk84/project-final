@@ -5,13 +5,15 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import user from "../reducers/user";
 
-import PostSightseeing from '../pages/PostSightseeing'
+import PostSightseeing from "../pages/PostSightseeing";
 
 const Navbar = () => {
   const [visible, setVisible] = useState(false);
   const navigate = useNavigate();
   const accessToken = useSelector((store) => store.user.accessToken);
   const dispatch = useDispatch();
+
+  const avatar = useSelector((store) => store.user.avatar);
 
   const showMenu = () => {
     if (visible) {
@@ -31,17 +33,17 @@ const Navbar = () => {
   };
 
   const onButtonClick = () => {
-    navigate('/add')
-    setVisible(false)
-  }
+    navigate("/add");
+    setVisible(false);
+  };
   const onButtonClickTwo = () => {
-    navigate('/user')
-    setVisible(false)
-  }
+    navigate("/user");
+    setVisible(false);
+  };
   const onButtonClickThree = () => {
-    navigate('/savedPosts')
-    setVisible(false)
-  }
+    navigate("/savedPosts");
+    setVisible(false);
+  };
 
   return (
     <StyledHeader>
@@ -56,10 +58,9 @@ const Navbar = () => {
         </StyledHamburger>
       ) : (
         <div onClick={showMenu}>
-          <h1>Placeholder for avatar</h1>
+          <img src={require(`../avatarAssets/${avatar}.png`)} />
         </div>
       )}
-
       {visible && (
         <StyledMobileNav>
           {!accessToken ? (
@@ -80,15 +81,18 @@ const Navbar = () => {
             </>
           )}
         </StyledMobileNav>
-      )
-      }
+      )}
 
       <StyledNav>
         <StyledList>
           {!accessToken && <StyledLink to="/signin">Signin</StyledLink>}
           <StyledContainerButtons>
-            {accessToken && <button onClick={() => navigate('/add')}>Add post</button>}
-            {accessToken && <button onClick={() => navigate('/user')}>My posts</button>}
+            {accessToken && (
+              <button onClick={() => navigate("/add")}>Add post</button>
+            )}
+            {accessToken && (
+              <button onClick={() => navigate("/user")}>My posts</button>
+            )}
             {/* {accessToken && <button>Liked Post</button>} instead saving sightseeings in favorites */}
             {accessToken && <button onClick={logOut}>Log out</button>}
           </StyledContainerButtons>
@@ -97,7 +101,7 @@ const Navbar = () => {
           {!accessToken && <StyledLink to="/about">About</StyledLink>}
         </StyledList>
       </StyledNav>
-    </StyledHeader >
+    </StyledHeader>
   );
 };
 

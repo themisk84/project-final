@@ -38,10 +38,8 @@ const UserPage = () => {
               <AttractionCards item={item} key={item._id} />
             ))}
         </AttractionContainer>
-      )
-      }
+      )}
     </>
-
   );
 };
 
