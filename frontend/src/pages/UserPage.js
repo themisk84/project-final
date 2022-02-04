@@ -23,8 +23,7 @@ const UserPage = () => {
   // };
 
   return (
-    <>
-      <h1>{username}</h1>
+    <MainContainer>
       <Searchbar />
       {myPosts.length === 0 ? (
         <div>Empty state to style</div>
@@ -36,11 +35,16 @@ const UserPage = () => {
             ))}
         </AttractionContainer>
       )}
-    </>
+    </MainContainer>
   );
 };
 
 export default UserPage;
+
+const MainContainer = styled.div`
+  margin-top: 70px;
+  border: 1px solid red;
+`;
 
 const AttractionContainer = styled.div`
   display: flex;

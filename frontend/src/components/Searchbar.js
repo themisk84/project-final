@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
-import { useSelector, useDispatch } from "react-redux";
 
 const Searchbar = () => {
   const [query, setQuery] = useState("");
@@ -10,8 +9,6 @@ const Searchbar = () => {
     setQuery(event.target.value);
   };
 
-
-
   const onFormSubmit = (event) => {
     event.preventDefault();
     navigate(
@@ -19,8 +16,6 @@ const Searchbar = () => {
     );
   };
 
-  // const stories = useSelector((store) => store.sightseeing.sightseeings);
-  // console.log(stories);
   return (
     <StyledContainerSearch>
       <StyledForm className="input-form" onSubmit={onFormSubmit}>
@@ -64,9 +59,6 @@ const StyledInput = styled.input`
   font-size: 18px;
   @media (min-width: 768px) {
     width: 300px;
-  }
-  @media (min-width: 992px) {
-    width: 500px;
   }
 `;
 const StyledContainerSearch = styled.div`

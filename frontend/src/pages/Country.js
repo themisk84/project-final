@@ -1,14 +1,12 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import { useDispatch, useSelector } from "react-redux";
-import { useParams, useNavigate, Link } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { useParams, useNavigate } from "react-router-dom";
 import { FaSortDown } from "react-icons/fa";
 
 import Searchbar from "../components/Searchbar";
 import AttractionCards from "components/AttractionCards";
-import { API_URL } from "utilis/urls";
-import sightseeing from "reducers/sightseeing";
-import Like from "../components/Like";
+import GradientBackground from "components/GradientBackground";
 
 const Country = () => {
   const { country } = useParams();
@@ -16,11 +14,8 @@ const Country = () => {
   const [category, setCategory] = useState("");
   const [land, setLand] = useState(country); //land takes the place of country in useParams
 
-  const dispatch = useDispatch();
   const navigate = useNavigate();
   const accessToken = useSelector((store) => store.user.accessToken);
-
-  //const sights = useSelector((store) => store.sightseeing.sightseeings);
 
   let attractions = useSelector((store) =>
     store.sightseeing.sightseeings.filter((item) => item.country === land)
@@ -51,75 +46,94 @@ const Country = () => {
 
   return (
     <>
-      <div>
-        <SearchBarContainer>
-          <Searchbar />
-        </SearchBarContainer>
-        <StyledToggle onClick={showMenu}>
-          <FilterText>Filter Menu</FilterText>
-          <FaSortDown style={{ width: 23, height: 25, marginLeft: 5 }} />
-        </StyledToggle>
-        {visible && (
-          <div>
-            <CountryChooseCountainer>
-              <FilterText>Country</FilterText>
-              <form>
-                <label htmlFor="country"></label>
-                <Select
-                  id="country"
-                  value={land}
-                  onChange={(event) => {
-                    setLand(event.target.value); //asychronous
-                    navigate(`/country/${event.target.value}`);
-                    setCategory("");
-                  }}
-                >
-                  {countries.map((option, index) => (
-                    <option key={index} value={option}>
-                      {option}
-                    </option>
-                  ))}
-                </Select>
-              </form>
-            </CountryChooseCountainer>
+      <Main>
+        <FilteringContainer>
+          <SearchBarContainer>
+            <Searchbar />
+          </SearchBarContainer>
+          <StyledToggle onClick={showMenu}>
+            <FilterText>Filter Menu</FilterText>
+            <FaSortDown style={{ width: 23, height: 25, marginLeft: 5 }} />
+          </StyledToggle>
+          {visible && (
             <div>
-              <ButtonContainer>
-                {categories.map((category) => (
-                  <FilteringButton
-                    key={category}
-                    value={category}
-                    onClick={handleCategory}
+              <CountryChooseCountainer>
+                <FilterText>Country</FilterText>
+                <form>
+                  <label htmlFor="country"></label>
+                  <Select
+                    id="country"
+                    value={land}
+                    onChange={(event) => {
+                      setLand(event.target.value); //asychronous
+                      navigate(`/country/${event.target.value}`);
+                      setCategory("");
+                    }}
                   >
-                    {category}
-                  </FilteringButton>
-                ))}
-              </ButtonContainer>
+                    {countries.map((option, index) => (
+                      <option key={index} value={option}>
+                        {option}
+                      </option>
+                    ))}
+                  </Select>
+                </form>
+              </CountryChooseCountainer>
+              <div>
+                <ButtonContainer>
+                  {categories.map((category) => (
+                    <FilteringButton
+                      key={category}
+                      value={category}
+                      onClick={handleCategory}
+                    >
+                      {category}
+                    </FilteringButton>
+                  ))}
+                </ButtonContainer>
+              </div>
             </div>
-          </div>
-        )}
-      </div>
+          )}
+        </FilteringContainer>
 
-      <AttractionContainer>
-        {category === ""
-          ? attractions.map((item) => (
-              <AttractionCards item={item} key={item._id} />
-            ))
-          : categoryAttractions.map((item) => (
-              <AttractionCards key={item._id} item={item} />
-            ))}
-      </AttractionContainer>
+        <AttractionContainer>
+          {category === ""
+            ? attractions.map((item) => (
+                <AttractionCards item={item} key={item._id} />
+              ))
+            : categoryAttractions.map((item) => (
+                <AttractionCards key={item._id} item={item} />
+              ))}
+        </AttractionContainer>
+      </Main>
     </>
   );
 };
 
 export default Country;
 
+const Main = styled.div`
+  @media (min-width: 768px) {
+    display: flex;
+    flex-direction: row;
+  }
+`;
+
 const AttractionContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
   padding: 100px;
-  background-color: white;
+  /* background-color: white; */
+  @media (min-width: 768px) {
+    flex-direction: row;
+    min-height: 150vh;
+  }
+`;
+
+const FilteringContainer = styled.div`
+  @media (min-width: 768px) {
+    width: 300px;
+  }
 `;
 const StyledToggle = styled.div`
   color: white;
@@ -159,6 +173,7 @@ const ButtonContainer = styled.div`
   grid-column-gap: 5px;
   justify-items: center;
   width: 80%;
+  margin-left: 20px;
 `;
 
 const FilteringButton = styled.button`
@@ -166,7 +181,7 @@ const FilteringButton = styled.button`
   border-radius: 10px;
   padding: 8px 5px;
   width: 100px;
-  margin: 10px;
+  margin: 5px;
   background-color: rgba(255, 255, 255, 0.4);
   cursor: pointer;
   &:hover {
@@ -175,17 +190,8 @@ const FilteringButton = styled.button`
   }
 `;
 
-// const AttractionCard = styled.div`
-//   display: flex;
-//   flex-direction: column;
-//   width: 300px;
-//   height: 300px;
-//   border: 1px solid black;
-//   border-radius: 10px;
-//   margin-bottom: 10px;
-//   background-repeat: no-repeat;
-//   background-position: center;
-//   background-size: cover;
+// const AttractionCards = styled.div`
+//   width: 50%;
 // `;
 
 // const LikeContainer = styled.div`

@@ -1,9 +1,8 @@
 import React from "react";
+import { useSelector } from "react-redux";
+import { useLocation } from "react-router-dom";
 
 import AttractionCards from "components/AttractionCards";
-import sightseeing from "reducers/sightseeing";
-import { useSelector } from "react-redux";
-import { useParams, useLocation } from "react-router-dom";
 
 const SearchPage = () => {
   const search = useLocation().search;

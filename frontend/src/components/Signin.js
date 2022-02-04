@@ -4,8 +4,172 @@ import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 
 import Avatar from "./Avatar";
+
 import user from "reducers/user";
+
 import { API_URL } from "../utilis/urls";
+
+const Signin = () => {
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [email, setEmail] = useState("");
+  const [mode, setMode] = useState("signin");
+  const [avatar, setAvatar] = useState("");
+
+  console.log(typeof avatar);
+
+  const accessToken = useSelector((store) => store.user.accessToken);
+  //   const error = useSelector((store) => store.user.error);
+
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const avatars = ["astronaut", "bear", "man", "woman", "user"];
+
+  useEffect(() => {
+    if (accessToken) {
+      navigate("/user");
+    }
+  }, [accessToken, navigate]);
+
+  const onHandleSignIn = (event) => {
+    event.preventDefault();
+    const options = {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        username,
+        password,
+        email,
+        avatar,
+      }),
+    };
+
+    fetch(API_URL(mode), options)
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data);
+        if (data.success) {
+          batch(() => {
+            dispatch(user.actions.setUserId(data.response.userId));
+            dispatch(user.actions.setUsername(data.response.username));
+            dispatch(user.actions.setAccessToken(data.response.accessToken));
+            dispatch(user.actions.setAvatar(data.response.avatar));
+            dispatch(user.actions.setEmail(data.response.email));
+            dispatch(user.actions.setError(null));
+          });
+        } else {
+          batch(() => {
+            dispatch(user.actions.setUserId(null));
+            dispatch(user.actions.setUsername(null));
+            dispatch(user.actions.setAccessToken(null));
+            dispatch(user.actions.setError(data.response));
+          });
+        }
+      });
+  };
+
+  const handleUsernameChange = (event) => setUsername(event.target.value);
+  const handlePasswordChange = (event) => setPassword(event.target.value);
+  const handleEmailChange = (event) => setEmail(event.target.value);
+  // const handleAvatarChange = (event) => setAvatar(event.target.value);
+
+  return (
+    <StyledMain>
+      <OuterFormContainer>
+        <FormContainer>
+          {mode === "signin" ? (
+            <FormHeader>Sign In</FormHeader>
+          ) : (
+            <FormHeader>Sign Up</FormHeader>
+          )}
+          <Form onSubmit={onHandleSignIn}>
+            <LabelContainer>
+              <Label htmlFor="username">
+                Username
+                <StyledInput
+                  // placeholder="username"
+                  id="username"
+                  type="text"
+                  value={username}
+                  onChange={handleUsernameChange}
+                ></StyledInput>
+              </Label>
+            </LabelContainer>
+            <LabelContainer>
+              <Label htmlFor="password">
+                Password
+                <StyledInput
+                  // placeholder="password"
+                  id="password"
+                  type="text"
+                  value={password}
+                  onChange={handlePasswordChange}
+                ></StyledInput>
+              </Label>
+            </LabelContainer>
+            {mode === "signup" && (
+              <>
+                <LabelContainer>
+                  <Label htmlFor="email">
+                    Email
+                    <StyledInput
+                      // placeholder="Email"
+                      id="email"
+                      type="email"
+                      value={email}
+                      onChange={handleEmailChange}
+                    ></StyledInput>
+                  </Label>
+                </LabelContainer>
+                <AvatarContainer>
+                  {avatars.map((av, index) => (
+                    <Avatar
+                      key={index}
+                      av={av}
+                      avatar={avatar}
+                      image={require(`../avatarAssets/${av}.png`)}
+                      onChange={(e) => setAvatar(e.target.value)}
+                    />
+                  ))}
+                </AvatarContainer>
+              </>
+            )}
+            <RegisterBtn primary type="submit">
+              {mode === "signin" ? "Log In" : "Register"}
+            </RegisterBtn>
+          </Form>
+          <Buttons>
+            {mode === "signup" ? (
+              <ButtonContainer>
+                <SignParagraph>
+                  Do you already have an account? Sign in!
+                </SignParagraph>
+                <SignButton onClick={() => setMode("signin")}>
+                  Sign In
+                </SignButton>
+              </ButtonContainer>
+            ) : (
+              <ButtonContainer>
+                <SignParagraph>
+                  Do you not have an account? Sign up!
+                </SignParagraph>
+                <SignButton onClick={() => setMode("signup")}>
+                  Sign Up
+                </SignButton>
+              </ButtonContainer>
+            )}
+          </Buttons>
+        </FormContainer>
+        <ImageContainer />
+      </OuterFormContainer>
+    </StyledMain>
+  );
+};
+
+export default Signin;
 
 const StyledMain = styled.main`
   display: flex;
@@ -91,6 +255,11 @@ const StyledInput = styled.input`
   background-color: rgba(255, 255, 255, 0.3);
 `;
 
+const AvatarContainer = styled.div`
+  display: flex;
+  width: 350px;
+`;
+
 const SignButton = styled.button`
   padding: 7px;
   width: 150px;
@@ -144,162 +313,3 @@ const SignParagraph = styled.p`
   color: white;
   font-size: 16px;
 `;
-const Signin = () => {
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
-  const [email, setEmail] = useState("");
-  const [mode, setMode] = useState("signin");
-  const [avatar, setAvatar] = useState("");
-
-  console.log(typeof avatar);
-
-  const accessToken = useSelector((store) => store.user.accessToken);
-  //   const error = useSelector((store) => store.user.error);
-
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
-
-  const avatars = ["astronaut", "bear", "man", "woman", "user"];
-
-  useEffect(() => {
-    if (accessToken) {
-      navigate("/user");
-    }
-  }, [accessToken, navigate]);
-
-  const onHandleSignIn = (event) => {
-    event.preventDefault();
-    const options = {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        username,
-        password,
-        email,
-        avatar,
-      }),
-    };
-
-    fetch(API_URL(mode), options)
-      .then((res) => res.json())
-      .then((data) => {
-        console.log(data);
-        if (data.success) {
-          batch(() => {
-            dispatch(user.actions.setUserId(data.response.userId));
-            dispatch(user.actions.setUsername(data.response.username));
-            dispatch(user.actions.setAccessToken(data.response.accessToken));
-            dispatch(user.actions.setAvatar(data.response.avatar));
-            dispatch(user.actions.setError(null));
-          });
-        } else {
-          batch(() => {
-            dispatch(user.actions.setUserId(null));
-            dispatch(user.actions.setUsername(null));
-            dispatch(user.actions.setAccessToken(null));
-            dispatch(user.actions.setError(data.response));
-          });
-        }
-      });
-  };
-
-  const handleUsernameChange = (event) => setUsername(event.target.value);
-  const handlePasswordChange = (event) => setPassword(event.target.value);
-  const handleEmailChange = (event) => setEmail(event.target.value);
-  // const handleAvatarChange = (event) => setAvatar(event.target.value);
-
-  return (
-    <StyledMain>
-      <OuterFormContainer>
-        <FormContainer>
-          {mode === "signin" ? (
-            <FormHeader>Sign In</FormHeader>
-          ) : (
-            <FormHeader>Sign Up</FormHeader>
-          )}
-          <Form onSubmit={onHandleSignIn}>
-            <LabelContainer>
-              <Label htmlFor="username">
-                Username
-                <StyledInput
-                  // placeholder="username"
-                  id="username"
-                  type="text"
-                  value={username}
-                  onChange={handleUsernameChange}
-                ></StyledInput>
-              </Label>
-            </LabelContainer>
-            <LabelContainer>
-              <Label htmlFor="password">
-                Password
-                <StyledInput
-                  // placeholder="password"
-                  id="password"
-                  type="text"
-                  value={password}
-                  onChange={handlePasswordChange}
-                ></StyledInput>
-              </Label>
-            </LabelContainer>
-            {mode === "signup" && (
-              <>
-                <LabelContainer>
-                  <Label htmlFor="email">
-                    Email
-                    <StyledInput
-                      // placeholder="Email"
-                      id="email"
-                      type="email"
-                      value={email}
-                      onChange={handleEmailChange}
-                    ></StyledInput>
-                  </Label>
-                </LabelContainer>
-
-                {avatars.map((av, index) => (
-                  <Avatar
-                    key={index}
-                    av={av}
-                    avatar={avatar}
-                    image={require(`../avatarAssets/${av}.png`)}
-                    onChange={(e) => setAvatar(e.target.value)}
-                  />
-                ))}
-              </>
-            )}
-            <RegisterBtn primary type="submit">
-              {mode === "signin" ? "Log In" : "Register"}
-            </RegisterBtn>
-          </Form>
-          <Buttons>
-            {mode === "signup" ? (
-              <ButtonContainer>
-                <SignParagraph>
-                  Do you already have an account? Sign in!
-                </SignParagraph>
-                <SignButton onClick={() => setMode("signin")}>
-                  Sign In
-                </SignButton>
-              </ButtonContainer>
-            ) : (
-              <ButtonContainer>
-                <SignParagraph>
-                  Do you not have an account? Sign up!
-                </SignParagraph>
-                <SignButton onClick={() => setMode("signup")}>
-                  Sign Up
-                </SignButton>
-              </ButtonContainer>
-            )}
-          </Buttons>
-        </FormContainer>
-        <ImageContainer />
-      </OuterFormContainer>
-    </StyledMain>
-  );
-};
-
-export default Signin;

@@ -7,8 +7,8 @@ const user = createSlice({
     userId: null,
     accessToken: null,
     error: null,
-    avatarUrl: "",
     avatar: "",
+    email: "",
     likedSights: [],
     // form: false,
   },
@@ -34,6 +34,9 @@ const user = createSlice({
     },
     setAvatar: (store, action) => {
       store.avatar = action.payload;
+    },
+    setEmail: (store, action) => {
+      store.email = action.payload;
     },
     // setAvatarUrl: (store, action) => {
     //   store.avatarUrl = action.payload;

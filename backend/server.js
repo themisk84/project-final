@@ -278,6 +278,11 @@ app.delete(
           $unset: {
             comments: oneComment,
           },
+          //   $pull: {
+          //     comments: {
+          //       _id: commentId,
+          //     },
+          //   },
         },
         { new: true }
       ).populate({

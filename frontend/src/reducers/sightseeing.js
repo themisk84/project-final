@@ -1,14 +1,14 @@
-import { createSlice } from '@reduxjs/toolkit'
+import { createSlice } from "@reduxjs/toolkit";
 
 const sightseeing = createSlice({
-  name: 'sightseeing',
+  name: "sightseeing",
   initialState: {
     sightseeings: [],
   },
   reducers: {
     addSightseeing: (store, action) => {
-      console.log(action.payload)
-      const payloadsArray = action.payload
+      console.log(action.payload);
+      const payloadsArray = action.payload;
       const onePayload = payloadsArray.map((item) => {
         const newSightseeing = {
           _id: item._id,
@@ -24,65 +24,67 @@ const sightseeing = createSlice({
           comments: item.comments,
           likes: item.likes,
           imageUrl: item.imageUrl,
-        }
-        return newSightseeing
-      })
-      store.sightseeings = onePayload
+        };
+        return newSightseeing;
+      });
+      store.sightseeings = onePayload;
     },
     addLike: (store, action) => {
-      console.log('Post liked!', action.payload)
+      console.log("Post liked!", action.payload);
       const updatedSightseeings = store.sightseeings.map((item) => {
         if (item._id === action.payload._id) {
           const updatedSight = {
             ...item,
             likes: action.payload.likes,
-          }
-          return updatedSight
+          };
+          return updatedSight;
         } else {
-          return item
+          return item;
         }
-      })
-      store.sightseeings = updatedSightseeings
+      });
+      store.sightseeings = updatedSightseeings;
     },
     addComment: (store, action) => {
-      console.log('action.payload', action.payload)
+      console.log("action.payload", action.payload);
       const updatedSightseeings = store.sightseeings.map((item) => {
         if (item._id === action.payload._id) {
-          const newestComment = action.payload.comments.pop()
-          console.log('Newest comment: ', newestComment)
+          const newestComment = action.payload.comments.pop();
+          console.log("Newest comment: ", newestComment);
           const updateComments = {
             ...item,
             comments: [...item.comments, newestComment],
-          }
-          return updateComments
+          };
+          return updateComments;
         } else {
-          return item
+          return item;
         }
-      })
-      store.sightseeings = updatedSightseeings
+      });
+      store.sightseeings = updatedSightseeings;
     },
     deleteComment: (store, action) => {
+      console.log(action.payload);
       const updatedSightseeings = store.sightseeings.map((item) => {
         if (item._id === action.payload._id) {
-          const newestComment = action.payload.comments.pop()
-          console.log('Newest comment: ', newestComment)
+          // const deleteComment = action.payload.comments.pop();
+          // console.log("Newest comment: ", deleteComment);
           const updateComments = {
             ...item,
-            comments: [...item.comments, newestComment],
-          }
-          return updateComments
+            comments: action.payload.comments,
+            // comments: [...item.comments, deleteComment],
+          };
+          return updateComments;
         } else {
-          return item
+          return item;
         }
-      })
-      store.sightseeings = updatedSightseeings
+      });
+      store.sightseeings = updatedSightseeings;
     },
 
     deletePost: (store, action) => {
       const deletedPost = store.sightseeings.filter(
-        (item) => item._id !== action.payload,
-      )
-      store.sightseeings = deletedPost
+        (item) => item._id !== action.payload
+      );
+      store.sightseeings = deletedPost;
     },
     addPost: (store, action) => {
       // const payloadObject = action.payload
@@ -100,10 +102,10 @@ const sightseeing = createSlice({
         comments: action.payload.comments,
         likes: action.payload.likes,
         imageUrl: action.payload.imageUrl,
-      }
+      };
 
-      store.sightseeings = [...store.sightseeings, newSightseeing]
-    }
+      store.sightseeings = [...store.sightseeings, newSightseeing];
+    },
   },
-})
-export default sightseeing
+});
+export default sightseeing;
