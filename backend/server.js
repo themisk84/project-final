@@ -45,7 +45,6 @@ const storage = cloudinaryStorage({
   },
 });
 
-
 const parser = multer({ storage });
 
 // Models
@@ -62,7 +61,7 @@ app.use(express.json());
 
 // Authorization
 // Auth now happens just before async (eg. POST '/stories' below)
-const authenticateUser = require('./auth/auth')
+const authenticateUser = require("./auth/auth");
 
 // Endpoints
 
@@ -74,14 +73,14 @@ const authenticateUser = require('./auth/auth')
 
 // POST: SIGHTSEEING
 app.post(
-  '/stories',
-  parser.single('image'),
+  "/stories",
+  parser.single("image"),
   authenticateUser,
   async (req, res) => {
     const { name, description, location, link, category, rating, country } =
-      req.body
+      req.body;
     // const { imageUrl } = req.file.path;
-    const queredUser = await User.findById(req.user._id)
+    const queredUser = await User.findById(req.user._id);
     try {
       const story = await new Sightseeing({
         name,
@@ -93,48 +92,48 @@ app.post(
         category,
         rating,
         user: queredUser,
-      }).save()
-      story.populate('user')
+      }).save();
+      story.populate("user");
       res.status(201).json({
         response: story,
         success: true,
-      })
+      });
     } catch (error) {
-      res.status(400).json({ errors: error.errors, success: false })
+      res.status(400).json({ errors: error.errors, success: false });
     }
-  },
-)
+  }
+);
 
 // GET: SEARCHBAR FILTERING
-app.get('/stories', async (req, res) => {
-  const { name, description, category, country } = req.query
+app.get("/stories", async (req, res) => {
+  const { name, description, category, country } = req.query;
   let story = await Sightseeing.find().populate([
-    { path: 'user', model: 'User', select: 'username' },
+    { path: "user", model: "User", select: "username" },
     {
-      path: 'comments',
-      model: 'Comment',
+      path: "comments",
+      model: "Comment",
       populate: [
-        { path: 'sightseeing', model: 'Sightseeing', select: 'name' },
-        { path: 'user', model: 'User', select: 'username' },
+        { path: "sightseeing", model: "Sightseeing", select: "name" },
+        { path: "user", model: "User", select: "username" },
       ],
     },
-  ])
+  ]);
   if (name || description || category || country) {
     story = await Sightseeing.find({
       $or: [
-        { name: { $regex: name, $options: 'i' } },
-        { description: { $regex: description, $options: 'i' } },
-        { category: { $regex: category, $options: 'i' } },
-        { country: { $regex: country, $options: 'i' } },
+        { name: { $regex: name, $options: "i" } },
+        { description: { $regex: description, $options: "i" } },
+        { category: { $regex: category, $options: "i" } },
+        { country: { $regex: country, $options: "i" } },
       ],
-    })
+    });
   }
-  res.status(200).json({ response: story, success: true })
-})
+  res.status(200).json({ response: story, success: true });
+});
 
 // POST: LIKE
-app.post('/stories/:storyId/like', async (req, res) => {
-  const { storyId } = req.params
+app.post("/stories/:storyId/like", async (req, res) => {
+  const { storyId } = req.params;
   try {
     const addLike = await Sightseeing.findByIdAndUpdate(
       storyId,
@@ -160,14 +159,14 @@ app.post('/stories/:storyId/like', async (req, res) => {
 });
 
 // POST: COMMENT
-app.post('/stories/:storyId/comment', authenticateUser, async (req, res) => {
-  const { storyId } = req.params
-  const { message } = req.body
+app.post("/stories/:storyId/comment", authenticateUser, async (req, res) => {
+  const { storyId } = req.params;
+  const { message } = req.body;
   try {
     const comment = await new Comment({
       message,
       user: req.user._id,
-    }).save()
+    }).save();
 
     const postRelated = await Sightseeing.findByIdAndUpdate(
       storyId,
@@ -178,10 +177,10 @@ app.post('/stories/:storyId/comment', authenticateUser, async (req, res) => {
       },
       { new: true }
     ).populate({
-      path: 'comments',
-      model: 'Comment',
-      populate: { path: 'user', model: 'User', select: 'username' },
-    })
+      path: "comments",
+      model: "Comment",
+      populate: { path: "user", model: "User", select: "username" },
+    });
 
     if (postRelated) {
       res.status(200).json({ response: postRelated, success: true }); // response: comment
@@ -194,8 +193,8 @@ app.post('/stories/:storyId/comment', authenticateUser, async (req, res) => {
 });
 
 // POST: SIGNUP
-app.post('/signup', async (req, res) => {
-  const { username, password, email, avatar } = req.body
+app.post("/signup", async (req, res) => {
+  const { username, password, email, avatar } = req.body;
   try {
     const salt = bcrypt.genSaltSync();
     const newUser = await new User({
@@ -221,8 +220,8 @@ app.post('/signup', async (req, res) => {
 });
 
 // POST: SIGNIN
-app.post('/signin', async (req, res) => {
-  const { username, password } = req.body
+app.post("/signin", async (req, res) => {
+  const { username, password } = req.body;
 
   try {
     const user = await User.findOne({ username });
@@ -233,7 +232,8 @@ app.post('/signin', async (req, res) => {
           userId: user._id,
           username: user.username,
           accessToken: user.accessToken,
-          avatar: user.avatar
+          avatar: user.avatar,
+          email: user.email,
         },
         success: true,
       });
@@ -249,9 +249,9 @@ app.post('/signin', async (req, res) => {
 });
 
 // DELETE: SIGHTSEEING
-app.delete('/stories/:id', authenticateUser, async (req, res) => {
-  const { id } = req.params
-  const stories = await Sightseeing.find({ user: req.user._id })
+app.delete("/stories/:id", authenticateUser, async (req, res) => {
+  const { id } = req.params;
+  const stories = await Sightseeing.find({ user: req.user._id });
   if (stories) {
     const deletedStory = await Sightseeing.findOneAndDelete({ _id: id });
     res.status(200).json({
@@ -263,63 +263,38 @@ app.delete('/stories/:id', authenticateUser, async (req, res) => {
   }
 });
 
-// app.delete('/stories/:storyId/comments/:commentId', authenticateUser, async (req, res) => {
-//   // const { commentId } = req.params
-//   // const comments = await Comment.find({ user: req.user._id })
-//   // if (comments) {
-//   //   const deletedComment = await Comment.findOneAndDelete({ _id: commentId })
-//   //   res.status(200).json({
-//   //     response: deletedComment,
-//   //     success: true,
-//   //   });
-//   // } else {
-//   //   res.status(404).json({ response: "Comment not found", success: false });
-//   // }
-
-//   // Comment.findOne(
-//   //   {
-//   //     $unset: 
-//   //           
-//   //            { _id: { commentId } }
-//   //         
-//   //   }
-//   // )
-
-//   const { commentId } = req.params
-//   // console.log(commentId)
-//   const { storyId } = req.params
-//   // const oneComment = await Comment.findOne({ _id: commentId })
-//   // console.log(oneComment)
-//   try {
-//     const sight = await Sightseeing.findOne({ _id: storyId })
-//     // console.log(sight)
-//     const oneComment = await sight.comments.findOne({ _id: commentId })
-//     console.log(oneComment)
-//     // const oneComment = await Comment.findOne({ commentId })
-//     // const commentRelated = await Sightseeing.findByIdAndUpdate(
-//     //   storyId,
-//     //   {
-//     //     $unset: {
-//     //       comments: oneComment,
-//     //     },
-//     //   },
-//     //   { new: true }
-//     // ).populate({
-//     //   path: 'comments',
-//     //   model: 'Comment',
-//     //   populate: { path: 'user', model: 'User', select: 'username' },
-//     // })
-//     if (oneComment) {
-//       res.status(200).json({ response: oneComment, success: true }); // response: comment
-//     } else {
-//       res.status(404).json({ response: "Comment not found", success: false });
-//     }
-
-
-//   } catch (error) {
-//     res.status(400).json({ errors: error, success: false });
-//   }
-// })
+app.delete(
+  "/stories/:storyId/comments/:commentId",
+  authenticateUser,
+  async (req, res) => {
+    const { commentId, storyId } = req.params;
+    console.log(commentId);
+    console.log(storyId);
+    try {
+      const oneComment = await Comment.findById(commentId);
+      const commentRelated = await Sightseeing.findByIdAndUpdate(
+        storyId,
+        {
+          $unset: {
+            comments: oneComment,
+          },
+        },
+        { new: true }
+      ).populate({
+        path: "comments",
+        model: "Comment",
+        populate: { path: "user", model: "User", select: "username" },
+      });
+      if (oneComment) {
+        res.status(200).json({ response: commentRelated, success: true }); // response: comment
+      } else {
+        res.status(404).json({ response: "Comment not found", success: false });
+      }
+    } catch (error) {
+      res.status(400).json({ errors: error, success: false });
+    }
+  }
+);
 
 // app.get('/users/:id/mystories', async (req, res) => {
 //   // const userFound = await User.findById(req.params.id);
