@@ -43,10 +43,12 @@ const Start = () => {
             <StyledHeadline>Explore</StyledHeadline>
             <StyledHeadline>Scandinavia</StyledHeadline>
             <StyledParagraph>
-              "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-              eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-              enim ad minim veniam, quis nostrud exercitation ullamco laboris
-              nisi ut aliquip ex ea commodo consequat."
+              In English usage, Scandinavia can refer to Denmark, Norway, and
+              Sweden, sometimes more narrowly to the Scandinavian Peninsula. The
+              geography of Scandinavia is extremely varied. Notable are the
+              Norwegian fjords, the Scandinavian Mountains covering much of
+              Norway and parts of Sweden, the flat, low areas in Denmark and the
+              archipelagos of Norway, Sweden, and Finland.
             </StyledParagraph>
             <StyledCircle></StyledCircle>
             <Searchbar />

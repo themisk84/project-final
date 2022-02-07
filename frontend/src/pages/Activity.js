@@ -27,13 +27,23 @@ const Activity = () => {
   const dispatch = useDispatch();
   const [visible, setVisible] = useState(false);
   const [comment, setComment] = useState("");
-
   const accessToken = useSelector((store) => store.user.accessToken);
 
   const thisActivity = useSelector((store) =>
     store.sightseeing.sightseeings.find((item) => item._id === activityId)
   );
   const userId = useSelector((store) => store.user.userId);
+
+  // console.log(thisActivity);
+  // const savedActivity = useSelector((store) =>
+  //   store.user?.savedSights?.filter((item) => item?._id === activityId)
+  // );
+
+  // console.log("saved?", savedActivity);
+
+  // const savedActivity = useSelector((store) =>
+  //   store?.user?.savedSights?.map((item) => item?._id === activityId)
+  // );
 
   const showInput = () => {
     if (visible) {
@@ -68,8 +78,12 @@ const Activity = () => {
     }
   };
   const savePost = () => {
-    dispatch(user.actions.addLikedPosts(thisActivity));
+    dispatch(user.actions.addSavedPost(thisActivity));
+
+    // dispatch(user.actions.checked());
   };
+
+  // console.log("savedactivity", savedActivity);
 
   const handleComments = (id, event) => {
     event.preventDefault();
@@ -126,7 +140,10 @@ const Activity = () => {
               >
                 {thisActivity?.name}
               </h2>
-              <FaBookmark onClick={savePost} />
+              <FaBookmark
+                onClick={() => savePost()}
+                // style={savedActivity ? { color: "green" } : { color: "black" }}
+              />
               <LocationWrapper>
                 <FaRegCompass
                   style={{

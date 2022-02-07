@@ -16,8 +16,6 @@ const Signin = () => {
   const [mode, setMode] = useState("signin");
   const [avatar, setAvatar] = useState("");
 
-  console.log(typeof avatar);
-
   const accessToken = useSelector((store) => store.user.accessToken);
   //   const error = useSelector((store) => store.user.error);
 
@@ -50,7 +48,6 @@ const Signin = () => {
     fetch(API_URL(mode), options)
       .then((res) => res.json())
       .then((data) => {
-        console.log(data);
         if (data.success) {
           batch(() => {
             dispatch(user.actions.setUserId(data.response.userId));
@@ -74,7 +71,6 @@ const Signin = () => {
   const handleUsernameChange = (event) => setUsername(event.target.value);
   const handlePasswordChange = (event) => setPassword(event.target.value);
   const handleEmailChange = (event) => setEmail(event.target.value);
-  // const handleAvatarChange = (event) => setAvatar(event.target.value);
 
   return (
     <StyledMain>

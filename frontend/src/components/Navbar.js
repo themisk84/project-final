@@ -179,6 +179,7 @@ const StyledHeader = styled.header`
   /* backdrop-filter: blur(12px); */
   background-color: #061137;
   position: fixed;
+  top: 0;
   display: flex;
   align-items: center;
   justify-content: space-between;

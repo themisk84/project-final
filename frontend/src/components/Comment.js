@@ -31,7 +31,7 @@ const Comment = ({ comment, thisActivity }) => {
           console.log(data);
           if (data.success) {
             console.log(data);
-            // dispatch(sightseeing.actions.deleteComment(data.response));
+            dispatch(sightseeing.actions.deleteComment(data.response));
           } else {
             console.log("unsuccessful delete");
           }
