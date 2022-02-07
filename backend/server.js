@@ -8,6 +8,7 @@ import cloudinaryStorage from "multer-storage-cloudinary";
 // import crypto from 'crypto' // Moved to user model
 import bcrypt from "bcrypt";
 import { runInNewContext } from "vm";
+import listEndpoints from "express-list-endpoints";
 
 const mongoUrl = process.env.MONGO_URL || "mongodb://localhost/finalProject";
 mongoose.connect(mongoUrl, {
@@ -65,11 +66,11 @@ const authenticateUser = require("./auth/auth");
 
 // Endpoints
 
-// app.get('/', (req, res) => {
-//   res.json({
-//     endpoints: listEndpoints(app),
-//   })
-// })
+app.get("/", (req, res) => {
+  res.json({
+    endpoints: listEndpoints(app),
+  });
+});
 
 // POST: SIGHTSEEING
 app.post(
@@ -115,7 +116,7 @@ app.get("/stories", async (req, res) => {
       model: "Comment",
       populate: [
         { path: "sightseeing", model: "Sightseeing", select: "name" },
-        { path: "user", model: "User", select: "username" },
+        { path: "user", model: "User" },
       ],
     },
   ]);
@@ -284,7 +285,7 @@ app.delete(
       ).populate({
         path: "comments",
         model: "Comment",
-        populate: { path: "user", model: "User", select: "username" },
+        populate: { path: "user", model: "User" },
       });
       if (oneComment) {
         res.status(200).json({ response: commentRelated, success: true }); // response: comment
@@ -395,5 +396,5 @@ app.delete(
 // Start the server
 app.listen(port, () => {
   // eslint-disable-next-line
-  console.log(`Server running on http://localhost:${port}`);
+  console.log(`Server running on http://localhost:${port}/`);
 });

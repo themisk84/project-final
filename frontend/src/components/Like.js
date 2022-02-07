@@ -31,7 +31,6 @@ const Like = ({ item }) => {
         style={{
           color: "white",
           height: "15",
-          zIndex: 10,
         }}
       />
       <LikesCount>

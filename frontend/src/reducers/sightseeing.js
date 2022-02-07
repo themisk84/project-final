@@ -52,7 +52,7 @@ const sightseeing = createSlice({
           console.log("Newest comment: ", newestComment);
           const updateComments = {
             ...item,
-            comments: [...item.comments, newestComment],
+            comments: [newestComment, ...item.comments],
           };
           return updateComments;
         } else {
