@@ -1,55 +1,99 @@
-import React from "react";
-import styled from "styled-components";
-import { useSelector } from "react-redux";
+import React from 'react'
+import styled from 'styled-components'
+import { useSelector } from 'react-redux'
 
-import Searchbar from "components/Searchbar";
-import AttractionCards from "components/AttractionCards";
+import { FaRegCompass } from 'react-icons/fa'
 
 const UserPage = () => {
-  // const [form, setForm] = useState(false);
-  const username = useSelector((store) => store.user.username);
-  const userId = useSelector((store) => store.user.userId);
-  console.log(userId);
-
-  // const addForm = useSelector((store) => store.user.form);
+  const userId = useSelector((store) => store.user.userId)
+  console.log(userId)
 
   const myPosts = useSelector((store) =>
-    store.sightseeing.sightseeings.filter((item) => item.user._id === userId)
-  );
-  console.log(myPosts);
-
-  // const handleForm = () => {
-  //   setForm(true);
-  // };
+    store.sightseeing.sightseeings.filter((item) => item.user._id === userId),
+  )
+  console.log(myPosts)
 
   return (
-    <MainContainer>
-      <Searchbar />
-      {myPosts.length === 0 ? (
-        <div>Empty state to style</div>
-      ) : (
-        <AttractionContainer>
-          {myPosts &&
-            myPosts.map((item) => (
-              <AttractionCards item={item} key={item._id} />
-            ))}
-        </AttractionContainer>
-      )}
-    </MainContainer>
-  );
-};
+    <>
+      <AttractionContainer>
+        <StyledHeadline>My liked posts</StyledHeadline>
+        {myPosts.length === 0 && <div>You have not made any post yet!</div>}
 
-export default UserPage;
+        {myPosts.map((item) => {
+          return (
+            <PostWrapper key={item._id}>
+              <ImageContainer image={item.imageUrl} />
+              <InfoContainer>
+                <ActivityName>{item.name}</ActivityName>
+                <InfoWrapper>
+                  <FaRegCompass
+                    style={{
+                      marginRight: '6',
+                      height: '14',
+                    }}
+                  />
+                  <p
+                    style={{
+                      fontSize: '14px',
+                      fontStyle: 'italic',
+                    }}>
+                    {item.location}
+                  </p>
+                </InfoWrapper>
+                <InfoWrapper>
+                  <p>Category:</p>
+                  <p style={{ marginLeft: 5 }}>{item.category}</p>
+                </InfoWrapper>
+              </InfoContainer>
+            </PostWrapper>
+          )
+        })}
+      </AttractionContainer>
+    </>
+  )
+}
 
-const MainContainer = styled.div`
-  margin-top: 70px;
-  border: 1px solid red;
-`;
+export default UserPage
 
 const AttractionContainer = styled.div`
   display: flex;
   flex-direction: column;
-  align-items: center;
-  padding: 100px;
+  padding: 20px;
+  width: 100%;
+  margin-top: 70px;
+`
+const StyledHeadline = styled.h2`
+  margin: 0;
+  color: #061137;
+  margin: 25px 0;
+`
+const PostWrapper = styled.div`
+  border-radius: 20px;
+  width: 100%;
+  height: 150px;
+  margin-bottom: 20px;
+  overflow: hidden;
+  display: flex;
   background-color: white;
-`;
+`
+const ImageContainer = styled.div`
+  height: 100%;
+  width: 45%;
+  background-image: ${(props) => `url(${props.image})`};
+  background-size: cover;
+  background-position: center;
+`
+const InfoContainer = styled.div`
+  background-color: white;
+  border-radius: 20px;
+  margin-left: -20px;
+  padding: 15px;
+`
+const ActivityName = styled.h3`
+  margin: 0;
+  margin-top: 10px;
+`
+const InfoWrapper = styled.div`
+  display: flex;
+  align-items: center;
+`
