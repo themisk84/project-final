@@ -180,7 +180,7 @@ app.post("/stories/:storyId/comment", authenticateUser, async (req, res) => {
     ).populate({
       path: "comments",
       model: "Comment",
-      populate: { path: "user", model: "User", select: "username" },
+      populate: { path: "user", model: "User" },
     });
 
     if (postRelated) {
