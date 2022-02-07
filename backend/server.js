@@ -275,14 +275,9 @@ app.delete(
       const commentRelated = await Sightseeing.findByIdAndUpdate(
         storyId,
         {
-          $unset: {
-            comments: oneComment,
+          $pull: {
+            comments: commentId,
           },
-          //   $pull: {
-          //     comments: {
-          //       _id: commentId,
-          //     },
-          //   },
         },
         { new: true }
       ).populate({
