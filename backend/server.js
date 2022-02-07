@@ -77,7 +77,7 @@ app.post(
   parser.single("image"),
   authenticateUser,
   async (req, res) => {
-    const { name, description, location, link, category, rating, country } =
+    const { name, description, lat, lng, link, category, rating, country } =
       req.body;
     // const { imageUrl } = req.file.path;
     const queredUser = await User.findById(req.user._id);
@@ -86,7 +86,8 @@ app.post(
         name,
         description,
         imageUrl: req.file.path,
-        location,
+        lat,
+        lng,
         country,
         link,
         category,
