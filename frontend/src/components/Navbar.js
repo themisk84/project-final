@@ -94,6 +94,7 @@ const Navbar = (ref) => {
                     marginBottom: 20,
                   }}
                 >
+                  {}
                   <FaUserCircle
                     style={{
                       height: 50,

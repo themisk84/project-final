@@ -11,8 +11,7 @@ const Comment = ({ comment, thisActivity }) => {
   const dispatch = useDispatch();
   const userId = useSelector((store) => store.user.userId);
   const accessToken = useSelector((store) => store.user.accessToken);
-  console.log(comment);
-  console.log(thisActivity);
+  console.log(comment.user.avatar);
 
   const onDelete = (id, storyId) => {
     console.log(id);
@@ -41,7 +40,15 @@ const Comment = ({ comment, thisActivity }) => {
 
   return (
     <CommentContainer>
-      <FaUserCircle style={{ height: 35, width: 35, marginRight: 8 }} />
+      {comment.user.avatar ? (
+        <img
+          src={`/assets/${comment.user.avatar}.png`}
+          alt={comment.user.avatar}
+          style={{ height: 35, width: 35, marginRight: 8 }}
+        ></img>
+      ) : (
+        <FaUserCircle style={{ height: 35, width: 35, marginRight: 8 }} />
+      )}
       <CommenterWrapper>
         <div
           style={{

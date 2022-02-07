@@ -3,6 +3,7 @@ import styled from "styled-components";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams, useNavigate } from "react-router-dom";
 import moment from "moment";
+import { FaSortDown } from "react-icons/fa";
 
 import { API_URL } from "utilis/urls";
 
@@ -27,6 +28,7 @@ const Activity = () => {
   const dispatch = useDispatch();
   const [visible, setVisible] = useState(false);
   const [comment, setComment] = useState("");
+  const [showComments, setShowComments] = useState(2);
   const accessToken = useSelector((store) => store.user.accessToken);
 
   const thisActivity = useSelector((store) =>
@@ -181,6 +183,7 @@ const Activity = () => {
               </PosterWrapper>
               <CommentsWrapper>
                 <h3>Comments</h3>
+
                 {accessToken && (
                   <AddComment onClick={showInput}>
                     <h5
@@ -210,15 +213,26 @@ const Activity = () => {
                   <button type="submit">Submit</button>
                 </form>
               )}
-              {thisActivity?.comments.map((comment) => {
-                return (
-                  <Comment
-                    key={comment._id}
-                    thisActivity={thisActivity}
-                    comment={comment}
-                  />
-                );
-              })}
+              {thisActivity?.comments
+                //  .sort((a, b) => b.createdAt - a.createdAt)
+                .map((comment, i) => {
+                  if (i < showComments) {
+                    return (
+                      <Comment
+                        key={comment._id}
+                        thisActivity={thisActivity}
+                        comment={comment}
+                      />
+                    );
+                  }
+                })}
+              {thisActivity?.comments.length > showComments && (
+                <MoreButton onClick={() => setShowComments(showComments + 1)}>
+                  more
+                  <FaSortDown />
+                </MoreButton>
+              )}
+
               {thisActivity?.comments === "" && (
                 <p
                   style={{
@@ -313,6 +327,18 @@ const CommentsWrapper = styled.div`
 const AddComment = styled.button`
   height: 32px;
   width: 65px;
+  padding: 7px;
+  border: 2px solid black;
+  display: flex;
+  cursor: pointer;
+  align-items: center;
+  justify-content: space-between;
+  text-transform: uppercase;
+  border-radius: 8px;
+  background-color: whitesmoke;
+`;
+const MoreButton = styled.button`
+  margin: 10px;
   padding: 7px;
   border: 2px solid black;
   display: flex;
