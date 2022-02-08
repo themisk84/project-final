@@ -35,18 +35,9 @@ const Activity = () => {
     store.sightseeing.sightseeings.find((item) => item._id === activityId)
   );
   const userId = useSelector((store) => store.user.userId);
-  const ratings = thisActivity.rating / 10;
+  const ratings = thisActivity.rating / 20;
 
   // console.log(thisActivity);
-  // const savedActivity = useSelector((store) =>
-  //   store.user?.savedSights?.filter((item) => item?._id === activityId)
-  // );
-
-  // console.log("saved?", savedActivity);
-
-  // const savedActivity = useSelector((store) =>
-  //   store?.user?.savedSights?.map((item) => item?._id === activityId)
-  // );
 
   const showInput = () => {
     if (visible) {
@@ -79,10 +70,17 @@ const Activity = () => {
     }
   };
   const savePost = () => {
+    console.log("activity", thisActivity);
     dispatch(user.actions.addSavedPost(thisActivity));
     // dispatch(user.actions.checked());
   };
 
+  const savedActivitys = useSelector((store) => store.user.savedSights);
+
+  console.log("saved", savedActivitys);
+
+  // const savedActivity = useSelector((store) => store.user.savedSights);
+  // console.log("saved?", savedActivity);
   // console.log("savedactivity", savedActivity);
 
   const handleComments = (id, event) => {
@@ -110,7 +108,13 @@ const Activity = () => {
         }
       });
   };
-
+  let star = (
+    <FaSplotch
+      style={{
+        color: "yellow",
+      }}
+    />
+  );
   return (
     <MainWrapper>
       <StyledContainer>
@@ -182,17 +186,15 @@ const Activity = () => {
                 </Created>
               </PosterWrapper>
               <Section>
-                {/* {ratings.((item, i) => {
-                  if (i < ratings) {
-                    return (
-                      <FaSplotch
-                        style={{
-                          color: "yellow",
-                        }}
-                      />
-                    );
-                  }
-                })} */}
+                {/* <p>
+                  {Array(ratings)?.fill(
+                    <FaSplotch
+                      style={{
+                        color: "yellow",
+                      }}
+                    />
+                  )}
+                </p> */}
               </Section>
               <CommentsWrapper>
                 <h3>Comments</h3>

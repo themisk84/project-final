@@ -9,7 +9,7 @@ const user = createSlice({
     error: null,
     avatar: "",
     email: "",
-    likedSights: [],
+    savedSights: [],
     // form: false,
   },
   reducers: {
@@ -25,11 +25,14 @@ const user = createSlice({
     setError: (store, action) => {
       store.error = action.payload;
     },
-    addLikedPosts: (store, action) => {
-      if (store.likedSights?.length === 0) {
-        store.likedSights = [action.payload];
-      } else if (store.likedSights?.length > 0) {
-        store.likedSights = [...store.likedSights, action.payload];
+    addSavedPost: (store, action) => {
+      console.log(action.payload);
+      if (store.savedSights?.length === 0) {
+        console.log(store.savedSights);
+        store.savedSights = [action.payload];
+      } else if (store.savedSights?.length > 0) {
+        console.log(store.savedSights);
+        store.savedSights = [...store.savedSights, action.payload];
       }
     },
     setAvatar: (store, action) => {

@@ -4,17 +4,24 @@ import { useSelector } from "react-redux";
 import { FaRegCompass } from "react-icons/fa";
 
 const UserPage = () => {
-  const savedPosts = useSelector((store) => store.user.savedSights);
-  console.log(savedPosts);
+  const username = useSelector((store) => store.user.username);
+  const saved = useSelector((store) => store.user.savedSights);
+  console.log(saved);
+
+  // console.log(
+  //   savedPosts?.map((i) =>
+  //     i.message;
+  //   )
+  // );
 
   return (
     <>
       {/* <Searchbar /> */}
-      {savedPosts.length === 0 && <div>You have not saved any posts</div>}
+      {saved?.length === 0 && <div>You have not saved any posts</div>}
       <AttractionContainer>
         <StyledHeadline>My liked posts</StyledHeadline>
 
-        {savedPosts.map((item) => {
+        {saved.map((item) => {
           return (
             <LikedPostWrapper key={item._id}>
               <ImageContainer image={item.imageUrl} />

@@ -12,7 +12,7 @@ import SavedPosts from "./pages/SavedPosts";
 import SearchPage from "pages/SearchPage";
 import ErrorMessage from "./pages/ErrorMessage";
 
-import user from "./reducers/user";
+import user from "reducers/user";
 import sightseeing from "reducers/sightseeing";
 import { ui } from "./reducers/ui";
 

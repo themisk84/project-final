@@ -115,13 +115,12 @@ const Main = styled.div`
 
 const AttractionContainer = styled.div`
   display: flex;
-  flex-direction: column;
-  align-items: center;
   padding: 100px;
   /* background-color: white; */
   @media (min-width: 768px) {
     flex-direction: row;
     min-height: 150vh;
+    margin-top: 50px;
   }
 `;
 
