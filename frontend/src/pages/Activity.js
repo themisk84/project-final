@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams, useNavigate } from "react-router-dom";
 import moment from "moment";
-import { FaSortDown } from "react-icons/fa";
+import { FaSortDown, FaSplotch } from "react-icons/fa";
 
 import { API_URL } from "utilis/urls";
 
@@ -35,6 +35,7 @@ const Activity = () => {
     store.sightseeing.sightseeings.find((item) => item._id === activityId)
   );
   const userId = useSelector((store) => store.user.userId);
+  const ratings = thisActivity.rating / 10;
 
   // console.log(thisActivity);
   // const savedActivity = useSelector((store) =>
@@ -69,9 +70,7 @@ const Activity = () => {
       fetch(API_URL(`stories/${id}`), options)
         .then((res) => res.json())
         .then((data) => {
-          console.log(data);
           if (data.success) {
-            console.log(data);
             dispatch(sightseeing.actions.deletePost(data.response._id));
             navigate(-1);
           } else {
@@ -81,7 +80,6 @@ const Activity = () => {
   };
   const savePost = () => {
     dispatch(user.actions.addSavedPost(thisActivity));
-
     // dispatch(user.actions.checked());
   };
 
@@ -126,26 +124,32 @@ const Activity = () => {
                   height: "20",
                 }}
               />
+              <LikeContainer>
+                <Like item={thisActivity ? thisActivity : ""} />
+              </LikeContainer>
               {accessToken && (
                 <FaTrashAlt
-                  style={{ height: 30, width: 30, color: "white" }}
+                  style={{ height: 20, width: 20, color: "white" }}
                   onClick={() => handleDeletePost(thisActivity?._id)}
                 />
               )}
             </ActivityImage>
 
             <ActivityInfoContainer>
-              <h2
-                style={{
-                  margin: "0",
-                }}
-              >
-                {thisActivity?.name}
-              </h2>
-              <FaBookmark
-                onClick={() => savePost()}
-                // style={savedActivity ? { color: "green" } : { color: "black" }}
-              />
+              <Heading>
+                <h1
+                  style={{
+                    margin: "0",
+                  }}
+                >
+                  {thisActivity?.name}
+                </h1>
+                <FaBookmark
+                  onClick={() => savePost()}
+                  // style={savedActivity ? { color: "green" } : { color: "black" }}
+                />
+              </Heading>
+
               <LocationWrapper>
                 <FaRegCompass
                   style={{
@@ -162,9 +166,7 @@ const Activity = () => {
                   {thisActivity?.location}
                 </p>
               </LocationWrapper>
-              <LikeContainer>
-                <Like item={thisActivity ? thisActivity : ""} />
-              </LikeContainer>
+
               <p
                 style={{
                   margin: "0",
@@ -174,13 +176,24 @@ const Activity = () => {
                 {thisActivity?.description}
               </p>
               <PosterWrapper>
-                <h5>By: {thisActivity?.user.username}</h5>
-                <h5>
-                  Posted{" "}
-                  {/* {moment(thisActivity?.createdAt).format("MMM Do YYYY")} */}
-                  {moment(thisActivity.createdAt).fromNow()}
-                </h5>
+                <By>By: {thisActivity?.user.username}</By>
+                <Created>
+                  Posted {moment(thisActivity.createdAt).fromNow()}
+                </Created>
               </PosterWrapper>
+              <Section>
+                {/* {ratings.((item, i) => {
+                  if (i < ratings) {
+                    return (
+                      <FaSplotch
+                        style={{
+                          color: "yellow",
+                        }}
+                      />
+                    );
+                  }
+                })} */}
+              </Section>
               <CommentsWrapper>
                 <h3>Comments</h3>
 
@@ -298,7 +311,11 @@ const ActivityImage = styled.div`
 //   align-items: center;
 //   justify-content: center;
 // `
-const Div = styled.div`
+const Heading = styled.div`
+  display: flex;
+  justify-content: space-between;
+`;
+const Div = styled.article`
   position: relative;
 `;
 const ActivityInfoContainer = styled.div`
@@ -350,7 +367,14 @@ const MoreButton = styled.button`
   background-color: whitesmoke;
 `;
 const LikeContainer = styled.div`
-  position: absolute;
+  /* position: absolute;
   right: 80px;
-  top: 100px;
+  top: 100px; */
 `;
+const By = styled.h2`
+  font-size: 17px;
+`;
+const Created = styled.h3`
+  font-size: 15px;
+`;
+const Section = styled.section``;

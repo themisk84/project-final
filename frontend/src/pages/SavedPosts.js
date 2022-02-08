@@ -1,11 +1,6 @@
 import React from "react";
 import styled from "styled-components";
 import { useSelector } from "react-redux";
-
-import Searchbar from "components/Searchbar";
-import PostSightseeing from "../pages/PostSightseeing";
-import user from "../reducers/user";
-import AttractionCards from "components/AttractionCards";
 import { FaRegCompass } from "react-icons/fa";
 
 const UserPage = () => {
@@ -47,7 +42,6 @@ const UserPage = () => {
                 </InfoWrapper>
               </InfoContainer>
             </LikedPostWrapper>
-            // <AttractionCards item={item} key={item._id} />
           );
         })}
       </AttractionContainer>

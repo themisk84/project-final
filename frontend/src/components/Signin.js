@@ -17,7 +17,6 @@ const Signin = () => {
   const [avatar, setAvatar] = useState("");
 
   const accessToken = useSelector((store) => store.user.accessToken);
-  //   const error = useSelector((store) => store.user.error);
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -86,7 +85,6 @@ const Signin = () => {
               <Label htmlFor="username">
                 Username
                 <StyledInput
-                  // placeholder="username"
                   id="username"
                   type="text"
                   value={username}
@@ -98,7 +96,6 @@ const Signin = () => {
               <Label htmlFor="password">
                 Password
                 <StyledInput
-                  // placeholder="password"
                   id="password"
                   type="text"
                   value={password}
@@ -112,7 +109,6 @@ const Signin = () => {
                   <Label htmlFor="email">
                     Email
                     <StyledInput
-                      // placeholder="Email"
                       id="email"
                       type="email"
                       value={email}

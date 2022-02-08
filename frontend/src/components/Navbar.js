@@ -1,15 +1,12 @@
 import React, { useState, useEffect, useRef } from "react";
-import { Link } from "react-router-dom";
-import styled from "styled-components";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate, useLocation } from "react-router-dom";
-import user from "../reducers/user";
-
-import PostSightseeing from "../pages/PostSightseeing";
-
+import styled from "styled-components";
 import { FaUserCircle } from "react-icons/fa";
 
-const Navbar = (ref) => {
+import user from "../reducers/user";
+
+const Navbar = () => {
   const [visible, setVisible] = useState(false);
   const navigate = useNavigate();
   const dispatch = useDispatch();

@@ -7,7 +7,6 @@ const sightseeing = createSlice({
   },
   reducers: {
     addSightseeing: (store, action) => {
-      console.log(action.payload);
       const payloadsArray = action.payload;
       const onePayload = payloadsArray.map((item) => {
         const newSightseeing = {
@@ -30,7 +29,6 @@ const sightseeing = createSlice({
       store.sightseeings = onePayload;
     },
     addLike: (store, action) => {
-      console.log("Post liked!", action.payload);
       const updatedSightseeings = store.sightseeings.map((item) => {
         if (item._id === action.payload._id) {
           const updatedSight = {
@@ -45,7 +43,6 @@ const sightseeing = createSlice({
       store.sightseeings = updatedSightseeings;
     },
     addComment: (store, action) => {
-      console.log("action.payload", action.payload);
       const updatedSightseeings = store.sightseeings.map((item) => {
         if (item._id === action.payload._id) {
           const newestComment = action.payload.comments.pop();
@@ -62,15 +59,11 @@ const sightseeing = createSlice({
       store.sightseeings = updatedSightseeings;
     },
     deleteComment: (store, action) => {
-      console.log(action.payload);
       const updatedSightseeings = store.sightseeings.map((item) => {
         if (item._id === action.payload._id) {
-          // const deleteComment = action.payload.comments.pop();
-          // console.log("Newest comment: ", deleteComment);
           const updateComments = {
             ...item,
             comments: action.payload.comments,
-            // comments: [...item.comments, deleteComment],
           };
           return updateComments;
         } else {
@@ -87,7 +80,6 @@ const sightseeing = createSlice({
       store.sightseeings = deletedPost;
     },
     addPost: (store, action) => {
-      // const payloadObject = action.payload
       const newSightseeing = {
         _id: action.payload._id,
         name: action.payload.name,

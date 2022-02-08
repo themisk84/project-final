@@ -2,12 +2,13 @@ import React, { useEffect } from "react";
 import styled from "styled-components";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import { ui } from "../reducers/ui";
 
-import sightseeing from "../reducers/sightseeing";
-import Searchbar from "../components/Searchbar";
-// import Lottie from "react-lottie";
 import { API_URL } from "utilis/urls";
+
+import { ui } from "../reducers/ui";
+import sightseeing from "../reducers/sightseeing";
+
+import Searchbar from "../components/Searchbar";
 import Loader from "../components/Loader";
 
 const Start = () => {

@@ -1,12 +1,12 @@
 import React, { useState } from "react";
-import styled from "styled-components";
 import { useSelector } from "react-redux";
 import { useParams, useNavigate } from "react-router-dom";
+
+import styled from "styled-components";
 import { FaSortDown } from "react-icons/fa";
 
 import Searchbar from "../components/Searchbar";
 import AttractionCards from "components/AttractionCards";
-import GradientBackground from "components/GradientBackground";
 
 const Country = () => {
   const { country } = useParams();
@@ -15,7 +15,6 @@ const Country = () => {
   const [land, setLand] = useState(country); //land takes the place of country in useParams
 
   const navigate = useNavigate();
-  const accessToken = useSelector((store) => store.user.accessToken);
 
   let attractions = useSelector((store) =>
     store.sightseeing.sightseeings.filter((item) => item.country === land)
@@ -24,10 +23,6 @@ const Country = () => {
   const categoryAttractions = attractions.filter(
     (item) => item.category === category
   );
-
-  console.log(categoryAttractions);
-
-  console.log("category", categoryAttractions);
 
   const showMenu = () => {
     if (visible) {
@@ -57,7 +52,7 @@ const Country = () => {
           </StyledToggle>
           {visible && (
             <div>
-              <CountryChooseCountainer>
+              <CountryChooseContainer>
                 <FilterText>Country</FilterText>
                 <form>
                   <label htmlFor="country"></label>
@@ -65,7 +60,7 @@ const Country = () => {
                     id="country"
                     value={land}
                     onChange={(event) => {
-                      setLand(event.target.value); //asychronous
+                      setLand(event.target.value); //asynchronous
                       navigate(`/country/${event.target.value}`);
                       setCategory("");
                     }}
@@ -77,7 +72,7 @@ const Country = () => {
                     ))}
                   </Select>
                 </form>
-              </CountryChooseCountainer>
+              </CountryChooseContainer>
               <div>
                 <ButtonContainer>
                   {categories.map((category) => (
@@ -163,7 +158,7 @@ const SearchBarContainer = styled.div`
   padding: 100px 25px 0px 25px;
 `;
 
-const CountryChooseCountainer = styled.div`
+const CountryChooseContainer = styled.div`
   padding: 0px 25px 0px 25px;
 `;
 
@@ -189,33 +184,3 @@ const FilteringButton = styled.button`
     color: white;
   }
 `;
-
-// const AttractionCards = styled.div`
-//   width: 50%;
-// `;
-
-// const LikeContainer = styled.div`
-//   color: white;
-//   align-self: flex-end;
-//   margin: 10px;
-// `;
-
-// const CommentContainer = styled.div`
-//   width: 40px;
-// `;
-// const HeaderContainer = styled.div`
-//   display: flex;
-//   flex-direction: column;
-//   align-items: center;
-// `;
-
-// const Header = styled.h1`
-//   color: white;
-//   font-size: 20px
-//   margin: 0;
-// `;
-
-// const Description = styled.p`
-//   color: white;
-//   font-size: 16px;
-// `;

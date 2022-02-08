@@ -1,7 +1,7 @@
 import React, { useState, useRef } from "react";
-import styled from "styled-components";
-import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
+import styled from "styled-components";
 import { Rating } from "react-simple-star-rating";
 
 import { API_URL } from "utilis/urls";
@@ -19,9 +19,8 @@ const PostSightseeing = () => {
   const [category, setCategory] = useState("");
 
   const accessToken = useSelector((store) => store.user.accessToken);
-  console.log(typeof rating);
-  const navigate = useNavigate();
 
+  const navigate = useNavigate();
   const dispatch = useDispatch();
 
   const handleRating = (rate) => {
@@ -53,23 +52,7 @@ const PostSightseeing = () => {
         navigate("/user");
       });
   };
-  // const handleLike = (storyId) => {
-  //   const options = {
-  //     method: "POST",
-  //     headers: {
-  //       "Content-Type": "application/json",
-  //     },
-  //   };
 
-  //   fetch(API_URL(`stories/${storyId}/like`), options)
-  //     .then((res) => res.json())
-  //     .then((data) => {
-  //       if (data.success) {
-  //         dispatch(sightseeing.actions.addLike(data.response));
-  //       } else {
-  //       }
-  //     });
-  // };
   const categories = ["food", "culture", "activity", "music"];
 
   return (
@@ -88,7 +71,6 @@ const PostSightseeing = () => {
           required
           minLength={5}
           maxLength={800}
-          required
           value={description}
           onChange={(e) => setDescription(e.target.value)}
         />
@@ -126,8 +108,6 @@ const PostSightseeing = () => {
             </option>
           ))}
         </select>
-        {/* <label>Rating</label>
-      <StyledInput type="number" required /> */}
         <Rating onClick={handleRating} ratingValue={rating} />
         <label>Image</label>
         <StyledInput type="file" ref={fileInput} required />

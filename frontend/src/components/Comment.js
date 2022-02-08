@@ -1,10 +1,11 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
+import { FaTimesCircle, FaUserCircle } from "react-icons/fa";
 import moment from "moment";
+
 import sightseeing from "../reducers/sightseeing";
 
-import { FaTimesCircle, FaUserCircle } from "react-icons/fa";
 import { API_URL } from "utilis/urls";
 
 const Comment = ({ comment, thisActivity }) => {
@@ -14,7 +15,6 @@ const Comment = ({ comment, thisActivity }) => {
   console.log(comment.user.avatar);
 
   const onDelete = (id, storyId) => {
-    console.log(id);
     const options = {
       method: "DELETE",
       headers: {
@@ -27,9 +27,7 @@ const Comment = ({ comment, thisActivity }) => {
       fetch(API_URL(`stories/${storyId}/comments/${id}`), options)
         .then((res) => res.json())
         .then((data) => {
-          console.log(data);
           if (data.success) {
-            console.log(data);
             dispatch(sightseeing.actions.deleteComment(data.response));
           } else {
             console.log("unsuccessful delete");

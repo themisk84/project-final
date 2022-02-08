@@ -1,9 +1,10 @@
 import React from "react";
 import { useDispatch } from "react-redux";
 import styled from "styled-components";
-
 import { FaHeart } from "react-icons/fa";
+
 import { API_URL } from "utilis/urls";
+
 import sightseeing from "../reducers/sightseeing";
 
 const Like = ({ item }) => {
@@ -29,23 +30,19 @@ const Like = ({ item }) => {
     <LikesContainer onClick={() => handleLike(item._id)}>
       <FaHeart
         style={{
-          color: "white",
           height: "15",
         }}
       />
-      <LikesCount>
-        {item.likes}
-        {/* ${likes} */}
-      </LikesCount>
+      <LikesCount>{item.likes}</LikesCount>
     </LikesContainer>
   );
 };
 
 export default Like;
-// background-color: rgba(255, 255, 255, 0.2);
+
 const LikesContainer = styled.button`
   position: absolute;
-  background-color: black;
+  background-color: rgba(255, 255, 255, 0.4);
   height: 30px;
   border: none;
   width: 55px;
@@ -58,7 +55,6 @@ const LikesContainer = styled.button`
 `;
 
 const LikesCount = styled.p`
-  color: white;
   font-size: 15px;
   margin: 0px 0px 0px 5px;
 `;
