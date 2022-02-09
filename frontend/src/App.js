@@ -3,6 +3,10 @@ import { createStore, configureStore, combineReducers } from "@reduxjs/toolkit";
 import { Provider } from "react-redux";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
+import user from "reducers/user";
+import sightseeing from "reducers/sightseeing";
+import { ui } from "./reducers/ui";
+
 import Start from "./pages/Start";
 import Country from "./pages/Country";
 import UserPage from "./pages/UserPage";
@@ -11,14 +15,12 @@ import PostSightseeing from "./pages/PostSightseeing";
 import SavedPosts from "./pages/SavedPosts";
 import SearchPage from "pages/SearchPage";
 import ErrorMessage from "./pages/ErrorMessage";
-
-import user from "reducers/user";
-import sightseeing from "reducers/sightseeing";
-import { ui } from "./reducers/ui";
+import About from "pages/About";
 
 import Navbar from "components/Navbar";
 import Signin from "./components/Signin";
 import GradientBackground from "components/GradientBackground";
+import Footer from "components/Footer";
 
 // const reducer = combineReducers({
 //   user: user.reducer,
@@ -61,10 +63,13 @@ export const App = () => {
           <Route path="/user" element={<UserPage />} />
           <Route path="/add" element={<PostSightseeing />} />
           <Route path="/savedPosts" element={<SavedPosts />} />
+          <Route path="/about" element={<About />} />
           <Route path="*" element={<ErrorMessage />} />
         </Routes>
-        <GradientBackground />
       </BrowserRouter>
+
+      <Footer />
+      <GradientBackground />
     </Provider>
   );
 };

@@ -12,6 +12,7 @@
     "eslint-plugin-react": "^7.16.0",
     "eslint-plugin-react-hooks": "^2.3.0",
     "express-list-endpoints": "^6.0.0",
+    "mapbox-gl": "^2.7.0",
     "moment": "^2.29.1",
     "react": "^16.12.0",
     "react-confirm-alert": "^2.7.0",

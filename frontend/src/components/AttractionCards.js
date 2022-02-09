@@ -11,32 +11,26 @@ const AttractionCards = ({ item }) => {
   };
   return (
     <>
-      <LikeCardDiv>
+      <AttractionCard
+        onClick={() => onAttractionClick(item._id)}
+        style={{ backgroundImage: `url(${item.imageUrl})` }}
+      >
         <Like item={item} />
-        <AttractionCard
-          onClick={() => onAttractionClick(item._id)}
-          style={{ backgroundImage: `url(${item.imageUrl})` }}
-        >
-          <CommentContainer>{/* <span>&#128172;</span> */}</CommentContainer>
+        <CommentContainer>{/* <span>&#128172;</span> */}</CommentContainer>
 
-          <HeaderContainer>
-            <Header>{item.name}</Header>
-            <Description>{item.description}</Description>
-            <Description>{item.country}</Description>
-          </HeaderContainer>
-        </AttractionCard>
-      </LikeCardDiv>
+        <HeaderContainer>
+          <Header>{item.name}</Header>
+          <Description>{item.description}</Description>
+          <Description>{item.country}</Description>
+        </HeaderContainer>
+      </AttractionCard>
     </>
   );
 };
 
 export default AttractionCards;
 
-const LikeCardDiv = styled.div`
-  position: relative;
-`;
-
-const AttractionCard = styled.div`
+const AttractionCard = styled.article`
   display: flex;
   flex-direction: column;
   width: 300px;
@@ -47,13 +41,15 @@ const AttractionCard = styled.div`
   background-repeat: no-repeat;
   background-position: center;
   background-size: cover;
+  margin: 20px;
 `;
 
-const CommentContainer = styled.div`
+const CommentContainer = styled.section`
   width: 40px;
+  -webkit-line-clamp: 3;
 `;
 
-const HeaderContainer = styled.div`
+const HeaderContainer = styled.section`
   display: flex;
   flex-direction: column;
   align-items: center;

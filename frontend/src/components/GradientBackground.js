@@ -13,7 +13,7 @@ const StyledBackground = styled.div`
   flex-direction: column;
   position: fixed;
   top: 0;
-  width: 100vw;
-  height: 80vh;
+  width: 100%;
+  height: 100%;
   z-index: -10;
 `;
