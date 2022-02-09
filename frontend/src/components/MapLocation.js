@@ -2,40 +2,38 @@ import React, { useRef, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import styled from "styled-components";
 import mapboxgl from "!mapbox-gl"; // eslint-disable-line import/no-webpack-loader-syntax
-import { map_marker } from "../avatarAssets/map_marker.png";
 
 mapboxgl.accessToken =
   "pk.eyJ1Ijoic2NhcmZhY2VkNyIsImEiOiJja3o3NjJyMm4wZnN4MndtcGNienM1ZGNoIn0.gkZ9hcSAXMS5H4ghHB5C9Q";
 
 const MapLocation = () => {
   const mapContainer = useRef(null);
-  // const map = useRef(null);
+  const map = useRef(null);
   const [lng, setLng] = useState(18.06324);
   const [lat, setLat] = useState(59.334591);
   const [zoom, setZoom] = useState(3);
 
-  let link;
+  let name;
+  let imageUrl;
 
   const locations = useSelector((store) =>
     store.sightseeing.sightseeings.map((item) => {
       let object = {
         lng,
         lat,
-        link,
+        name,
+        imageUrl,
       };
 
-      return (object = { lng: item.lng, lat: item.lat, link: item.link });
+      return (object = {
+        lng: item.lng,
+        lat: item.lat,
+        name: item.name,
+        imageUrl: item.imageUrl,
+      });
     })
   );
   console.log("locations", locations);
-
-  // console.log(locationsCoordinates);
-  // const popup = new mapboxgl.Popup({ offset: 25 }).setText(
-  //   "Construction on the Washington Monument began in 1848."
-  // );
-
-  // const el = document.createElement("div");
-  // el.id = "marker";
 
   useEffect(() => {
     const map = new mapboxgl.Map(
@@ -49,25 +47,34 @@ const MapLocation = () => {
     );
 
     locations.map((location) => {
-      const popup = new mapboxgl.Popup({ offset: 25 }).setText(location.link);
+      const popup = new mapboxgl.Popup({ offset: 25 })
+        .setHTML(`<img src=${location.imageUrl} />`)
+        .setText(location.name);
 
       const el = document.createElement("div");
       el.id = "marker";
+
       const marker = new mapboxgl.Marker(el)
         .setLngLat({ lng: location.lng, lat: location.lat })
         .setPopup(popup)
-        // .setPopup(new mapboxgl.Popup({ offset: 30 }))
-        //   .setText("<h3>Stockholm</h3>")
         .addTo(map);
-      // console.log(marker);
+    });
+  });
+
+  useEffect(() => {
+    if (!map.current) return; // wait for map to initialize
+    map.current.on("move", () => {
+      setLng(map.current.getCenter().lng.toFixed(4));
+      setLat(map.current.getCenter().lat.toFixed(4));
+      setZoom(map.current.getZoom().toFixed(2));
     });
   });
 
   return (
     <MapLocationContainer>
-      <div className="sidebar">
+      {/* <Sidebar>
         Longtitude: {lng} | Latitude: {lat} | Zoom: {zoom}
-      </div>
+      </Sidebar> */}
       <div ref={mapContainer} className="map-container" />
     </MapLocationContainer>
   );
@@ -79,3 +86,17 @@ const MapLocationContainer = styled.div`
   height: 400px;
   width: 400px;
 `;
+
+// const Sidebar = styled.div`
+//   /* background-color: rgba(35, 55, 75, 0.9); */
+//   background-color: white;
+//   /* color: #fff; */
+//   padding: 6px 12px;
+//   font-family: monospace;
+//   z-index: 1;
+//   position: absolute;
+//   top: 0;
+//   left: 0;
+//   margin: 12px;
+//   border-radius: 4px;
+// `;

@@ -23,7 +23,7 @@ code {
 }
 
 .map-container {
-  height: 300px;
+  height: 400px;
 }
 
 .sidebar {
@@ -40,7 +40,7 @@ code {
 }
 
 #marker {
-  background-image: url("https://docs.mapbox.com/mapbox-gl-js/assets/washington-monument.jpg");
+  background-image: url("avatarAssets/map_marker.png");
   background-size: cover;
   width: 20px;
   height: 20px;

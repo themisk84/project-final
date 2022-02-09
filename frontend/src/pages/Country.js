@@ -100,7 +100,7 @@ const Country = () => {
                 <AttractionCards key={item._id} item={item} />
               ))}
         </AttractionContainer>
-        {/* <MapLocation /> */}
+        <MapLocation />
       </Main>
     </>
   );

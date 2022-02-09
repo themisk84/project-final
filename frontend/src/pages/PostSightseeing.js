@@ -13,6 +13,8 @@ const PostSightseeing = () => {
   const fileInput = useRef();
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
+  const [lng, setLng] = useState("");
+  const [lat, setLat] = useState("");
   const [location, setLocation] = useState("");
   const [country, setCountry] = useState("");
   const [link, setLink] = useState("");
@@ -33,6 +35,7 @@ const PostSightseeing = () => {
     formData.append("image", fileInput.current.files[0]);
     formData.append("name", name);
     formData.append("description", description);
+    formData.append("longitu", description);
     formData.append("location", location);
     formData.append("country", country);
     formData.append("link", link);
@@ -73,6 +76,20 @@ const PostSightseeing = () => {
           maxLength={800}
           value={description}
           onChange={(e) => setDescription(e.target.value)}
+        />
+        <label>Longitude</label>
+        <StyledInput
+          type="number"
+          required
+          value={lng}
+          onChange={(e) => setLng(e.target.value)}
+        />
+        <label>Latitude</label>
+        <StyledInput
+          type="number"
+          required
+          value={lat}
+          onChange={(e) => setLat(e.target.value)}
         />
         <label>Location</label>
         <StyledInput
