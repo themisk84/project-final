@@ -47,9 +47,10 @@ const MapLocation = () => {
     );
 
     locations.map((location) => {
-      const popup = new mapboxgl.Popup({ offset: 25 })
-        .setHTML(`<img src=${location.imageUrl} />`)
-        .setText(location.name);
+      const popup = new mapboxgl.Popup({ offset: 25 }).setHTML(
+        `<img src=${location.imageUrl} class="imagePopup"/>`
+      );
+      // .setText(location.name);
 
       const el = document.createElement("div");
       el.id = "marker";
