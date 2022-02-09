@@ -144,7 +144,9 @@ export default Country
 const Main = styled.div`
   @media (min-width: 768px) {
     display: flex;
-    flex-direction: column;
+    margin: 0 auto; // Why is it 100% width?
+    border: 2px blue solid;
+    /* flex-direction: column; */
   }
 `
 
@@ -152,8 +154,7 @@ const AttractionContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  border: 1px red solid;
-
+  border: 2px red solid;
   /* background-color: white; */
   @media (min-width: 768px) {
     margin-top: 200px;
@@ -162,10 +163,12 @@ const AttractionContainer = styled.div`
   }
 
   @media (min-width: 998px) {
+    padding-top: 130px;
     flex-wrap: wrap;
-    margin: 20px auto;
+    margin-top: 100px;
     justify-content: space-between;
     width: 900px;
+    z-index: 10;
   }
 `
 
@@ -178,8 +181,8 @@ const FilteringContainer = styled.div`
   }
   @media (min-width: 998px) {
     padding-top: 130px;
-    width: 900px;
-    margin: 0 auto;
+    width: 300px;
+    /* margin: 0 auto; */
   }
 `
 const StyledToggle = styled.div`
