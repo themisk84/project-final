@@ -1,64 +1,69 @@
-import React from "react";
-import { useDispatch } from "react-redux";
-import styled from "styled-components";
-import { FaHeart } from "react-icons/fa";
+import React from 'react'
+import { useDispatch } from 'react-redux'
+import styled from 'styled-components'
+import { FaHeart } from 'react-icons/fa'
 
-import { API_URL } from "utilis/urls";
+import { API_URL } from 'utilis/urls'
 
-import sightseeing from "../reducers/sightseeing";
+import sightseeing from '../reducers/sightseeing'
 
 const Like = ({ item }) => {
-  const dispatch = useDispatch();
+  const dispatch = useDispatch()
   const handleLike = (storyId) => {
     const options = {
-      method: "POST",
+      method: 'POST',
       headers: {
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
       },
-    };
+    }
 
     fetch(API_URL(`stories/${storyId}/like`), options)
       .then((res) => res.json())
       .then((data) => {
         if (data.success) {
-          dispatch(sightseeing.actions.addLike(data.response));
+          dispatch(sightseeing.actions.addLike(data.response))
         } else {
         }
-      });
-  };
+      })
+  }
   return (
     <LikesContainer onClick={() => handleLike(item._id)}>
       <FaHeart
         style={{
-          height: "15",
+          height: '15',
         }}
       />
       <LikesCount>{item.likes}</LikesCount>
     </LikesContainer>
-  );
-};
+  )
+}
 
-export default Like;
+export default Like
 
 const LikesContainer = styled.button`
-  position: absolute;
-  background-color: rgba(255, 255, 255, 0.4);
-  height: 30px;
+  /* position: absolute; */
+  /* background-color: rgba(255, 255, 255, 0.3); */
+  /* background-color: rgba(6, 17, 55, 0.7); */
+  background-color: rgba(54, 186, 160, 0.6);
+  color: white;
+  height: 28px;
   border: none;
-  width: 55px;
-  padding: 5px 7px 7px 5px;
+  width: 52px;
+  padding: 5px;
   border-radius: 6px;
   display: flex;
   align-items: center;
   justify-content: center;
+  margin: 15px;
   cursor: pointer;
   &:hover {
     color: #36baa0;
     transform: scale(1.2, 1.2);
   }
-`;
+`
 
 const LikesCount = styled.p`
-  font-size: 15px;
+  font-size: 14px;
+  /* font-weight: bold; */
   margin: 0px 0px 0px 5px;
-`;
+`
