@@ -5,8 +5,7 @@ import { FaRegCompass } from "react-icons/fa";
 
 const UserPage = () => {
   const username = useSelector((store) => store.user.username);
-  const saved = useSelector((store) => store.user.savedSights);
-  console.log(saved);
+  const saved = useSelector((store) => store.user?.savedSights);
 
   // console.log(
   //   savedPosts?.map((i) =>
@@ -21,7 +20,7 @@ const UserPage = () => {
       <AttractionContainer>
         <StyledHeadline>My liked posts</StyledHeadline>
 
-        {saved.map((item) => {
+        {saved?.map((item) => {
           return (
             <LikedPostWrapper key={item._id}>
               <ImageContainer image={item.imageUrl} />

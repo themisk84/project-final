@@ -69,6 +69,6 @@ const Header = styled.h1`
 const Description = styled.p`
   color: white;
   font-size: 16px;
-
+  -webkit-line-clamp: 3;
   overflow: hidden;
 `;

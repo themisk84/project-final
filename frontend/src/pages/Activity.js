@@ -34,11 +34,12 @@ const Activity = () => {
   const thisActivity = useSelector((store) =>
     store.sightseeing.sightseeings.find((item) => item._id === activityId)
   );
+
+  const saved = useSelector((store) => store.user.savedSights);
   const userId = useSelector((store) => store.user.userId);
-  const ratings = thisActivity.rating / 20;
-
-  // console.log(thisActivity);
-
+  const ratings =
+    thisActivity.rating <= 10 ? thisActivity.rating : thisActivity.rating / 20;
+  console.log("rating", ratings);
   const showInput = () => {
     if (visible) {
       setVisible(false);
@@ -108,34 +109,18 @@ const Activity = () => {
         }
       });
   };
-  let star = (
-    <FaSplotch
-      style={{
-        color: "yellow",
-      }}
-    />
-  );
   return (
     <MainWrapper>
       <StyledContainer>
         <ActivityWrapper>
           <Div>
             <ActivityImage image={thisActivity?.imageUrl}>
-              <FaChevronLeft
-                onClick={() => navigate(-1)}
-                style={{
-                  color: "white",
-                  height: "20",
-                }}
-              />
+              <Left onClick={() => navigate(-1)} />
               <LikeContainer>
                 <Like item={thisActivity ? thisActivity : ""} />
               </LikeContainer>
               {accessToken && (
-                <FaTrashAlt
-                  style={{ height: 20, width: 20, color: "white" }}
-                  onClick={() => handleDeletePost(thisActivity?._id)}
-                />
+                <FaTrash onClick={() => handleDeletePost(thisActivity?._id)} />
               )}
             </ActivityImage>
 
@@ -150,7 +135,11 @@ const Activity = () => {
                 </h1>
                 <FaBookmark
                   onClick={() => savePost()}
-                  // style={savedActivity ? { color: "green" } : { color: "black" }}
+                  style={
+                    saved
+                      ? { color: "green", cursor: "pointer" }
+                      : { color: "red", cursor: "pointer" }
+                  }
                 />
               </Heading>
 
@@ -186,7 +175,7 @@ const Activity = () => {
                 </Created>
               </PosterWrapper>
               <Section>
-                {/* <p>
+                <p>
                   {Array(ratings)?.fill(
                     <FaSplotch
                       style={{
@@ -194,7 +183,7 @@ const Activity = () => {
                       }}
                     />
                   )}
-                </p> */}
+                </p>
               </Section>
               <CommentsWrapper>
                 <h3>Comments</h3>
@@ -217,16 +206,16 @@ const Activity = () => {
                 )}
               </CommentsWrapper>
               {visible && (
-                <form
+                <Form
                   onSubmit={(event) => handleComments(thisActivity?._id, event)}
                 >
-                  <textarea
+                  <Textarea
                     maxLength="140"
                     value={comment}
                     onChange={(event) => setComment(event.target.value)}
                   />
-                  <button type="submit">Submit</button>
-                </form>
+                  <Submit type="submit">Submit</Submit>
+                </Form>
               )}
               {thisActivity?.comments
                 //  .sort((a, b) => b.createdAt - a.createdAt)
@@ -355,6 +344,9 @@ const AddComment = styled.button`
   text-transform: uppercase;
   border-radius: 8px;
   background-color: whitesmoke;
+  &:hover {
+    transform: scale(1.1, 1.1);
+  }
 `;
 const MoreButton = styled.button`
   margin: 10px;
@@ -367,6 +359,9 @@ const MoreButton = styled.button`
   text-transform: uppercase;
   border-radius: 8px;
   background-color: whitesmoke;
+  &:hover {
+    transform: scale(1.1, 1.1);
+  }
 `;
 const LikeContainer = styled.div`
   /* position: absolute;
@@ -379,4 +374,51 @@ const By = styled.h2`
 const Created = styled.h3`
   font-size: 15px;
 `;
+const Form = styled.form`
+  display: flex;
+  padding: auto;
+`;
+const Textarea = styled.textarea`
+  border: solid 3px;
+  border-radius: 5px;
+  width: 300px;
+  &:focus {
+    outline: none !important;
+    border-color: #36baa0;
+    box-shadow: 0 0 10px #719ece;
+  }
+`;
+const Submit = styled.button`
+  margin: 10px;
+  padding: 7px;
+  border: 2px solid black;
+  cursor: pointer;
+  text-transform: uppercase;
+  border-radius: 8px;
+  background-color: whitesmoke;
+  &:hover {
+    transform: scale(1.1, 1.1);
+  }
+`;
 const Section = styled.section``;
+
+const FaTrash = styled(FaTrashAlt)`
+  height: 20px;
+  width: 20px;
+  color: white;
+  cursor: pointer;
+  &:hover {
+    transform: scale(1.2, 1.2);
+    color: #36baa0;
+  }
+`;
+
+const Left = styled(FaChevronLeft)`
+  height: 20px;
+  color: white;
+  cursor: pointer;
+  &:hover {
+    transform: scale(1.5, 1.5);
+    color: #36baa0;
+  }
+`;

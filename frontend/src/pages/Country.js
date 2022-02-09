@@ -116,17 +116,21 @@ const Main = styled.div`
 const AttractionContainer = styled.div`
   display: flex;
   padding: 100px;
+  flex-direction: column;
+  align-items: center;
+
   /* background-color: white; */
   @media (min-width: 768px) {
-    flex-direction: row;
-    min-height: 150vh;
-    margin-top: 50px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    margin: 200px;
+    justify-content: space-between;
   }
 `;
 
 const FilteringContainer = styled.div`
   @media (min-width: 768px) {
-    width: 300px;
+    width: 320px;
   }
 `;
 const StyledToggle = styled.div`
@@ -164,9 +168,8 @@ const CountryChooseContainer = styled.div`
 const ButtonContainer = styled.div`
   display: grid;
   grid-template-columns: 1fr 1fr;
-  grid-column-gap: 5px;
-  justify-items: center;
-  width: 80%;
+  grid-column-gap: 0;
+
   margin-left: 20px;
 `;
 

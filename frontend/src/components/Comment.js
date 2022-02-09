@@ -100,4 +100,5 @@ const StyledUsername = styled.h5`
 const StyledParagraph = styled.p`
   margin: 0;
   font-size: 16px;
+  max-width: 300px;
 `;
