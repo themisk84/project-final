@@ -142,9 +142,10 @@ const Country = () => {
 export default Country
 
 const Main = styled.div`
+  // Why is it 100% width?
   @media (min-width: 768px) {
     display: flex;
-    margin: 0 auto; // Why is it 100% width?
+    margin: 0 auto;
     border: 2px blue solid;
     /* flex-direction: column; */
   }
@@ -221,7 +222,6 @@ const ButtonContainer = styled.div`
   display: grid;
   grid-template-columns: 1fr 1fr;
   grid-column-gap: 0;
-
   margin-left: 20px;
 `
 
