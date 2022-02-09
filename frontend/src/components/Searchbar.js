@@ -35,14 +35,15 @@ export default Searchbar;
 
 const StyledSearch = styled.label`
   color: white;
+  width: 200px;
   margin-bottom: 5px;
   font-size: 16px;
   font-weight: bold;
   @media (min-width: 768px) {
-    width: 300px;
+    width: 250px;
   }
   @media (min-width: 992px) {
-    width: 500px;
+    width: 250px;
     font-size: 20px;
   }
 `;

@@ -10,7 +10,6 @@ const user = createSlice({
     avatar: "",
     email: "",
     savedSights: [],
-    // form: false,
   },
   reducers: {
     setUsername: (store, action) => {

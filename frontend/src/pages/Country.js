@@ -7,6 +7,7 @@ import { FaSortDown } from "react-icons/fa";
 
 import Searchbar from "../components/Searchbar";
 import AttractionCards from "components/AttractionCards";
+import MapLocation from "components/MapLocation";
 
 const Country = () => {
   const { country } = useParams();
@@ -99,6 +100,7 @@ const Country = () => {
                 <AttractionCards key={item._id} item={item} />
               ))}
         </AttractionContainer>
+        <MapLocation />
       </Main>
     </>
   );
@@ -115,18 +117,25 @@ const Main = styled.div`
 
 const AttractionContainer = styled.div`
   display: flex;
-  padding: 100px;
+  flex-direction: column;
+  align-items: center;
+
   /* background-color: white; */
   @media (min-width: 768px) {
+    margin-top: 200px;
+  }
+
+  @media (min-width: 998px) {
+    flex-wrap: wrap;
+    margin-top: 200px;
     flex-direction: row;
-    min-height: 150vh;
-    margin-top: 50px;
+    width: 700px;
   }
 `;
 
 const FilteringContainer = styled.div`
   @media (min-width: 768px) {
-    width: 300px;
+    width: 320px;
   }
 `;
 const StyledToggle = styled.div`
@@ -164,9 +173,8 @@ const CountryChooseContainer = styled.div`
 const ButtonContainer = styled.div`
   display: grid;
   grid-template-columns: 1fr 1fr;
-  grid-column-gap: 5px;
-  justify-items: center;
-  width: 80%;
+  grid-column-gap: 0;
+
   margin-left: 20px;
 `;
 

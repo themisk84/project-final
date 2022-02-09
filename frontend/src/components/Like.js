@@ -51,7 +51,11 @@ const LikesContainer = styled.button`
   display: flex;
   align-items: center;
   justify-content: center;
-  pointer: cursor;
+  cursor: pointer;
+  &:hover {
+    color: #36baa0;
+    transform: scale(1.2, 1.2);
+  }
 `;
 
 const LikesCount = styled.p`

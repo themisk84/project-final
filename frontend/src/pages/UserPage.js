@@ -15,7 +15,7 @@ const UserPage = () => {
   return (
     <>
       <AttractionContainer>
-        <StyledHeadline>My liked posts</StyledHeadline>
+        <StyledHeadline>My posts</StyledHeadline>
         {myPosts.length === 0 && <div>You have not made any post yet!</div>}
 
         {myPosts.map((item) => {

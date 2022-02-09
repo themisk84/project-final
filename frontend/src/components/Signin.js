@@ -16,7 +16,10 @@ const Signin = () => {
   const [mode, setMode] = useState('signin')
   const [avatar, setAvatar] = useState('')
 
-  const accessToken = useSelector((store) => store.user.accessToken)
+
+
+  const accessToken = useSelector((store) => store.user.accessToken);
+  const err = useSelector((store) => store.user.error);
 
   const dispatch = useDispatch()
   const navigate = useNavigate()
@@ -81,6 +84,7 @@ const Signin = () => {
             <FormHeader>Sign Up</FormHeader>
           )}
           <Form onSubmit={onHandleSignIn}>
+            {/* {err === null ? "" : <h1>{err}</h1>} */}
             <LabelContainer>
               <Label htmlFor="username">
                 Username
@@ -150,6 +154,7 @@ const Signin = () => {
                 </SignButton>
               </ButtonContainer>
             )}
+            {console.log("error", err)}
           </Buttons>
         </FormContainer>
         <ImageContainer />

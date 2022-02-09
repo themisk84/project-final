@@ -91,7 +91,6 @@ const Navbar = () => {
                     marginBottom: 20,
                   }}
                 >
-                  {}
                   <FaUserCircle
                     style={{
                       height: 50,
@@ -100,11 +99,11 @@ const Navbar = () => {
                       marginRight: 10,
                     }}
                   />
+                  <p>{email}</p>
                   <div>
                     <p style={{ fontSize: 20, margin: 0, color: "#00005a" }}>
                       {user.username}
                     </p>
-                    {/* <p>{user.email}</p> */}
                   </div>
                 </div>
                 <StyledOption onClick={onAddPostClick}>Add a post</StyledOption>
@@ -159,9 +158,7 @@ const Navbar = () => {
             src={require(`../avatarAssets/${avatar}.png`)}
             alt="avatar"
           />
-          <UsernameP>
-            {username} {email}
-          </UsernameP>
+          <UsernameP>{username}</UsernameP>
         </AvatarImgContainer>
       )}
     </StyledHeader>
@@ -276,6 +273,7 @@ const StyledMobileNav = styled.div`
 const StyledLink = styled(Link)`
   text-decoration: none;
   color: #56baa0;
+  cursor: pointer;
 `;
 
 const StyledContainerButtons = styled.div`
@@ -286,4 +284,5 @@ const StyledContainerButtons = styled.div`
 const StyledOption = styled.p`
   color: #00005a;
   margin: 10px 0;
+  cursor: pointer;
 `;
