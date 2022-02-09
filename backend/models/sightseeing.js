@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+import mongoose from 'mongoose'
 
 const SightSeeingSchema = new mongoose.Schema({
   name: {
@@ -8,7 +8,7 @@ const SightSeeingSchema = new mongoose.Schema({
   country: {
     type: String,
     required: true,
-    enum: ["Sweden", "Norway", "Denmark"],
+    enum: ['Sweden', 'Norway', 'Denmark'],
   },
   imageUrl: {
     type: String,
@@ -29,21 +29,21 @@ const SightSeeingSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  // lat: {
-  //   type: Number,
-  //   required: true,
-  // },
-  // lng: {
-  //   type: Number,
-  //   required: true,
-  // },
+  lat: {
+    type: Number,
+    required: true,
+  },
+  lng: {
+    type: Number,
+    required: true,
+  },
   location: {
     type: String,
     required: true,
   },
   category: {
     type: String,
-    enum: ["food", "culture", "activity", "music"],
+    enum: ['food', 'culture', 'activity', 'music'],
     required: true,
   },
   rating: {
@@ -52,7 +52,7 @@ const SightSeeingSchema = new mongoose.Schema({
   },
   user: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: "User",
+    ref: 'User',
   },
   likes: {
     type: Number,
@@ -61,9 +61,9 @@ const SightSeeingSchema = new mongoose.Schema({
   comments: [
     {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "Comment",
+      ref: 'Comment',
     },
   ],
-});
+})
 
-module.exports = mongoose.model("Sightseeing", SightSeeingSchema);
+module.exports = mongoose.model('Sightseeing', SightSeeingSchema)
