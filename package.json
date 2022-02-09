@@ -5,6 +5,7 @@
     "postinstall": "npm install --prefix backend"
   },
   "dependencies": {
+    "mapbox-gl": "^2.7.0",
     "moment": "^2.29.1"
   }
 }
