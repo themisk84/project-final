@@ -21,6 +21,16 @@ dotenv.config();
 app.use(cors());
 app.use(express.json());
 
+app.use((req, res, next) => {
+  if (mongoose.connection.readyState === 1) {
+    next();
+  } else {
+    res.status(503).json({
+      error: "Connection problems",
+    });
+  }
+});
+
 app.get("/", (req, res) => {
   res.json({
     endpoints: listEndpoints(app),
