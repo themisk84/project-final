@@ -1,43 +1,43 @@
-import React, { useState } from 'react'
-import { useSelector } from 'react-redux'
-import { useParams, useNavigate } from 'react-router-dom'
+import React, { useState } from "react";
+import { useSelector } from "react-redux";
+import { useParams, useNavigate } from "react-router-dom";
 
-import styled from 'styled-components'
-import { FaSortDown } from 'react-icons/fa'
+import styled from "styled-components";
+import { FaSortDown } from "react-icons/fa";
 
-import Searchbar from '../components/Searchbar'
-import AttractionCards from 'components/AttractionCards'
-import MapLocation from 'components/MapLocation'
+import Searchbar from "../components/Searchbar";
+import AttractionCards from "components/AttractionCards";
+import MapLocation from "components/MapLocation";
 
 const Country = () => {
-  const { country } = useParams()
-  const [visible, setVisible] = useState(false)
-  const [category, setCategory] = useState('')
-  const [land, setLand] = useState(country) //land takes the place of country in useParams
+  const { country } = useParams();
+  const [visible, setVisible] = useState(false);
+  const [category, setCategory] = useState("");
+  const [land, setLand] = useState(country); //land takes the place of country in useParams
 
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   let attractions = useSelector((store) =>
-    store.sightseeing.sightseeings.filter((item) => item.country === land),
-  )
-  console.log(attractions)
+    store.sightseeing.sightseeings.filter((item) => item.country === land)
+  );
+  console.log(attractions);
   const categoryAttractions = attractions.filter(
-    (item) => item.category === category,
-  )
+    (item) => item.category === category
+  );
 
   const showMenu = () => {
     if (visible) {
-      setVisible(false)
+      setVisible(false);
     } else {
-      setVisible(true)
+      setVisible(true);
     }
-  }
-  const categories = ['food', 'culture', 'activity', 'music']
-  const countries = ['Sweden', 'Norway', 'Denmark']
+  };
+  const categories = ["food", "culture", "activity", "music"];
+  const countries = ["Sweden", "Norway", "Denmark"];
 
   const handleCategory = (event) => {
-    setCategory(event.target.value)
-  }
+    setCategory(event.target.value);
+  };
   // FOR ACTIVITY PAGE "ADD A COMMENT"
 
   return (
@@ -61,10 +61,11 @@ const Country = () => {
                   id="country"
                   value={land}
                   onChange={(event) => {
-                    setLand(event.target.value) //asynchronous
-                    navigate(`/country/${event.target.value}`)
-                    setCategory('')
-                  }}>
+                    setLand(event.target.value); //asynchronous
+                    navigate(`/country/${event.target.value}`);
+                    setCategory("");
+                  }}
+                >
                   {countries.map((option, index) => (
                     <option key={index} value={option}>
                       {option}
@@ -79,7 +80,8 @@ const Country = () => {
                   <FilteringButton
                     key={category}
                     value={category}
-                    onClick={handleCategory}>
+                    onClick={handleCategory}
+                  >
                     {category}
                   </FilteringButton>
                 ))}
@@ -96,10 +98,11 @@ const Country = () => {
                     id="country"
                     value={land}
                     onChange={(event) => {
-                      setLand(event.target.value) //asynchronous
-                      navigate(`/country/${event.target.value}`)
-                      setCategory('')
-                    }}>
+                      setLand(event.target.value); //asynchronous
+                      navigate(`/country/${event.target.value}`);
+                      setCategory("");
+                    }}
+                  >
                     {countries.map((option, index) => (
                       <option key={index} value={option}>
                         {option}
@@ -114,7 +117,8 @@ const Country = () => {
                     <FilteringButton
                       key={category}
                       value={category}
-                      onClick={handleCategory}>
+                      onClick={handleCategory}
+                    >
                       {category}
                     </FilteringButton>
                   ))}
@@ -123,23 +127,24 @@ const Country = () => {
             </div>
           )} */}
         </FilteringContainer>
-
-        <AttractionContainer>
-          {category === ''
-            ? attractions.map((item) => (
-                <AttractionCards item={item} key={item._id} />
-              ))
-            : categoryAttractions.map((item) => (
-                <AttractionCards key={item._id} item={item} />
-              ))}
-        </AttractionContainer>
-        <MapLocation />
+        <MapAndCards>
+          <MapLocation />
+          <AttractionContainer>
+            {category === ""
+              ? attractions.map((item) => (
+                  <AttractionCards item={item} key={item._id} />
+                ))
+              : categoryAttractions.map((item) => (
+                  <AttractionCards key={item._id} item={item} />
+                ))}
+          </AttractionContainer>
+        </MapAndCards>
       </Main>
     </>
-  )
-}
+  );
+};
 
-export default Country
+export default Country;
 
 const Main = styled.div`
   // Why is it 100% width?
@@ -149,8 +154,11 @@ const Main = styled.div`
     border: 2px blue solid;
     /* flex-direction: column; */
   }
-`
-
+`;
+const MapAndCards = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
 const AttractionContainer = styled.div`
   display: flex;
   flex-direction: column;
@@ -158,20 +166,18 @@ const AttractionContainer = styled.div`
   border: 2px red solid;
   /* background-color: white; */
   @media (min-width: 768px) {
-    margin-top: 200px;
     flex-direction: row;
     flex-wrap: wrap;
   }
 
   @media (min-width: 998px) {
-    padding-top: 130px;
     flex-wrap: wrap;
-    margin-top: 100px;
+    margin: 20px;
     justify-content: space-between;
     width: 900px;
     z-index: 10;
   }
-`
+`;
 
 const FilteringContainer = styled.div`
   padding-top: 100px;
@@ -185,13 +191,13 @@ const FilteringContainer = styled.div`
     width: 300px;
     /* margin: 0 auto; */
   }
-`
+`;
 const StyledToggle = styled.div`
   color: white;
   display: flex;
   align-items: center;
   justify-content: center;
-`
+`;
 
 const Select = styled.select`
   border: 1px white solid;
@@ -202,28 +208,28 @@ const Select = styled.select`
   margin: 5px 0;
   font-size: 15px;
   }
-`
+`;
 
 const FilterText = styled.p`
   color: white;
   margin-bottom: 5px;
   font-size: 16px;
   font-weight: bold;
-`
+`;
 const SearchBarContainer = styled.div`
   /* padding: 100px 25px 0px 25px; */
-`
+`;
 
 const CountryChooseContainer = styled.div`
   padding: 0px 25px 0px 25px;
-`
+`;
 
 const ButtonContainer = styled.div`
   display: grid;
   grid-template-columns: 1fr 1fr;
   grid-column-gap: 0;
   margin-left: 20px;
-`
+`;
 
 const FilteringButton = styled.button`
   border: none;
@@ -237,4 +243,4 @@ const FilteringButton = styled.button`
     background-color: #56baa0;
     color: white;
   }
-`
+`;

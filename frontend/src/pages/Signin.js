@@ -17,7 +17,6 @@ const Signin = () => {
   const [avatar, setAvatar] = useState("");
 
   const accessToken = useSelector((store) => store.user.accessToken);
-  const err = useSelector((store) => store.user.error);
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -44,35 +43,41 @@ const Signin = () => {
         avatar,
       }),
     };
-    // fetch(API_URL(mode), options)
-    fetch(API_URL(`users/${mode}`), options);
-  };
 
-  fetch(API_URL(mode), options)
-    .then((res) => res.json())
-    .then((data) => {
-      if (data.success) {
-        batch(() => {
-          dispatch(user.actions.setUserId(data.response.userId));
-          dispatch(user.actions.setUsername(data.response.username));
-          dispatch(user.actions.setAccessToken(data.response.accessToken));
-          dispatch(user.actions.setAvatar(data.response.avatar));
-          dispatch(user.actions.setEmail(data.response.email));
-          dispatch(user.actions.setError(null));
-        });
-      } else {
-        batch(() => {
-          dispatch(user.actions.setUserId(null));
-          dispatch(user.actions.setUsername(null));
-          dispatch(user.actions.setAccessToken(null));
-          dispatch(user.actions.setError(data.response));
-        });
-      }
-    });
+    fetch(API_URL(`users/${mode}`), options)
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.success) {
+          batch(() => {
+            dispatch(user.actions.setUserId(data.response.userId));
+            dispatch(user.actions.setUsername(data.response.username));
+            dispatch(user.actions.setAccessToken(data.response.accessToken));
+            dispatch(user.actions.setAvatar(data.response.avatar));
+            dispatch(user.actions.setEmail(data.response.email));
+            dispatch(user.actions.setError(null));
+          });
+        } else {
+          batch(() => {
+            dispatch(user.actions.setUserId(null));
+            dispatch(user.actions.setUsername(null));
+            dispatch(user.actions.setAccessToken(null));
+            if (mode === "signin") {
+              dispatch(user.actions.setError(data.response));
+            } else if (mode === "signup") {
+              dispatch(user.actions.setError(data.response.code));
+            } else {
+              console.log("Problem");
+            }
+          });
+        }
+      });
+  };
 
   const handleUsernameChange = (event) => setUsername(event.target.value);
   const handlePasswordChange = (event) => setPassword(event.target.value);
   const handleEmailChange = (event) => setEmail(event.target.value);
+
+  const err = useSelector((store) => store.user.error);
 
   return (
     <StyledMain>
@@ -84,7 +89,6 @@ const Signin = () => {
             <FormHeader>Sign Up</FormHeader>
           )}
           <Form onSubmit={onHandleSignIn}>
-            {err === null ? "" : <h1>{err}</h1>}
             <LabelContainer>
               <Label htmlFor="username">
                 Username
@@ -133,14 +137,17 @@ const Signin = () => {
                 </AvatarContainer>
               </>
             )}
-            <RegisterBtn
-              primary
-              type="submit"
-              onClick={() => dispatch(user.actions.setError(null))}
-            >
+            <RegisterBtn primary type="submit">
               {mode === "signin" ? "Log In" : "Register"}
             </RegisterBtn>
           </Form>
+          {err === null ? (
+            ""
+          ) : err === 11000 ? (
+            <ErrorMessage>Username or email should be unique</ErrorMessage>
+          ) : (
+            <ErrorMessage>{err}</ErrorMessage>
+          )}
           <Buttons>
             {mode === "signup" ? (
               <ButtonContainer>
@@ -169,7 +176,6 @@ const Signin = () => {
                 </SignButton>
               </ButtonContainer>
             )}
-            {console.log("error", err)}
           </Buttons>
         </FormContainer>
         <ImageContainer />
@@ -208,6 +214,7 @@ const OuterFormContainer = styled.div`
 
   @media (min-width: 992px) {
     flex-direction: row;
+    box-shadow: rgba(0, 0, 0, 1) 0px 5px 15px;
   }
 `;
 
@@ -240,7 +247,7 @@ const ImageContainer = styled.div`
 const Form = styled.form`
   display: flex;
   flex-direction: column;
-  margin: auto;
+  margin: 30px auto;
 `;
 
 const FormHeader = styled.h1`
@@ -312,13 +319,13 @@ const ButtonContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-
-  @media (min-width: 992px) {
-    margin: auto;
-  }
 `;
 
 const SignParagraph = styled.p`
   color: white;
   font-size: 16px;
+`;
+
+const ErrorMessage = styled.p`
+  color: red;
 `;

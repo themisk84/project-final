@@ -1,38 +1,38 @@
-import React, { useEffect } from 'react'
-import styled from 'styled-components'
-import { useDispatch, useSelector } from 'react-redux'
-import { Link } from 'react-router-dom'
+import React, { useEffect } from "react";
+import styled from "styled-components";
+import { useDispatch, useSelector } from "react-redux";
+import { Link } from "react-router-dom";
 
-import { API_URL } from 'utilis/urls'
+import { API_URL } from "utilis/urls";
 
-import { ui } from '../reducers/ui'
-import sightseeing from '../reducers/sightseeing'
+import { ui } from "../reducers/ui";
+import sightseeing from "../reducers/sightseeing";
 
-import Searchbar from '../components/Searchbar'
-import Loader from '../components/Loader'
+import Searchbar from "../components/Searchbar";
+import Loader from "../components/Loader";
 
 const Start = () => {
-  const loading = useSelector((store) => store.ui.loading)
-  const dispatch = useDispatch()
+  const loading = useSelector((store) => store.ui.loading);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     // if(sightseeing.length === 0) {
-    dispatch(ui.actions.setLoading(true))
-    fetch(API_URL('stories'))
+    dispatch(ui.actions.setLoading(true));
+    fetch(API_URL("stories"))
       .then((res) => res.json())
       .then((data) => {
         if (data.success) {
           setTimeout(() => {
-            dispatch(sightseeing.actions.addSightseeing(data.response))
-            dispatch(ui.actions.setLoading(false))
-          }, 100)
+            dispatch(sightseeing.actions.addSightseeing(data.response));
+            dispatch(ui.actions.setLoading(false));
+          }, 100);
         } else {
         }
-      })
+      });
     // }
-  }, [dispatch])
+  }, [dispatch]);
 
-  const cities = ['Norway', 'Sweden', 'Denmark']
+  const cities = ["Norway", "Sweden", "Denmark"];
 
   return (
     <>
@@ -68,13 +68,13 @@ const Start = () => {
         </StyledHero>
       )}
     </>
-  )
-}
+  );
+};
 
-export default Start
+export default Start;
 
 const StyledHero = styled.div`
-  background-image: url('/assets/background.png');
+  background-image: url("/assets/background.png");
   background-size: cover;
   background-repeat: no-repeat;
   background-position: right;
@@ -86,7 +86,7 @@ const StyledHero = styled.div`
   @media (min-width: 390px) {
     background-position: center;
   }
-`
+`;
 
 const StyledHeadline = styled.h1`
   color: white;
@@ -100,7 +100,7 @@ const StyledHeadline = styled.h1`
     margin: 0;
     /* padding: 10px 50px; */
   }
-`
+`;
 
 const StyledContainer = styled.div`
   margin-top: 100px;
@@ -116,7 +116,7 @@ const StyledContainer = styled.div`
     max-width: 1300px;
     margin: 100px auto 0 auto;
   }
-`
+`;
 const StyledParagraph = styled.p`
   color: white;
   line-height: 1.3;
@@ -125,7 +125,7 @@ const StyledParagraph = styled.p`
     max-width: 55%;
     font-size: 20px;
   }
-`
+`;
 
 const StyledContainerCountry = styled.div`
   display: flex;
@@ -153,7 +153,7 @@ const StyledContainerCountry = styled.div`
   @media (min-width: 992px) {
     justify-content: left;
   }
-`
+`;
 const StyledCountryWrapper = styled.div`
   display: flex;
   flex-direction: column;
@@ -162,7 +162,7 @@ const StyledCountryWrapper = styled.div`
   @media (min-width: 992px) {
     width: 250px;
   }
-`
+`;
 const StyledCountry = styled.div`
   height: 250px;
   width: 200px;
@@ -173,12 +173,12 @@ const StyledCountry = styled.div`
     width: 250px;
   }
   ${(props) =>
-    props.item === 'Norway'
+    props.item === "Norway"
       ? `background-image: url('/assets/norway.jpg'); background-position: right`
-      : props.item === 'Sweden'
+      : props.item === "Sweden"
       ? `background-image:url('/assets/sweden.jpg')`
       : `background-image:url('/assets/denmark.jpg')`}
-`
+`;
 
 const StyledTitle = styled.p`
   text-align: center;
@@ -189,15 +189,15 @@ const StyledTitle = styled.p`
   }
 
   ${(props) =>
-    props.item === 'Norway'
+    props.item === "Norway"
       ? `color: #96e2af`
-      : props.item === 'Sweden'
+      : props.item === "Sweden"
       ? `color: #86e7ff`
       : `color: #fdedaa`}
-`
+`;
 const StyledLink = styled(Link)`
   text-decoration: none;
-`
+`;
 
 const StyledCircle = styled.div`
   display: none;
@@ -206,7 +206,7 @@ const StyledCircle = styled.div`
     height: 300px;
     width: 300px;
     border-radius: 50%;
-    background-image: url('/assets/man.jpeg');
+    background-image: url("/assets/man.jpeg");
     position: absolute;
     background-size: cover;
     top: 250px;
@@ -218,7 +218,7 @@ const StyledCircle = styled.div`
     top: 130px;
     right: 40px;
   }
-`
+`;
 const StyledChooseCountry = styled.p`
   color: white;
   margin-bottom: 5px;
@@ -234,4 +234,4 @@ const StyledChooseCountry = styled.p`
     margin-top: 40px;
     margin-bottom: 10px;
   }
-`
+`;

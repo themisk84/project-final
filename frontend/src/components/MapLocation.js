@@ -13,8 +13,8 @@ const MapLocation = () => {
   const [lat, setLat] = useState(59.334591);
   const [zoom, setZoom] = useState(3);
 
-  let name;
-  let imageUrl;
+  let name = "";
+  let imageUrl = "";
 
   const locations = useSelector((store) =>
     store.sightseeing.sightseeings.map((item) => {
@@ -33,7 +33,6 @@ const MapLocation = () => {
       });
     })
   );
-  console.log("locations", locations);
 
   useEffect(() => {
     const map = new mapboxgl.Map(
@@ -50,7 +49,6 @@ const MapLocation = () => {
       const popup = new mapboxgl.Popup({ offset: 25 }).setHTML(
         `<img src=${location.imageUrl} class="imagePopup"/><p>${location.name}</p>`
       );
-      // .setText(location.name);
 
       const el = document.createElement("div");
       el.id = "marker";
@@ -86,6 +84,19 @@ export default MapLocation;
 const MapLocationContainer = styled.div`
   height: 400px;
   width: 400px;
+  display: none;
+
+  @media (min-width: 768px) {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 100%;
+    margin: 120px 20px 0px;
+  }
+
+  /* @media (min-width: 992px) {
+    width: 80%;
+  } */
 `;
 
 // const Sidebar = styled.div`

@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
+import { batch, useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 import { FaUserCircle } from "react-icons/fa";
 
@@ -30,7 +30,15 @@ const Navbar = () => {
   }, [pathname]);
 
   const logOut = () => {
-    dispatch(user.actions.setAccessToken(null));
+    batch(() => {
+      dispatch(user.actions.setUserId(null));
+      dispatch(user.actions.setUsername(null));
+      dispatch(user.actions.setAccessToken(null));
+      dispatch(user.actions.setAvatar(null));
+      dispatch(user.actions.setEmail(null));
+      dispatch(user.actions.setError(null));
+    });
+
     navigate("/");
   };
 

@@ -1,44 +1,44 @@
-import React from 'react'
-import { useDispatch } from 'react-redux'
-import styled from 'styled-components'
-import { FaHeart } from 'react-icons/fa'
+import React from "react";
+import { useDispatch } from "react-redux";
+import styled from "styled-components";
+import { FaHeart } from "react-icons/fa";
 
-import { API_URL } from 'utilis/urls'
+import { API_URL } from "utilis/urls";
 
-import sightseeing from '../reducers/sightseeing'
+import sightseeing from "../reducers/sightseeing";
 
 const Like = ({ item }) => {
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
   const handleLike = (storyId) => {
     const options = {
-      method: 'POST',
+      method: "POST",
       headers: {
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
       },
-    }
+    };
 
     fetch(API_URL(`stories/${storyId}/like`), options)
       .then((res) => res.json())
       .then((data) => {
         if (data.success) {
-          dispatch(sightseeing.actions.addLike(data.response))
+          dispatch(sightseeing.actions.addLike(data.response));
         } else {
         }
-      })
-  }
+      });
+  };
   return (
     <LikesContainer onClick={() => handleLike(item._id)}>
       <FaHeart
         style={{
-          height: '15',
+          height: "15",
         }}
       />
       <LikesCount>{item.likes}</LikesCount>
     </LikesContainer>
-  )
-}
+  );
+};
 
-export default Like
+export default Like;
 
 const LikesContainer = styled.button`
   /* position: absolute; */
@@ -58,12 +58,10 @@ const LikesContainer = styled.button`
   cursor: pointer;
   &:hover {
     color: #36baa0;
-    transform: scale(1.2, 1.2);
+    background-color: rgba(255, 255, 255, 0.18);
   }
-`
-
+`;
 const LikesCount = styled.p`
   font-size: 14px;
-  /* font-weight: bold; */
   margin: 0px 0px 0px 5px;
-`
+`;

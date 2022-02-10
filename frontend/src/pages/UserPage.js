@@ -14,8 +14,8 @@ const UserPage = () => {
 
   return (
     <>
+      <StyledHeadline>My posts</StyledHeadline>
       <AttractionContainer>
-        <StyledHeadline>My posts</StyledHeadline>
         {myPosts.length === 0 && <div>You have not made any post yet!</div>}
 
         {myPosts.map((item) => {
@@ -60,16 +60,22 @@ const AttractionContainer = styled.div`
   flex-direction: column;
   padding: 20px;
   width: 100%;
-  margin-top: 70px;
+  @media (min-width: 768px) {
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
 `;
 const StyledHeadline = styled.h2`
-  margin: 0;
   color: #061137;
-  margin: 25px 0;
+  margin: 100px auto 0 auto;
+  text-align: center;
+  @media (min-width: 768px) {
+    margin: 200px auto 50px auto;
+  }
 `;
 const PostWrapper = styled(Link)`
   border-radius: 20px;
-  width: 100%;
+  width: 300px;
   height: 150px;
   margin-bottom: 20px;
   overflow: hidden;
@@ -77,6 +83,10 @@ const PostWrapper = styled(Link)`
   background-color: white;
   text-decoration: none;
   color: black;
+  margin: 10px auto;
+  @media (min-width: 768px) {
+    width: 400px;
+  }
 `;
 const ImageContainer = styled.div`
   height: 100%;

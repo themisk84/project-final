@@ -90,19 +90,26 @@ const Img = styled.img`
 
 const P = styled.p`
   position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
+  width: 200px;
+  height: 200px;
+  margin: 0;
   z-index: 22;
-  padding: auto;
   background-color: rgba(0, 0, 0, 0.5);
+  border-radius: 50%;
+  padding-top: 70px;
+  &:hover {
+    display: none;
+  }
 `;
 
 const ImgBox = styled.article`
   position: relative;
   text-align: center;
-  margin: 10px;
+  margin: 20px auto;
   color: white;
   font-size: 20px;
+  width: 200px;
+  @media (min-width: 768px) {
+    margin: 20px;
+  }
 `;
