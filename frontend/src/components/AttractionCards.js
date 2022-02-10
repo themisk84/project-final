@@ -16,11 +16,8 @@ const AttractionCards = ({ item }) => {
         onClick={() => onAttractionClick(item._id)}
         style={{ backgroundImage: `url(${item.imageUrl})` }}>
         <Like item={item} />
-        {/* <CommentContainer><span>&#128172;</span></CommentContainer> */}
-
         <HeaderContainer>
           <Header>{item.name}</Header>
-          {/* <Description>{item.description}</Description> */}
           <Description>
             <FaRegCompass
               style={{
@@ -52,20 +49,13 @@ const AttractionCard = styled.article`
   background-size: cover;
   margin-bottom: 30px;
   overflow: hidden;
+  margin-right: 20px;
 `
-
-// const CommentContainer = styled.section`
-//   width: 40px;
-//   -webkit-line-clamp: 3;
-//   border: 1px red yellow;
-// `
-
 const HeaderContainer = styled.section`
   display: flex;
   width: 240px;
   flex-direction: column;
   justify-content: flex-end;
-  /* align-items: center; */
   overflow: hidden;
   padding: 16px 16px 16px 20px;
   background-color: rgba(6, 17, 55, 0.7);
@@ -73,14 +63,13 @@ const HeaderContainer = styled.section`
   margin-bottom: 50px;
   margin-right: 40px;
 `
-
 const Header = styled.h1`
   color: white;
   font-size: 26px;
   margin: 0;
   margin-bottom: 8px;
+  overflow-wrap: break-word;
 `
-
 const Description = styled.p`
   color: white;
   font-size: 16px;

@@ -1,6 +1,7 @@
 import React from "react";
 import { useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
+import styled from 'styled-components'
 
 import AttractionCards from "components/AttractionCards";
 
@@ -20,12 +21,28 @@ const SearchPage = () => {
       story.category.toLowerCase().includes(description.toLowerCase())
   );
   return (
-    <div>
+    <AttractionContainer>
       {filteredStories.map((item) => (
         <AttractionCards item={item} key={item._id} />
       ))}
-    </div>
+    </AttractionContainer>
   );
 };
 
 export default SearchPage;
+
+const AttractionContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 20px auto;
+  @media (min-width: 768px) {
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+  @media (min-width: 998px) {
+    flex-wrap: wrap;
+    justify-content: space-between;
+    width: 900px;
+  }
+`

@@ -146,7 +146,7 @@ const Signin = () => {
           ) : err === 11000 ? (
             <ErrorMessage>Username or email should be unique</ErrorMessage>
           ) : (
-            <ErrorMessage>{err}</ErrorMessage>
+            <ErrorMessage style={{ textAlign: "center" }}>{err}</ErrorMessage>
           )}
           <Buttons>
             {mode === "signup" ? (
@@ -327,5 +327,6 @@ const SignParagraph = styled.p`
 `;
 
 const ErrorMessage = styled.p`
-  color: red;
+  color: tomato;
+  font-size:18px;
 `;

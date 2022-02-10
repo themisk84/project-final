@@ -4,7 +4,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { useParams, useNavigate } from "react-router-dom";
 import moment from "moment";
 import { FaSortDown, FaSplotch, FaTimesCircle } from "react-icons/fa";
-
 import { API_URL } from "utilis/urls";
 
 import sightseeing from "../reducers/sightseeing";
@@ -37,7 +36,7 @@ const Activity = () => {
   const saved = useSelector((store) => store.user.savedSights);
   const userId = useSelector((store) => store.user.userId);
   const ratings =
-    thisActivity.rating <= 10 ? thisActivity.rating : thisActivity.rating / 20;
+    thisActivity.rating / 20
   console.log("rating", ratings);
   const showInput = () => {
     if (visible) {
@@ -130,7 +129,6 @@ const Activity = () => {
                 </h1>
                 <Bookmark onClick={() => savePost()} style={saved ? {} : {}} />
               </Heading>
-
               <LocationWrapper>
                 <FaRegCompass
                   style={{
@@ -144,7 +142,7 @@ const Activity = () => {
                     fontStyle: "italic",
                   }}
                 >
-                  {thisActivity?.location}
+                  {thisActivity?.location}, {thisActivity?.country}
                 </p>
               </LocationWrapper>
 
@@ -164,14 +162,16 @@ const Activity = () => {
               </PosterWrapper>
               <Section>
                 <p>
-                  {Array(ratings)?.fill(
-                    <FaSplotch
+
+                  {[...Array(ratings)].map((x, i) => (
+                    <FaSplotch key={i}
                       style={{
                         color: "yellow",
                       }}
                     />
-                  )}
+                  ))}
                 </p>
+
                 <Section2>
                   <Visit href={thisActivity.link}>Visit site...</Visit>
                   {userId === thisActivity.user._id && (
@@ -283,16 +283,6 @@ const ActivityImage = styled.div`
   display: flex;
   justify-content: space-between;
 `;
-// const LikesContainer = styled.div`
-//   background-color: rgba(255, 255, 255, 0.2);
-//   height: 22px;
-//   min-width: 40px;
-//   padding: 5px 7px 7px 5px;
-//   border-radius: 6px;
-//   display: flex;
-//   align-items: center;
-//   justify-content: center;
-// `
 const Heading = styled.div`
   display: flex;
   justify-content: space-between;
@@ -310,7 +300,6 @@ const LocationWrapper = styled.div`
   display: flex;
   align-items: center;
 `;
-
 const PosterWrapper = styled.div`
   display: flex;
   justify-content: space-between;
@@ -364,6 +353,7 @@ const By = styled.h2`
 `;
 const Created = styled.h3`
   font-size: 15px;
+  font-weight: normal;
 `;
 const Form = styled.form`
   display: flex;

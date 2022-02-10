@@ -107,11 +107,9 @@ const Navbar = () => {
                       marginRight: 10,
                     }}
                   />
-                  <p>{email}</p>
+                  <p style={{ margin: 0, color: "#00005a" }}>{email}</p>
                   <div>
-                    <p style={{ fontSize: 20, margin: 0, color: "#00005a" }}>
-                      {user.username}
-                    </p>
+
                   </div>
                 </div>
                 <StyledOption onClick={onAddPostClick}>Add a post</StyledOption>
@@ -131,22 +129,6 @@ const Navbar = () => {
       <StyledNav>
         <StyledList>
           {!accessToken && <StyledLink to="/signin">Signin</StyledLink>}
-          <StyledContainerButtons>
-            {/* {accessToken && (
-              <StyledLink to="/add">Add post</StyledLink>
-            )} */}
-            {/* {accessToken && (
-              // <button onClick={() => navigate("/user")}>My posts</button>
-              <StyledLink to="/user">My posts</StyledLink>
-            )} */}
-            {/* {accessToken && <button>Liked Post</button>} instead saving sightseeings in favorites */}
-            {/* {accessToken && (
-              //  <button onClick={logOut}>Log out</button>
-              <StyledLink to="/" onClick={logOut}>
-                Log out
-              </StyledLink>
-            )} */}
-          </StyledContainerButtons>
         </StyledList>
         <StyledList>
           {!accessToken && <StyledLink to="/about">About</StyledLink>}
@@ -160,8 +142,6 @@ const Navbar = () => {
         </StyledHamburger>
       ) : (
         <AvatarImgContainer onClick={showMenu}>
-          {/* <FaUserCircle style={{ height: 35, width: 35, color: "#56baa0" }} /> */}
-
           <AvatarImg
             src={require(`../avatarAssets/${avatar}.png`)}
             alt="avatar"
@@ -179,7 +159,6 @@ const StyledHeader = styled.header`
   width: 100%;
   height: 70px;
   z-index: 10;
-  /* backdrop-filter: blur(12px); */
   background-color: #061137;
   position: fixed;
   top: 0;
@@ -198,24 +177,20 @@ const StyledHamburger = styled.div`
   height: 25px;
   flex-direction: column;
   justify-content: space-between;
-
   div {
     width: 30px;
     height: 4px;
     background-color: #56baa0;
     border-radius: 5px;
   }
-
   @media (min-width: 768px) {
     display: none;
   }
 `;
-
 const AvatarImgContainer = styled.div`
   display: flex;
   cursor: pointer;
 `;
-
 const UsernameP = styled.div`
   display: none;
   @media (min-width: 768px) {
@@ -226,7 +201,6 @@ const UsernameP = styled.div`
     font-size: 20px;
   }
 `;
-
 const AvatarImg = styled.img`
   width: 50px;
   @media (min-width: 768px) {
@@ -235,7 +209,6 @@ const AvatarImg = styled.img`
 `;
 const StyledNav = styled.nav`
   display: none;
-
   @media (min-width: 768px) {
     display: flex;
     align-items: center;
@@ -264,8 +237,6 @@ const StyledMobileNav = styled.div`
   position: absolute;
   display: flex;
   flex-direction: column;
-  /* justify-content: center; */
-  /* align-items: right; */
   right: 0;
   left: 0;
   top: 70px;
@@ -283,12 +254,10 @@ const StyledLink = styled(Link)`
   color: #56baa0;
   cursor: pointer;
 `;
-
 const StyledContainerButtons = styled.div`
   display: flex;
   color: #56baa0;
 `;
-
 const StyledOption = styled.p`
   color: #00005a;
   margin: 10px 0;
