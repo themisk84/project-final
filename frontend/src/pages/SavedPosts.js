@@ -2,6 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import { useSelector } from "react-redux";
 import { FaRegCompass } from "react-icons/fa";
+import { Link } from "react-router-dom";
 
 const UserPage = () => {
   const username = useSelector((store) => store.user.username);
@@ -18,36 +19,40 @@ const UserPage = () => {
       {/* <Searchbar /> */}
       {saved?.length === 0 && <div>You have not saved any posts</div>}
       <AttractionContainer>
-        <StyledHeadline>My liked posts</StyledHeadline>
+        <StyledHeadline>My saved posts</StyledHeadline>
 
         {saved?.map((item) => {
           return (
-            <LikedPostWrapper key={item._id}>
-              <ImageContainer image={item.imageUrl} />
-              <InfoContainer>
-                <ActivityName>{item.name}</ActivityName>
-                <InfoWrapper>
-                  <FaRegCompass
-                    style={{
-                      marginRight: "6",
-                      height: "14",
-                    }}
-                  />
-                  <p
-                    style={{
-                      fontSize: "14px",
-                      fontStyle: "italic",
-                    }}
-                  >
-                    {item.location}
-                  </p>
-                </InfoWrapper>
-                <InfoWrapper>
-                  <p>Category:</p>
-                  <p style={{ marginLeft: 5 }}>{item.category}</p>
-                </InfoWrapper>
-              </InfoContainer>
-            </LikedPostWrapper>
+            <>
+              <StyledLink to={`/activity/${item._id}`}>
+                <LikedPostWrapper key={item._id}>
+                  <ImageContainer image={item.imageUrl} />
+                  <InfoContainer>
+                    <ActivityName>{item.name}</ActivityName>
+                    <InfoWrapper>
+                      <FaRegCompass
+                        style={{
+                          marginRight: "6",
+                          height: "14",
+                        }}
+                      />
+                      <p
+                        style={{
+                          fontSize: "14px",
+                          fontStyle: "italic",
+                        }}
+                      >
+                        {item.location}
+                      </p>
+                    </InfoWrapper>
+                    <InfoWrapper>
+                      <p>Category:</p>
+                      <p style={{ marginLeft: 5 }}>{item.category}</p>
+                    </InfoWrapper>
+                  </InfoContainer>
+                </LikedPostWrapper>
+              </StyledLink>
+            </>
           );
         })}
       </AttractionContainer>
@@ -69,6 +74,12 @@ const StyledHeadline = styled.h2`
   color: #061137;
   margin: 25px 0;
 `;
+
+const StyledLink = styled(Link)`
+  text-decoration: none;
+  color: black;
+`;
+
 const LikedPostWrapper = styled.div`
   border-radius: 20px;
   width: 100%;

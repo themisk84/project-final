@@ -35,7 +35,8 @@ const PostSightseeing = () => {
     formData.append("image", fileInput.current.files[0]);
     formData.append("name", name);
     formData.append("description", description);
-    formData.append("longitu", description);
+    formData.append("lng", lng);
+    formData.append("lat", lat);
     formData.append("location", location);
     formData.append("country", country);
     formData.append("link", link);

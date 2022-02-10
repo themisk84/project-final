@@ -22,7 +22,7 @@ const Signin = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const avatars = ["astronaut", "bear", "man", "woman", "user"];
+  const avatars = ["tourism", "bear", "man", "woman", "user"];
 
   useEffect(() => {
     if (accessToken) {
