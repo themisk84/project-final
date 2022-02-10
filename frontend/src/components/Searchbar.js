@@ -1,20 +1,21 @@
-import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import styled from "styled-components";
+import React, { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
+import styled from 'styled-components'
 
 const Searchbar = () => {
-  const [query, setQuery] = useState("");
-  const navigate = useNavigate();
+  const [query, setQuery] = useState('')
+  const navigate = useNavigate()
   const onQueryChange = (event) => {
-    setQuery(event.target.value);
-  };
+    setQuery(event.target.value)
+  }
 
   const onFormSubmit = (event) => {
-    event.preventDefault();
+    event.preventDefault()
     navigate(
-      `/search?name=${query}&description=${query}&country=${query}&category=${query}`
-    );
-  };
+      `/search?name=${query}&description=${query}&country=${query}&category=${query}`,
+      // `/search?name=${query}&description=${query}&country=${query}&category=${query}&location=${query}`,
+    )
+  }
 
   return (
     <StyledContainerSearch>
@@ -28,10 +29,10 @@ const Searchbar = () => {
         />
       </StyledForm>
     </StyledContainerSearch>
-  );
-};
+  )
+}
 
-export default Searchbar;
+export default Searchbar
 
 const StyledSearch = styled.label`
   color: white;
@@ -46,7 +47,7 @@ const StyledSearch = styled.label`
     width: 250px;
     font-size: 20px;
   }
-`;
+`
 
 const StyledInput = styled.input`
   border: 1px white solid;
@@ -61,7 +62,7 @@ const StyledInput = styled.input`
   @media (min-width: 768px) {
     width: 300px;
   }
-`;
+`
 const StyledContainerSearch = styled.div`
   @media (min-width: 768px) {
     margin: 20px 0 50px;
@@ -70,10 +71,10 @@ const StyledContainerSearch = styled.div`
     justify-content: left;
     align-items: left;
   }
-`;
+`
 const StyledForm = styled.form`
   @media (min-width: 768px) {
     display: flex;
     flex-direction: column;
   }
-`;
+`

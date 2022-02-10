@@ -3,7 +3,7 @@ import { batch, useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 
-import Avatar from "./Avatar";
+import Avatar from "../components/Avatar";
 
 import user from "reducers/user";
 
@@ -45,28 +45,30 @@ const Signin = () => {
       }),
     };
     // fetch(API_URL(mode), options)
-    fetch(API_URL(`users/${mode}`), options)
-      .then((res) => res.json())
-      .then((data) => {
-        if (data.success) {
-          batch(() => {
-            dispatch(user.actions.setUserId(data.response.userId));
-            dispatch(user.actions.setUsername(data.response.username));
-            dispatch(user.actions.setAccessToken(data.response.accessToken));
-            dispatch(user.actions.setAvatar(data.response.avatar));
-            dispatch(user.actions.setEmail(data.response.email));
-            dispatch(user.actions.setError(null));
-          });
-        } else {
-          batch(() => {
-            dispatch(user.actions.setUserId(null));
-            dispatch(user.actions.setUsername(null));
-            dispatch(user.actions.setAccessToken(null));
-            dispatch(user.actions.setError(data.response));
-          });
-        }
-      });
+    fetch(API_URL(`users/${mode}`), options);
   };
+
+  fetch(API_URL(mode), options)
+    .then((res) => res.json())
+    .then((data) => {
+      if (data.success) {
+        batch(() => {
+          dispatch(user.actions.setUserId(data.response.userId));
+          dispatch(user.actions.setUsername(data.response.username));
+          dispatch(user.actions.setAccessToken(data.response.accessToken));
+          dispatch(user.actions.setAvatar(data.response.avatar));
+          dispatch(user.actions.setEmail(data.response.email));
+          dispatch(user.actions.setError(null));
+        });
+      } else {
+        batch(() => {
+          dispatch(user.actions.setUserId(null));
+          dispatch(user.actions.setUsername(null));
+          dispatch(user.actions.setAccessToken(null));
+          dispatch(user.actions.setError(data.response));
+        });
+      }
+    });
 
   const handleUsernameChange = (event) => setUsername(event.target.value);
   const handlePasswordChange = (event) => setPassword(event.target.value);
