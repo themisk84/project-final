@@ -74,7 +74,7 @@ const MapLocation = () => {
       {/* <Sidebar>
         Longtitude: {lng} | Latitude: {lat} | Zoom: {zoom}
       </Sidebar> */}
-      <div ref={mapContainer} className="map-container" />
+      <Div ref={mapContainer} className="map-container" />
     </MapLocationContainer>
   );
 };
@@ -90,13 +90,16 @@ const MapLocationContainer = styled.div`
     display: flex;
     flex-direction: column;
     justify-content: center;
-    width: 100%;
+    width: 97%;
     margin: 120px 20px 0px;
   }
 
   /* @media (min-width: 992px) {
     width: 80%;
   } */
+`;
+const Div = styled.div`
+  border-radius: 10px;
 `;
 
 // const Sidebar = styled.div`

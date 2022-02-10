@@ -11,7 +11,7 @@ import MapLocation from "components/MapLocation";
 
 const Country = () => {
   const { country } = useParams();
-  const [visible, setVisible] = useState(false);
+  const [visible, setVisible] = useState(true);
   const [category, setCategory] = useState("");
   const [land, setLand] = useState(country); //land takes the place of country in useParams
 
@@ -49,10 +49,12 @@ const Country = () => {
             <Searchbar />
           </SearchBarContainer> */}
           <StyledToggle onClick={showMenu}>
-            <FilterText>Filter Menu</FilterText>
+            <FilterText>
+              Filter Menu <FaSortDown />
+            </FilterText>
             {/* <FaSortDown style={{ width: 23, height: 25, marginLeft: 5 }} /> */}
           </StyledToggle>
-          <div>
+          {/* <div>
             <CountryChooseContainer>
               <FilterText>Country</FilterText>
               <form>
@@ -87,9 +89,9 @@ const Country = () => {
                 ))}
               </ButtonContainer>
             </div>
-          </div>
-          {/* {visible && (
-            <div>
+          </div> */}
+          {visible && (
+            <ToggleContainer>
               <CountryChooseContainer>
                 <FilterText>Country</FilterText>
                 <form>
@@ -111,21 +113,20 @@ const Country = () => {
                   </Select>
                 </form>
               </CountryChooseContainer>
-              <div>
-                <ButtonContainer>
-                  {categories.map((category) => (
-                    <FilteringButton
-                      key={category}
-                      value={category}
-                      onClick={handleCategory}
-                    >
-                      {category}
-                    </FilteringButton>
-                  ))}
-                </ButtonContainer>
-              </div>
-            </div>
-          )} */}
+
+              <ButtonContainer>
+                {categories.map((category) => (
+                  <FilteringButton
+                    key={category}
+                    value={category}
+                    onClick={handleCategory}
+                  >
+                    {category}
+                  </FilteringButton>
+                ))}
+              </ButtonContainer>
+            </ToggleContainer>
+          )}
         </FilteringContainer>
         <MapAndCards>
           <MapLocation />
@@ -158,12 +159,17 @@ const Main = styled.div`
 const MapAndCards = styled.div`
   display: flex;
   flex-direction: column;
+  @media (min-width: 768px) {
+    margin-left: 350px;
+  }
 `;
 const AttractionContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
   border: 2px red solid;
+  margin: 20px auto;
+
   /* background-color: white; */
   @media (min-width: 768px) {
     flex-direction: row;
@@ -172,10 +178,7 @@ const AttractionContainer = styled.div`
 
   @media (min-width: 998px) {
     flex-wrap: wrap;
-    margin: 20px;
-    justify-content: space-between;
-    width: 900px;
-    z-index: 10;
+    justify-content: space-around;
   }
 `;
 
@@ -183,12 +186,17 @@ const FilteringContainer = styled.div`
   padding-top: 100px;
   border: 2px yellow solid;
   color: #061137;
+  width: 100%;
+
   @media (min-width: 768px) {
-    width: 320px;
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    width: 300px;
   }
   @media (min-width: 998px) {
     padding-top: 130px;
-    width: 300px;
+
     /* margin: 0 auto; */
   }
 `;
@@ -203,10 +211,12 @@ const Select = styled.select`
   border: 1px white solid;
   border-radius: 8px;
   background-color: rgba(255, 255, 255, 0.4);
-  width: 100%;
+  width: 200px;
   height: 35px;
-  margin: 5px 0;
+  margin: 5px auto;
   font-size: 15px;
+  @media (min-width: 768px) {
+    width: 300px%;
   }
 `;
 
@@ -225,10 +235,11 @@ const CountryChooseContainer = styled.div`
 `;
 
 const ButtonContainer = styled.div`
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  grid-column-gap: 0;
+  display: flex;
+  flex-wrap: wrap;
   margin-left: 20px;
+  width: 300px;
+  margin: auto;
 `;
 
 const FilteringButton = styled.button`
@@ -244,3 +255,5 @@ const FilteringButton = styled.button`
     color: white;
   }
 `;
+
+const ToggleContainer = styled.div``;
