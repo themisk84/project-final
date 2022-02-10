@@ -5,22 +5,14 @@ import { FaRegCompass } from "react-icons/fa";
 import { Link } from "react-router-dom";
 
 const UserPage = () => {
-  const username = useSelector((store) => store.user.username);
   const saved = useSelector((store) => store.user?.savedSights);
-
-  // console.log(
-  //   savedPosts?.map((i) =>
-  //     i.message;
-  //   )
-  // );
 
   return (
     <>
       {/* <Searchbar /> */}
+      <StyledHeadline>My saved posts</StyledHeadline>
       {saved?.length === 0 && <div>You have not saved any posts</div>}
       <AttractionContainer>
-        <StyledHeadline>My saved posts</StyledHeadline>
-
         {saved?.map((item) => {
           return (
             <>
@@ -67,22 +59,41 @@ const AttractionContainer = styled.div`
   flex-direction: column;
   padding: 20px;
   width: 100%;
-  margin-top: 70px;
+  @media (min-width: 768px) {
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
 `;
 const StyledHeadline = styled.h2`
-  margin: 0;
   color: #061137;
-  margin: 25px 0;
+  margin: 100px auto 0 auto;
+  text-align: center;
+  @media (min-width: 768px) {
+    margin: 200px auto 50px auto;
+  }
 `;
 
 const StyledLink = styled(Link)`
+  /* text-decoration: none;
+  color: black; */
+  border-radius: 20px;
+  width: 300px;
+  height: 150px;
+  margin-bottom: 20px;
+  overflow: hidden;
+  display: flex;
+  background-color: white;
   text-decoration: none;
   color: black;
+  margin: 10px auto;
+  @media (min-width: 768px) {
+    width: 400px;
+  }
 `;
 
 const LikedPostWrapper = styled.div`
   border-radius: 20px;
-  width: 100%;
+  width: 300px;
   height: 150px;
   margin-bottom: 20px;
   overflow: hidden;

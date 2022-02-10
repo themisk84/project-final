@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams, useNavigate } from "react-router-dom";
 import moment from "moment";
-import { FaSortDown, FaSplotch } from "react-icons/fa";
+import { FaSortDown, FaSplotch, FaTimesCircle } from "react-icons/fa";
 
 import { API_URL } from "utilis/urls";
 
@@ -15,7 +15,6 @@ import Comment from "../components/Comment";
 import GradientBackground from "components/GradientBackground";
 
 import {
-  FaTrashAlt,
   FaBookmark,
   FaChevronLeft,
   FaRegCompass,
@@ -73,7 +72,6 @@ const Activity = () => {
   const savePost = () => {
     console.log("activity", thisActivity);
     dispatch(user.actions.addSavedPost(thisActivity));
-    // dispatch(user.actions.checked());
   };
 
   const savedActivitys = useSelector((store) => store.user.savedSights);
@@ -119,9 +117,6 @@ const Activity = () => {
               <LikeContainer>
                 <Like item={thisActivity ? thisActivity : ""} />
               </LikeContainer>
-              {accessToken && (
-                <FaTrash onClick={() => handleDeletePost(thisActivity?._id)} />
-              )}
             </ActivityImage>
 
             <ActivityInfoContainer>
@@ -133,14 +128,7 @@ const Activity = () => {
                 >
                   {thisActivity?.name}
                 </h1>
-                <FaBookmark
-                  onClick={() => savePost()}
-                  style={
-                    saved
-                      ? { color: "green", cursor: "pointer" }
-                      : { color: "red", cursor: "pointer" }
-                  }
-                />
+                <Bookmark onClick={() => savePost()} style={saved ? {} : {}} />
               </Heading>
 
               <LocationWrapper>
@@ -184,6 +172,14 @@ const Activity = () => {
                     />
                   )}
                 </p>
+                <Section2>
+                  <Visit href={thisActivity.link}>Visit site...</Visit>
+                  {userId === thisActivity.user._id && (
+                    <FaTrash
+                      onClick={() => handleDeletePost(thisActivity?._id)}
+                    />
+                  )}
+                </Section2>
               </Section>
               <CommentsWrapper>
                 <h3>Comments</h3>
@@ -217,19 +213,17 @@ const Activity = () => {
                   <Submit type="submit">Submit</Submit>
                 </Form>
               )}
-              {thisActivity?.comments
-                //  .sort((a, b) => b.createdAt - a.createdAt)
-                .map((comment, i) => {
-                  if (i < showComments) {
-                    return (
-                      <Comment
-                        key={comment._id}
-                        thisActivity={thisActivity}
-                        comment={comment}
-                      />
-                    );
-                  }
-                })}
+              {thisActivity?.comments.map((comment, i) => {
+                if (i < showComments) {
+                  return (
+                    <Comment
+                      key={comment._id}
+                      thisActivity={thisActivity}
+                      comment={comment}
+                    />
+                  );
+                }
+              })}
               {thisActivity?.comments.length > showComments && (
                 <MoreButton onClick={() => setShowComments(showComments + 1)}>
                   more
@@ -285,12 +279,9 @@ const ActivityImage = styled.div`
   background-repeat: no-repeat;
   background-position: center;
   height: 300px;
-  /* width: 100%;
-  margin: 25px; */
   padding: 20px;
   display: flex;
   justify-content: space-between;
-  /* position: sticky; */
 `;
 // const LikesContainer = styled.div`
 //   background-color: rgba(255, 255, 255, 0.2);
@@ -402,10 +393,9 @@ const Submit = styled.button`
 `;
 const Section = styled.section``;
 
-const FaTrash = styled(FaTrashAlt)`
+const FaTrash = styled(FaTimesCircle)`
   height: 20px;
   width: 20px;
-  color: white;
   cursor: pointer;
   &:hover {
     transform: scale(1.2, 1.2);
@@ -419,6 +409,28 @@ const Left = styled(FaChevronLeft)`
   cursor: pointer;
   &:hover {
     transform: scale(1.5, 1.5);
+    color: #36baa0;
+  }
+`;
+
+const Bookmark = styled(FaBookmark)`
+  /* color: rgba(54, 186, 160, 0.6); */
+  cursor: pointer;
+  &:hover {
+    transform: scale(1.5, 1.5);
+    color: rgba(54, 186, 160, 0.6);
+  }
+`;
+const Section2 = styled.section`
+  display: flex;
+  justify-content: space-between;
+`;
+const Visit = styled.a`
+  text-decoration: none;
+  color: black;
+  cursor: pointer;
+  &:hover {
+    transform: scale(1.1, 1.1);
     color: #36baa0;
   }
 `;

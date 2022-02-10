@@ -44,14 +44,51 @@ const Country = () => {
     <>
       <Main>
         <FilteringContainer>
-          <SearchBarContainer>
+          <h2>{land}</h2>
+          {/* <SearchBarContainer>
             <Searchbar />
-          </SearchBarContainer>
+          </SearchBarContainer> */}
           <StyledToggle onClick={showMenu}>
             <FilterText>Filter Menu</FilterText>
-            <FaSortDown style={{ width: 23, height: 25, marginLeft: 5 }} />
+            {/* <FaSortDown style={{ width: 23, height: 25, marginLeft: 5 }} /> */}
           </StyledToggle>
-          {visible && (
+          <div>
+            <CountryChooseContainer>
+              <FilterText>Country</FilterText>
+              <form>
+                <label htmlFor="country"></label>
+                <Select
+                  id="country"
+                  value={land}
+                  onChange={(event) => {
+                    setLand(event.target.value); //asynchronous
+                    navigate(`/country/${event.target.value}`);
+                    setCategory("");
+                  }}
+                >
+                  {countries.map((option, index) => (
+                    <option key={index} value={option}>
+                      {option}
+                    </option>
+                  ))}
+                </Select>
+              </form>
+            </CountryChooseContainer>
+            <div>
+              <ButtonContainer>
+                {categories.map((category) => (
+                  <FilteringButton
+                    key={category}
+                    value={category}
+                    onClick={handleCategory}
+                  >
+                    {category}
+                  </FilteringButton>
+                ))}
+              </ButtonContainer>
+            </div>
+          </div>
+          {/* {visible && (
             <div>
               <CountryChooseContainer>
                 <FilterText>Country</FilterText>
@@ -88,19 +125,20 @@ const Country = () => {
                 </ButtonContainer>
               </div>
             </div>
-          )}
+          )} */}
         </FilteringContainer>
-
-        <AttractionContainer>
-          {category === ""
-            ? attractions.map((item) => (
-                <AttractionCards item={item} key={item._id} />
-              ))
-            : categoryAttractions.map((item) => (
-                <AttractionCards key={item._id} item={item} />
-              ))}
-        </AttractionContainer>
-        <MapLocation />
+        <MapAndCards>
+          <MapLocation />
+          <AttractionContainer>
+            {category === ""
+              ? attractions.map((item) => (
+                  <AttractionCards item={item} key={item._id} />
+                ))
+              : categoryAttractions.map((item) => (
+                  <AttractionCards key={item._id} item={item} />
+                ))}
+          </AttractionContainer>
+        </MapAndCards>
       </Main>
     </>
   );
@@ -109,33 +147,49 @@ const Country = () => {
 export default Country;
 
 const Main = styled.div`
+  // Why is it 100% width?
   @media (min-width: 768px) {
     display: flex;
-    flex-direction: row;
+    margin: 0 auto;
+    border: 2px blue solid;
+    /* flex-direction: column; */
   }
 `;
-
+const MapAndCards = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
 const AttractionContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-
+  border: 2px red solid;
   /* background-color: white; */
   @media (min-width: 768px) {
-    margin-top: 200px;
+    flex-direction: row;
+    flex-wrap: wrap;
   }
 
   @media (min-width: 998px) {
     flex-wrap: wrap;
-    margin-top: 200px;
-    flex-direction: row;
-    width: 700px;
+    margin: 20px;
+    justify-content: space-between;
+    width: 900px;
+    z-index: 10;
   }
 `;
 
 const FilteringContainer = styled.div`
+  padding-top: 100px;
+  border: 2px yellow solid;
+  color: #061137;
   @media (min-width: 768px) {
     width: 320px;
+  }
+  @media (min-width: 998px) {
+    padding-top: 130px;
+    width: 300px;
+    /* margin: 0 auto; */
   }
 `;
 const StyledToggle = styled.div`
@@ -163,7 +217,7 @@ const FilterText = styled.p`
   font-weight: bold;
 `;
 const SearchBarContainer = styled.div`
-  padding: 100px 25px 0px 25px;
+  /* padding: 100px 25px 0px 25px; */
 `;
 
 const CountryChooseContainer = styled.div`
@@ -174,7 +228,6 @@ const ButtonContainer = styled.div`
   display: grid;
   grid-template-columns: 1fr 1fr;
   grid-column-gap: 0;
-
   margin-left: 20px;
 `;
 

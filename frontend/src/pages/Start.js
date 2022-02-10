@@ -79,7 +79,7 @@ const StyledHero = styled.div`
   background-repeat: no-repeat;
   background-position: right;
   width: 100%;
-  min-height: 135vh;
+  min-height: 100vh;
   display: flex;
   flex-direction: column;
   position: absolute;

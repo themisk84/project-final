@@ -41,24 +41,27 @@ const Like = ({ item }) => {
 export default Like;
 
 const LikesContainer = styled.button`
-  position: absolute;
-  background-color: rgba(255, 255, 255, 0.4);
-  height: 30px;
+  /* position: absolute; */
+  /* background-color: rgba(255, 255, 255, 0.3); */
+  /* background-color: rgba(6, 17, 55, 0.7); */
+  background-color: rgba(54, 186, 160, 0.6);
+  color: white;
+  height: 28px;
   border: none;
-  width: 55px;
-  padding: 5px 7px 7px 5px;
+  width: 52px;
+  padding: 5px;
   border-radius: 6px;
   display: flex;
   align-items: center;
   justify-content: center;
+  margin: 15px;
   cursor: pointer;
   &:hover {
     color: #36baa0;
-    transform: scale(1.2, 1.2);
+    background-color: rgba(255, 255, 255, 0.18);
   }
 `;
-
 const LikesCount = styled.p`
-  font-size: 15px;
+  font-size: 14px;
   margin: 0px 0px 0px 5px;
 `;
