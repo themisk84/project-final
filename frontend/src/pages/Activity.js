@@ -166,14 +166,17 @@ const Activity = () => {
                   {[...Array(ratings)].map((x, i) => (
                     <FaSplotch key={i}
                       style={{
-                        color: "yellow",
+                        color: "#ffe234",
+                        width: 18,
+                        height: 18,
+                        margin: 1,
                       }}
                     />
                   ))}
                 </p>
 
                 <Section2>
-                  <Visit href={thisActivity.link}>Visit site...</Visit>
+                  <Visit href={thisActivity.link} target="_blank" rel="noopener noreferrer">Visit site...</Visit>
                   {userId === thisActivity.user._id && (
                     <FaTrash
                       onClick={() => handleDeletePost(thisActivity?._id)}

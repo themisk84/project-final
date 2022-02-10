@@ -248,10 +248,12 @@ const Form = styled.form`
   display: flex;
   flex-direction: column;
   margin: 30px auto;
+  justify-content:center;
+  align-items: center;
 `;
 
 const FormHeader = styled.h1`
-  margin: 50px;
+  margin: 50px 0px 0px 0px;
   color: white;
   font-size: 20px;
   text-align: center;
@@ -304,7 +306,7 @@ const RegisterBtn = styled.button`
   background-color: rgb(120, 196, 195);
   color: white;
   border: none;
-  margin: 30px auto;
+  margin: 20px auto;
   cursor: pointer;
 `;
 
