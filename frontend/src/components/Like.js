@@ -41,9 +41,6 @@ const Like = ({ item }) => {
 export default Like;
 
 const LikesContainer = styled.button`
-  /* position: absolute; */
-  /* background-color: rgba(255, 255, 255, 0.3); */
-  /* background-color: rgba(6, 17, 55, 0.7); */
   background-color: rgba(54, 186, 160, 0.6);
   color: white;
   height: 28px;

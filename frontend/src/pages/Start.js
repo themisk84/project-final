@@ -16,7 +16,6 @@ const Start = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    // if(sightseeing.length === 0) {
     dispatch(ui.actions.setLoading(true));
     fetch(API_URL("stories"))
       .then((res) => res.json())
@@ -29,7 +28,6 @@ const Start = () => {
         } else {
         }
       });
-    // }
   }, [dispatch]);
 
   const cities = ["Norway", "Sweden", "Denmark"];
@@ -98,7 +96,6 @@ const StyledHeadline = styled.h1`
   @media (min-width: 768px) {
     font-size: 60px;
     margin: 0;
-    /* padding: 10px 50px; */
   }
 `;
 

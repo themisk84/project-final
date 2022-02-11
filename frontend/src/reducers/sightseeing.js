@@ -82,7 +82,6 @@ const sightseeing = createSlice({
       store.sightseeings = deletedPost;
     },
     addPost: (store, action) => {
-      console.log(action.payload);
       const newSightseeing = {
         _id: action.payload._id,
         name: action.payload.name,

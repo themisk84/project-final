@@ -19,7 +19,7 @@ const Country = () => {
   let attractions = useSelector((store) =>
     store.sightseeing.sightseeings.filter((item) => item.country === land)
   );
-  console.log(attractions);
+
   const categoryAttractions = attractions.filter(
     (item) => item.category === category
   );
@@ -92,11 +92,11 @@ const Country = () => {
           <AttractionContainer>
             {category === ""
               ? attractions.map((item) => (
-                <AttractionCards item={item} key={item._id} />
-              ))
+                  <AttractionCards item={item} key={item._id} />
+                ))
               : categoryAttractions.map((item) => (
-                <AttractionCards key={item._id} item={item} />
-              ))}
+                  <AttractionCards key={item._id} item={item} />
+                ))}
           </AttractionContainer>
         </MapAndCards>
       </Main>
@@ -109,7 +109,8 @@ export default Country;
 const Main = styled.div`
   @media (min-width: 768px) {
     display: flex;
-    margin: 0 auto;  }
+    margin: 0 auto;
+  }
 `;
 const MapAndCards = styled.div`
   display: flex;

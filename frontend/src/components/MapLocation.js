@@ -71,9 +71,6 @@ const MapLocation = () => {
 
   return (
     <MapLocationContainer>
-      {/* <Sidebar>
-        Longtitude: {lng} | Latitude: {lat} | Zoom: {zoom}
-      </Sidebar> */}
       <Div ref={mapContainer} className="map-container" />
     </MapLocationContainer>
   );
@@ -93,25 +90,7 @@ const MapLocationContainer = styled.div`
     width: 97%;
     margin: 120px 20px 0px;
   }
-
-  /* @media (min-width: 992px) {
-    width: 80%;
-  } */
 `;
 const Div = styled.div`
   border-radius: 10px;
 `;
-
-// const Sidebar = styled.div`
-//   /* background-color: rgba(35, 55, 75, 0.9); */
-//   background-color: white;
-//   /* color: #fff; */
-//   padding: 6px 12px;
-//   font-family: monospace;
-//   z-index: 1;
-//   position: absolute;
-//   top: 0;
-//   left: 0;
-//   margin: 12px;
-//   border-radius: 4px;
-// `;

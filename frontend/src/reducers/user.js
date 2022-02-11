@@ -25,7 +25,6 @@ const user = createSlice({
       store.error = action.payload;
     },
     addSavedPost: (store, action) => {
-      console.log(action.payload);
       if (store.savedSights?.length === 0) {
         console.log(store.savedSights);
         store.savedSights = [action.payload];
@@ -40,9 +39,6 @@ const user = createSlice({
     setEmail: (store, action) => {
       store.email = action.payload;
     },
-    // setAvatarUrl: (store, action) => {
-    //   store.avatarUrl = action.payload;
-    // },
   },
 });
 
