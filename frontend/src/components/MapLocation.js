@@ -15,6 +15,7 @@ const MapLocation = () => {
 
   let name = "";
   let imageUrl = "";
+  let link = "";
 
   const locations = useSelector((store) =>
     store.sightseeing.sightseeings.map((item) => {
@@ -23,6 +24,7 @@ const MapLocation = () => {
         lat,
         name,
         imageUrl,
+        link,
       };
 
       console.log(object);
@@ -31,6 +33,7 @@ const MapLocation = () => {
         lat: item.lat,
         name: item.name,
         imageUrl: item.imageUrl,
+        link: item.link,
       });
     })
   );
@@ -48,7 +51,7 @@ const MapLocation = () => {
 
     locations.map((location) => {
       const popup = new mapboxgl.Popup({ offset: 25 }).setHTML(
-        `<img src=${location.imageUrl} class="imagePopup"/><p>${location.name}</p>`
+        `<a href=${location.link} rel="no referrer"><img src=${location.imageUrl} class="imagePopup"/><p>${location.name}</p></a>`
       );
 
       const el = document.createElement("div");

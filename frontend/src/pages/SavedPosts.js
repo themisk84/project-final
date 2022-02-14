@@ -1,11 +1,18 @@
 import React from "react";
 import styled from "styled-components";
-import { useSelector } from "react-redux";
-import { FaRegCompass } from "react-icons/fa";
+import { useSelector, useDispatch } from "react-redux";
+import { FaRegCompass, FaTimesCircle } from "react-icons/fa";
 import { Link } from "react-router-dom";
 
+import user from "reducers/user";
+
 const UserPage = () => {
+  const dispatch = useDispatch();
   const saved = useSelector((store) => store.user?.savedSights);
+
+  const onDeleteSavedPost = (id) => {
+    dispatch(user.actions.deleteSavedPost(id));
+  };
 
   return (
     <>
@@ -15,36 +22,39 @@ const UserPage = () => {
         {saved?.map((item) => {
           return (
             <>
-              <StyledLink key={item._id} to={`/activity/${item._id}`}>
-                <LikedPostWrapper>
-                  <ImageContainer image={item.imageUrl} />
-                  <InfoContainer>
-                    <ActivityName>{item.name}</ActivityName>
-                    <InfoWrapper>
-                      <FaRegCompass
-                        style={{
-                          marginRight: "6",
-                          height: "14",
-                        }}
-                      />
-                      <p
-                        style={{
-                          fontSize: "14px",
-                          fontStyle: "italic",
-                        }}
-                      >
-                        {item.location}
-                      </p>
-                    </InfoWrapper>
-                    <InfoWrapper>
-                      <p style={{ margin: 0 }}>Category:</p>
-                      <p style={{ margin: 0, marginLeft: 5 }}>
-                        {item.category}
-                      </p>
-                    </InfoWrapper>
-                  </InfoContainer>
-                </LikedPostWrapper>
-              </StyledLink>
+              <DeleteContainer>
+                <FaTrash onClick={() => onDeleteSavedPost(item._id)} />
+                <StyledLink key={item._id} to={`/activity/${item._id}`}>
+                  <LikedPostWrapper>
+                    <ImageContainer image={item.imageUrl} />{" "}
+                    <InfoContainer>
+                      <ActivityName>{item.name}</ActivityName>
+                      <InfoWrapper>
+                        <FaRegCompass
+                          style={{
+                            marginRight: "6",
+                            height: "14",
+                          }}
+                        />
+                        <p
+                          style={{
+                            fontSize: "14px",
+                            fontStyle: "italic",
+                          }}
+                        >
+                          {item.location}
+                        </p>
+                      </InfoWrapper>
+                      <InfoWrapper>
+                        <p style={{ margin: 0 }}>Category:</p>
+                        <p style={{ margin: 0, marginLeft: 5 }}>
+                          {item.category}
+                        </p>
+                      </InfoWrapper>
+                    </InfoContainer>
+                  </LikedPostWrapper>
+                </StyledLink>
+              </DeleteContainer>
             </>
           );
         })}
@@ -89,7 +99,7 @@ const StyledLink = styled(Link)`
   color: black;
   margin: 10px auto;
   @media (min-width: 768px) {
-    width: 31%;
+    width: 85%;
   }
 `;
 
@@ -103,7 +113,7 @@ const LikedPostWrapper = styled.div`
   background-color: white;
 `;
 const ImageContainer = styled.div`
-  height: 100%;
+  height: 150px;
   width: 45%;
   background-image: ${(props) => `url(${props.image})`};
   background-size: cover;
@@ -122,4 +132,23 @@ const ActivityName = styled.h3`
 const InfoWrapper = styled.div`
   display: flex;
   align-items: center;
+`;
+
+const DeleteContainer = styled.div`
+  width: 100%;
+  height: 200px;
+
+  @media (min-width: 768px) {
+    width: 50%;
+  }
+`;
+
+const FaTrash = styled(FaTimesCircle)`
+  height: 20px;
+  width: 20px;
+  cursor: pointer;
+  &:hover {
+    transform: scale(1.2, 1.2);
+    color: #36baa0;
+  }
 `;
