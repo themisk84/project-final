@@ -48,7 +48,6 @@ const sightseeing = createSlice({
       const updatedSightseeings = store.sightseeings.map((item) => {
         if (item._id === action.payload._id) {
           const newestComment = action.payload.comments.pop();
-          console.log("Newest comment: ", newestComment);
           const updateComments = {
             ...item,
             comments: [newestComment, ...item.comments],

@@ -116,7 +116,7 @@ const MapAndCards = styled.div`
   display: flex;
   flex-direction: column;
   @media (min-width: 768px) {
-    margin-left: 350px;
+    margin-left: 400px;
   }
 `;
 const AttractionContainer = styled.div`
@@ -131,7 +131,7 @@ const AttractionContainer = styled.div`
   @media (min-width: 998px) {
     flex-wrap: wrap;
     justify-content: space-between;
-    width: 900px;
+    width: 1200px;
   }
 `;
 const FilteringContainer = styled.div`

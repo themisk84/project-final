@@ -10,7 +10,7 @@ const MapLocation = () => {
   const mapContainer = useRef(null);
   const map = useRef(null);
   const [lng, setLng] = useState(18.64);
-  const [lat, setLat] = useState(60.01);
+  const [lat, setLat] = useState(61.01);
   const [zoom, setZoom] = useState(3);
 
   let name = "";
@@ -25,6 +25,7 @@ const MapLocation = () => {
         imageUrl,
       };
 
+      console.log(object);
       return (object = {
         lng: item.lng,
         lat: item.lat,
@@ -53,7 +54,7 @@ const MapLocation = () => {
       const el = document.createElement("div");
       el.id = "marker";
 
-      const marker = new mapboxgl.Marker(el)
+      return new mapboxgl.Marker(el)
         .setLngLat({ lng: location.lng, lat: location.lat })
         .setPopup(popup)
         .addTo(map);

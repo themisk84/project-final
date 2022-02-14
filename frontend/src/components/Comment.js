@@ -12,7 +12,6 @@ const Comment = ({ comment, thisActivity }) => {
   const dispatch = useDispatch();
   const userId = useSelector((store) => store.user.userId);
   const accessToken = useSelector((store) => store.user.accessToken);
-  console.log(comment.user.avatar);
 
   const onDelete = (id, storyId) => {
     const options = {

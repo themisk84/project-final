@@ -105,7 +105,7 @@ const Signin = () => {
                 Password
                 <StyledInput
                   id="password"
-                  type="text"
+                  type="password"
                   value={password}
                   onChange={handlePasswordChange}
                 ></StyledInput>
@@ -248,7 +248,7 @@ const Form = styled.form`
   display: flex;
   flex-direction: column;
   margin: 30px auto;
-  justify-content:center;
+  justify-content: center;
   align-items: center;
 `;
 
@@ -330,5 +330,5 @@ const SignParagraph = styled.p`
 
 const ErrorMessage = styled.p`
   color: tomato;
-  font-size:18px;
+  font-size: 18px;
 `;

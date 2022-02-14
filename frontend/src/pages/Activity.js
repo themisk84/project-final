@@ -219,6 +219,8 @@ const Activity = () => {
                       comment={comment}
                     />
                   );
+                } else {
+                  return null;
                 }
               })}
               {thisActivity?.comments.length > showComments && (

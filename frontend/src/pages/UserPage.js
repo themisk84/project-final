@@ -62,7 +62,11 @@ const AttractionContainer = styled.div`
   width: 100%;
   @media (min-width: 768px) {
     flex-direction: row;
+    justify-content: flex-start;
     flex-wrap: wrap;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0;
   }
 `;
 const StyledHeadline = styled.h2`
@@ -75,17 +79,16 @@ const StyledHeadline = styled.h2`
 `;
 const PostWrapper = styled(Link)`
   border-radius: 20px;
-  width: 300px;
+  width: 100%;
   height: 150px;
   margin-bottom: 20px;
   overflow: hidden;
   display: flex;
-  background-color: white;
   text-decoration: none;
   color: black;
   margin: 10px auto;
   @media (min-width: 768px) {
-    width: 400px;
+    width: 31%;
   }
 `;
 const ImageContainer = styled.div`

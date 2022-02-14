@@ -1,7 +1,7 @@
 import React from "react";
 import { useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
-import styled from 'styled-components'
+import styled from "styled-components";
 
 import AttractionCards from "components/AttractionCards";
 
@@ -45,4 +45,4 @@ const AttractionContainer = styled.div`
     justify-content: space-between;
     width: 900px;
   }
-`
+`;
