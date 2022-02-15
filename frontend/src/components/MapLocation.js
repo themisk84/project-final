@@ -13,30 +13,7 @@ const MapLocation = () => {
   const [lat, setLat] = useState(61.01);
   const [zoom, setZoom] = useState(3);
 
-  let name = "";
-  let imageUrl = "";
-  let link = "";
-
-  const locations = useSelector((store) =>
-    store.sightseeing.sightseeings.map((item) => {
-      let object = {
-        lng,
-        lat,
-        name,
-        imageUrl,
-        link,
-      };
-
-      console.log(object);
-      return (object = {
-        lng: item.lng,
-        lat: item.lat,
-        name: item.name,
-        imageUrl: item.imageUrl,
-        link: item.link,
-      });
-    })
-  );
+  const locations = useSelector((store) => store.sightseeing.sightseeings);
 
   useEffect(() => {
     const map = new mapboxgl.Map(
