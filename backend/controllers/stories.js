@@ -55,7 +55,6 @@ storyRouter.post(
       rating,
       country,
     } = req.body;
-    // const { imageUrl } = req.file.path;
     const queriedUser = await User.findById(req.user._id);
     try {
       const story = await new Sightseeing({

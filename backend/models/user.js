@@ -29,9 +29,6 @@ const UserSchema = new mongoose.Schema({
     type: String,
     default: () => crypto.randomBytes(128).toString("hex"),
   },
-  avatarUrl: {
-    type: String,
-  },
   avatar: {
     type: String,
   },
