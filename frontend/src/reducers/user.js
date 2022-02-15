@@ -25,7 +25,6 @@ const user = createSlice({
       store.error = action.payload;
     },
     addSavedPost: (store, action) => {
-      console.log(action.payload);
       if (store.savedSights?.length === 0) {
         store.savedSights = [action.payload];
       } else if (store.savedSights?.length > 0) {
