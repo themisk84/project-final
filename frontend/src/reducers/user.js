@@ -29,30 +29,14 @@ const user = createSlice({
       if (store.savedSights?.length === 0) {
         store.savedSights = [action.payload];
       } else if (store.savedSights?.length > 0) {
-        const existingPost = store.savedSights.find((item) => item._id === action.payload._id)
+        const existingPost = store.savedSights.find(
+          (item) => item._id === action.payload._id
+        );
         if (!existingPost) {
-          store.savedSights = [...store.savedSights, action.payload]
+          store.savedSights = [...store.savedSights, action.payload];
         }
       }
-      // store.savedSights.map((item) => {
-      //   if (item._id === action.payload._id) {
-      //     return item;
-      //   } else {
-      //     return store.savedSights = [...store.savedSights, action.payload];
-      //     console.log([...store.savedSights, action.payload])
-      //   }
-      // });
-      // store.savedSights = [...store.savedSights, action.payload];
     },
-    // addSavedPost: (store, action) => {
-    //   if (store.savedSights?.length === 0) {
-    //     store.savedSights = [action.payload];
-    //   } else if (store.savedSights?.length > 0) {
-    //     console.log(store.savedSights);
-    //     store.savedSights = [...store.savedSights, action.payload];
-    //   }
-    // },
-
     deleteSavedPost: (store, action) => {
       const deletedSavedPost = store.savedSights.filter(
         (item) => item._id !== action.payload

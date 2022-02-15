@@ -33,7 +33,9 @@ const Activity = () => {
     store.sightseeing.sightseeings.find((item) => item._id === activityId)
   );
 
-  const saved = useSelector((store) => store.user.savedSights);
+  const saved = useSelector((store) =>
+    store.user.savedSights.find((item) => item._id === thisActivity._id)
+  );
   const userId = useSelector((store) => store.user.userId);
   const ratings = thisActivity.rating / 20;
 
@@ -115,7 +117,14 @@ const Activity = () => {
                 >
                   {thisActivity?.name}
                 </h1>
-                <Bookmark onClick={() => savePost()} style={saved ? {} : {}} />
+                <Bookmark
+                  onClick={() => savePost()}
+                  style={
+                    saved
+                      ? { color: "rgba(54, 186, 160, 0.6)" }
+                      : { color: "black" }
+                  }
+                />
               </Heading>
               <LocationWrapper>
                 <FaRegCompass
@@ -342,7 +351,9 @@ const MoreButton = styled.button`
     transform: scale(1.1, 1.1);
   }
 `;
-const LikeContainer = styled.div``;
+const LikeContainer = styled.div`
+  padding-right: 35px;
+`;
 
 const By = styled.h2`
   font-size: 17px;
@@ -403,7 +414,6 @@ const Bookmark = styled(FaBookmark)`
   cursor: pointer;
   &:hover {
     transform: scale(1.5, 1.5);
-    color: rgba(54, 186, 160, 0.6);
   }
 `;
 const Section2 = styled.section`

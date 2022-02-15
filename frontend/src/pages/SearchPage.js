@@ -36,9 +36,11 @@ const AttractionContainer = styled.div`
   flex-direction: column;
   align-items: center;
   margin: 20px auto;
+  padding-top: 100px;
   @media (min-width: 768px) {
     flex-direction: row;
     flex-wrap: wrap;
+    justify-content: center;
   }
   @media (min-width: 998px) {
     flex-wrap: wrap;
