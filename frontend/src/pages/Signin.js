@@ -14,7 +14,7 @@ const Signin = () => {
   const [password, setPassword] = useState("");
   const [email, setEmail] = useState("");
   const [mode, setMode] = useState("signin");
-  const [avatar, setAvatar] = useState("");
+  const [avatar, setAvatar] = useState("tourism");
 
   const accessToken = useSelector((store) => store.user.accessToken);
 
@@ -127,6 +127,7 @@ const Signin = () => {
                 <AvatarContainer>
                   {avatars.map((av, index) => (
                     <Avatar
+                      required
                       key={index}
                       av={av}
                       avatar={avatar}
