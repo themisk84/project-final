@@ -1,40 +1,40 @@
-import React, { useEffect, useState } from "react";
-import { batch, useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
-import styled from "styled-components";
+import React, { useEffect, useState } from 'react'
+import { batch, useDispatch, useSelector } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
+import styled from 'styled-components'
 
-import Avatar from "../components/Avatar";
+import Avatar from '../components/Avatar'
 
-import user from "reducers/user";
+import user from 'reducers/user'
 
-import { API_URL } from "../utilis/urls";
+import { API_URL } from '../utilis/urls'
 
 const Signin = () => {
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
-  const [email, setEmail] = useState("");
-  const [mode, setMode] = useState("signin");
-  const [avatar, setAvatar] = useState("tourism");
+  const [username, setUsername] = useState('')
+  const [password, setPassword] = useState('')
+  const [email, setEmail] = useState('')
+  const [mode, setMode] = useState('signin')
+  const [avatar, setAvatar] = useState('tourism')
 
-  const accessToken = useSelector((store) => store.user.accessToken);
+  const accessToken = useSelector((store) => store.user.accessToken)
 
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
+  const dispatch = useDispatch()
+  const navigate = useNavigate()
 
-  const avatars = ["tourism", "bear", "man", "woman", "user"];
+  const avatars = ['tourism', 'bear', 'man', 'woman', 'user']
 
   useEffect(() => {
     if (accessToken) {
-      navigate("/user");
+      navigate('/user')
     }
-  }, [accessToken, navigate]);
+  }, [accessToken, navigate])
 
   const onHandleSignIn = (event) => {
-    event.preventDefault();
+    event.preventDefault()
     const options = {
-      method: "POST",
+      method: 'POST',
       headers: {
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
       },
       body: JSON.stringify({
         username,
@@ -42,48 +42,48 @@ const Signin = () => {
         email,
         avatar,
       }),
-    };
+    }
 
     fetch(API_URL(`users/${mode}`), options)
       .then((res) => res.json())
       .then((data) => {
         if (data.success) {
           batch(() => {
-            dispatch(user.actions.setUserId(data.response.userId));
-            dispatch(user.actions.setUsername(data.response.username));
-            dispatch(user.actions.setAccessToken(data.response.accessToken));
-            dispatch(user.actions.setAvatar(data.response.avatar));
-            dispatch(user.actions.setEmail(data.response.email));
-            dispatch(user.actions.setError(null));
-          });
+            dispatch(user.actions.setUserId(data.response.userId))
+            dispatch(user.actions.setUsername(data.response.username))
+            dispatch(user.actions.setAccessToken(data.response.accessToken))
+            dispatch(user.actions.setAvatar(data.response.avatar))
+            dispatch(user.actions.setEmail(data.response.email))
+            dispatch(user.actions.setError(null))
+          })
         } else {
           batch(() => {
-            dispatch(user.actions.setUserId(null));
-            dispatch(user.actions.setUsername(null));
-            dispatch(user.actions.setAccessToken(null));
-            if (mode === "signin") {
-              dispatch(user.actions.setError(data.response));
-            } else if (mode === "signup") {
-              dispatch(user.actions.setError(data.response.code));
+            dispatch(user.actions.setUserId(null))
+            dispatch(user.actions.setUsername(null))
+            dispatch(user.actions.setAccessToken(null))
+            if (mode === 'signin') {
+              dispatch(user.actions.setError(data.response))
+            } else if (mode === 'signup') {
+              dispatch(user.actions.setError(data.response.code))
             } else {
-              console.log("Problem");
+              console.log('Problem')
             }
-          });
+          })
         }
-      });
-  };
+      })
+  }
 
-  const handleUsernameChange = (event) => setUsername(event.target.value);
-  const handlePasswordChange = (event) => setPassword(event.target.value);
-  const handleEmailChange = (event) => setEmail(event.target.value);
+  const handleUsernameChange = (event) => setUsername(event.target.value)
+  const handlePasswordChange = (event) => setPassword(event.target.value)
+  const handleEmailChange = (event) => setEmail(event.target.value)
 
-  const err = useSelector((store) => store.user.error);
+  const err = useSelector((store) => store.user.error)
 
   return (
     <StyledMain>
       <OuterFormContainer>
         <FormContainer>
-          {mode === "signin" ? (
+          {mode === 'signin' ? (
             <FormHeader>Sign In</FormHeader>
           ) : (
             <FormHeader>Sign Up</FormHeader>
@@ -96,8 +96,7 @@ const Signin = () => {
                   id="username"
                   type="text"
                   value={username}
-                  onChange={handleUsernameChange}
-                ></StyledInput>
+                  onChange={handleUsernameChange}></StyledInput>
               </Label>
             </LabelContainer>
             <LabelContainer>
@@ -107,11 +106,10 @@ const Signin = () => {
                   id="password"
                   type="password"
                   value={password}
-                  onChange={handlePasswordChange}
-                ></StyledInput>
+                  onChange={handlePasswordChange}></StyledInput>
               </Label>
             </LabelContainer>
-            {mode === "signup" && (
+            {mode === 'signup' && (
               <>
                 <LabelContainer>
                   <Label htmlFor="email">
@@ -120,8 +118,7 @@ const Signin = () => {
                       id="email"
                       type="email"
                       value={email}
-                      onChange={handleEmailChange}
-                    ></StyledInput>
+                      onChange={handleEmailChange}></StyledInput>
                   </Label>
                 </LabelContainer>
                 <AvatarContainer>
@@ -139,40 +136,34 @@ const Signin = () => {
               </>
             )}
             <RegisterBtn primary type="submit">
-              {mode === "signin" ? "Log In" : "Register"}
+              {mode === 'signin' ? 'Log In' : 'Register'}
             </RegisterBtn>
           </Form>
           {err === null ? (
-            ""
+            ''
           ) : err === 11000 ? (
-            <ErrorMessage>Username or email should be unique</ErrorMessage>
+            <ErrorMessage>Username and email needs to be unique</ErrorMessage>
           ) : (
-            <ErrorMessage style={{ textAlign: "center" }}>{err}</ErrorMessage>
+            <ErrorMessage style={{ textAlign: 'center' }}>{err}</ErrorMessage>
           )}
           <Buttons>
-            {mode === "signup" ? (
+            {mode === 'signup' ? (
               <ButtonContainer>
-                <SignParagraph>
-                  Do you already have an account? Sign in!
-                </SignParagraph>
+                <SignParagraph>Already have an account? Sign in!</SignParagraph>
                 <SignButton
                   onClick={() => {
-                    setMode("signin");
-                  }}
-                >
+                    setMode('signin')
+                  }}>
                   Sign In
                 </SignButton>
               </ButtonContainer>
             ) : (
               <ButtonContainer>
-                <SignParagraph>
-                  Do you not have an account? Sign up!
-                </SignParagraph>
+                <SignParagraph>Don't have an account? Sign up!</SignParagraph>
                 <SignButton
                   onClick={() => {
-                    setMode("signup");
-                  }}
-                >
+                    setMode('signup')
+                  }}>
                   Sign Up
                 </SignButton>
               </ButtonContainer>
@@ -182,17 +173,17 @@ const Signin = () => {
         <ImageContainer />
       </OuterFormContainer>
     </StyledMain>
-  );
-};
+  )
+}
 
-export default Signin;
+export default Signin
 
 const StyledMain = styled.main`
   display: flex;
   flex-direction: column;
   width: 100%;
   height: 700px;
-  background-image: url("/assets/background.png");
+  background-image: url('/assets/background.png');
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
@@ -201,7 +192,7 @@ const StyledMain = styled.main`
   @media (min-width: 768px) {
     flex-direction: row;
   }
-`;
+`
 
 const OuterFormContainer = styled.div`
   display: flex;
@@ -217,7 +208,7 @@ const OuterFormContainer = styled.div`
     flex-direction: row;
     box-shadow: rgba(0, 0, 0, 1) 0px 5px 15px;
   }
-`;
+`
 
 const FormContainer = styled.div`
   display: flex;
@@ -229,11 +220,11 @@ const FormContainer = styled.div`
     width: 50%;
     height: 600px;
   }
-`;
+`
 
 const ImageContainer = styled.div`
   display: none;
-  background-image: url("assets/man.jpeg");
+  background-image: url('assets/man.jpeg');
   background-repeat: no-repeat;
   background-position: center;
   background-size: cover;
@@ -243,7 +234,7 @@ const ImageContainer = styled.div`
     width: 50%;
     min-height: 600px;
   }
-`;
+`
 
 const Form = styled.form`
   display: flex;
@@ -251,20 +242,20 @@ const Form = styled.form`
   margin: 30px auto;
   justify-content: center;
   align-items: center;
-`;
+`
 
 const FormHeader = styled.h1`
   margin: 50px 0px 0px 0px;
   color: white;
   font-size: 20px;
   text-align: center;
-`;
+`
 
 const LabelContainer = styled.div`
   display: flex;
   flex-direction: column;
   margin-bottom: 20px;
-`;
+`
 
 const StyledInput = styled.input`
   height: 35px;
@@ -272,12 +263,12 @@ const StyledInput = styled.input`
   border: 1px solid white;
   border-radius: 5px;
   background-color: rgba(255, 255, 255, 0.3);
-`;
+`
 
 const AvatarContainer = styled.div`
   display: flex;
   width: 350px;
-`;
+`
 
 const SignButton = styled.button`
   padding: 7px;
@@ -287,7 +278,7 @@ const SignButton = styled.button`
   background-color: rgb(120, 196, 195);
   color: white;
   border: none;
-`;
+`
 
 const Buttons = styled.div`
   display: flex;
@@ -297,7 +288,7 @@ const Buttons = styled.div`
   @media (min-width: 768px) {
     margin-bottom: 10px;
   }
-`;
+`
 
 const RegisterBtn = styled.button`
   padding: 7px;
@@ -309,27 +300,27 @@ const RegisterBtn = styled.button`
   border: none;
   margin: 20px auto;
   cursor: pointer;
-`;
+`
 
 const Label = styled.label`
   display: flex;
   flex-direction: column;
   color: white;
   padding-bottom: 3px;
-`;
+`
 
 const ButtonContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-`;
+`
 
 const SignParagraph = styled.p`
   color: white;
   font-size: 16px;
-`;
+`
 
 const ErrorMessage = styled.p`
   color: tomato;
   font-size: 18px;
-`;
+`
