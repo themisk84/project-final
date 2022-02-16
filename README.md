@@ -1,5 +1,5 @@
 # Final Project: Go Scandinavia
-### by: Helena Wiklund, Julia Nikitina Efthymios Karakasis and Elsa Carlström
+#### by: Helena Wiklund, Julia Nikitina Efthymios Karakasis and Elsa Carlström
 
 For our 4-week final project ”Go Scandinavia” @Technigo we’ve built a travel community aimed at anyone who’d like to discover the countries of Sweden, Norway and Denmark. Wether you are new to the area or lived there all your life there is always something new to explore. All users can browse and like content of the site while signed in members also can contribute to the site by posting travel tips of their own and comment on other users posts. They can also save posts they like to their account to easily check them out later when planning their next Scandinavian adventure!
 
