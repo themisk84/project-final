@@ -4,11 +4,11 @@ For our 4-week final project ”Go Scandinavia” @Technigo we’ve built a trav
 
 ## Site Description
 
-The site has a dark yet vibrant color scheme inspired by the northern lights and is applied throughout. The landing page has, besides the navbar, two main functionality features in shape of a keyword search bar and a choose-a-country section.
+The site has a dark yet vibrant color scheme inspired by the northern lights that is applied throughout. The landing page has, besides the navbar, two main functionality features in shape of a keyword search bar and a choose-a-country section.
 
 In the search bar the user can query for a keyword e.g. ”food” and get a list of all posts made that contains that word in any of it’s relevant properties. Clicking on the individual posts listed leads to a separate page with all the information about the post provided by the author (name, location, description, rating etc.). This is also where you can comment and save the post if you are signed in.
 
-By clicking on a country in the country section of the landing page the user can access it’s country page straight away. After being transferred to the country page all the posts of that country are listed and possibility to filter them by category. You can also easily change to another country. On the country page there is also a map showing the location of all the posts made on the site and by clicking on the locations on the map you show the name and image and a link to go to their website.
+By clicking on a country in the country section of the landing page the user can access it’s country page straight away. After being transferred to the country page all the posts of that country are listed and there is also a possibility to filter them by category. You can also easily change to another country. On the country page there is also a map showing the location of all the posts made on the site and by clicking on the locations on the map you show the name and image and a link to go to their website.
 
 The sign in and sign out is done through the navbar. If signed in the user can access the pages for authorized users (create new post, my posts, saved posts) through a dropdown menu appearing when clicking on their avatar image in the navbar. There is also an About page available for all users containing a short description of the project and it’s creators. A signed in user also has the possibility to delete any posts of comments that the user is the author of.
 
