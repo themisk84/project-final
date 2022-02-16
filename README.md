@@ -27,3 +27,7 @@ For updating the content of the database we’ve used several mongoose operators
 ## Reflections
 
 As we’ve been working with backend and frontend with Redux on another level from what we’ve done previously we have learned so much, both through sharing knowledge with each other and problem while solving using Google. This project was also a great experience in working together a dev team and we are very happy and proud to have managed to have produced this quite complex site in just four weeks.
+
+## View it live
+
+https://go-scandinavia.netlify.app/
