@@ -32,6 +32,12 @@ const UserSchema = new mongoose.Schema({
   avatar: {
     type: String,
   },
+  savedPosts: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Sightseeing",
+    },
+  ],
 });
 
 module.exports = mongoose.model("User", UserSchema);

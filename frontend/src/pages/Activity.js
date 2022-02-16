@@ -68,8 +68,26 @@ const Activity = () => {
         });
     }
   };
-  const savePost = () => {
-    dispatch(user.actions.addSavedPost(thisActivity));
+
+  const savePost = (id) => {
+    const options = {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: accessToken,
+      },
+      body: JSON.stringify({ thisActivity }),
+    };
+
+    fetch(API_URL(`stories/saved/${id}`), options)
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data);
+        if (data.success) {
+          dispatch(user.actions.addSavedPost(thisActivity));
+        } else {
+        }
+      });
   };
 
   const handleComments = (id, event) => {
@@ -90,7 +108,6 @@ const Activity = () => {
       .then((data) => {
         console.log(data);
         if (data.success) {
-          console.log(data);
           dispatch(sightseeing.actions.addComment(data.response));
         } else {
         }
@@ -118,7 +135,7 @@ const Activity = () => {
                   {thisActivity?.name}
                 </h1>
                 <Bookmark
-                  onClick={() => savePost()}
+                  onClick={() => savePost(thisActivity._id)}
                   style={
                     saved
                       ? { color: "rgba(54, 186, 160, 0.6)" }

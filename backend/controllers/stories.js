@@ -187,4 +187,32 @@ storyRouter.post("/:storyId/like", async (req, res) => {
   }
 });
 
+storyRouter.post("/saved/:storyId", authenticateUser, async (req, res) => {
+  const { storyId } = req.params;
+
+  // console.log(req.body);
+  try {
+    const specific = await Sightseeing.findById(storyId);
+    console.log(specific);
+    // console.log(req.user._id);
+    const saved = await User.findByIdAndUpdate(
+      req.user._id,
+      {
+        $push: {
+          savedPost: specific,
+        },
+      },
+      { new: true }
+    );
+    // console.log(savedPost);
+    if (saved) {
+      res.status(200).json({ response: saved, success: true });
+    } else {
+      res.status(404).json({ response: "post not found", success: false });
+    }
+  } catch (error) {
+    res.status(400).json({ errors: error, success: false });
+  }
+});
+
 module.exports = storyRouter;
