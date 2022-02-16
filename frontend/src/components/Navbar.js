@@ -122,10 +122,12 @@ const Navbar = () => {
                     <p style={{ margin: 0, fontSize: 14 }}>{email}</p>
                   </div>
                 </div>
-                <StyledOption onClick={onAddPostClick}>Add a post</StyledOption>
+                <StyledOption onClick={onAddPostClick}>
+                  Create new post
+                </StyledOption>
                 <StyledOption onClick={onMyPostsClick}>My posts</StyledOption>
                 <StyledOption onClick={onSavedPostsClick}>
-                  Saved Posts
+                  Saved posts
                 </StyledOption>
 
                 <StyledOption onClick={logOut} style={{ marginTop: 25 }}>
