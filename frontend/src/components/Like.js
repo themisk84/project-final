@@ -51,7 +51,6 @@ const LikesContainer = styled.button`
   display: flex;
   align-items: center;
   justify-content: center;
-  margin: 15px;
   cursor: pointer;
   &:hover {
     color: #36baa0;

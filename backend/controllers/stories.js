@@ -6,6 +6,7 @@ const Comment = require("../models/comment");
 const authenticateUser = require("../auth/auth");
 const storage = require("../utils/imageUpload");
 
+import { Router } from "express";
 import multer from "multer";
 
 const storyRouter = express.Router();
@@ -133,10 +134,10 @@ storyRouter.delete(
   authenticateUser,
   async (req, res) => {
     const { commentId, storyId } = req.params;
-    console.log(commentId);
-    console.log(storyId);
+
     try {
       const oneComment = await Comment.findById(commentId);
+      console.log(oneComment);
       const commentRelated = await Sightseeing.findByIdAndUpdate(
         storyId,
         {
@@ -187,24 +188,36 @@ storyRouter.post("/:storyId/like", async (req, res) => {
   }
 });
 
+storyRouter.get("/saved", authenticateUser, async (req, res) => {
+  try {
+    const mySaved = await User.findById(req.user._id, "savedPosts");
+
+    if (mySaved) {
+      res.status(200).json({ response: mySaved, success: true });
+    } else {
+      res.status(404).json({ response: "posts not found", success: false });
+    }
+  } catch (error) {
+    res.status(400).json({ errors: error, success: false });
+  }
+});
+
 storyRouter.post("/saved/:storyId", authenticateUser, async (req, res) => {
   const { storyId } = req.params;
 
-  // console.log(req.body);
   try {
     const specific = await Sightseeing.findById(storyId);
-    console.log(specific);
-    // console.log(req.user._id);
+
     const saved = await User.findByIdAndUpdate(
       req.user._id,
       {
-        $push: {
-          savedPost: specific,
+        $addToSet: {
+          savedPosts: specific,
         },
       },
       { new: true }
     );
-    // console.log(savedPost);
+
     if (saved) {
       res.status(200).json({ response: saved, success: true });
     } else {
