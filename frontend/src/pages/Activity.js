@@ -26,16 +26,13 @@ const Activity = () => {
   const [visible, setVisible] = useState(false);
   const [comment, setComment] = useState("");
   const [showComments, setShowComments] = useState(2);
-  // const [saved, setSaved] = useState([]);
+
   const accessToken = useSelector((store) => store.user.accessToken);
 
   const thisActivity = useSelector((store) =>
     store.sightseeing.sightseeings.find((item) => item._id === activityId)
   );
 
-  // const saved = useSelector((store) =>
-  //   store.user.savedSights.find((item) => item._id === thisActivity._id)
-  // );
   const userId = useSelector((store) => store.user.userId);
   const ratings = thisActivity.rating / 20;
 
@@ -107,6 +104,7 @@ const Activity = () => {
         }
       });
   };
+
   return (
     <MainWrapper>
       <StyledContainer>
@@ -128,14 +126,7 @@ const Activity = () => {
                 >
                   {thisActivity?.name}
                 </h1>
-                <Bookmark
-                  onClick={() => savePost(thisActivity._id)}
-                  // style={
-                  //   saved
-                  //     ? { color: "rgba(54, 186, 160, 0.6)" }
-                  //     : { color: "black" }
-                  // }
-                />
+                <Bookmark onClick={() => savePost(thisActivity._id)} />
               </Heading>
               <LocationWrapper>
                 <FaRegCompass
