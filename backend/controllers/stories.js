@@ -1,48 +1,48 @@
-const express = require('express')
+const express = require("express");
 
-const Comment = require('../models/comment')
-const Sightseeing = require('../models/sightseeing')
-const User = require('../models/user')
+const Comment = require("../models/comment");
+const Sightseeing = require("../models/sightseeing");
+const User = require("../models/user");
 
-const authenticateUser = require('../auth/auth')
-const storage = require('../utils/imageUpload')
+const authenticateUser = require("../auth/auth");
+const storage = require("../utils/imageUpload");
 
-import multer from 'multer'
+import multer from "multer";
 
-const storyRouter = express.Router()
+const storyRouter = express.Router();
 
-const parser = multer({ storage })
+const parser = multer({ storage });
 
-storyRouter.get('/', async (req, res) => {
-  const { name, description, category, country, location } = req.query
+storyRouter.get("/", async (req, res) => {
+  const { name, description, category, country, location } = req.query;
   let story = await Sightseeing.find().populate([
-    { path: 'user', model: 'User', select: 'username' },
+    { path: "user", model: "User", select: "username" },
     {
-      path: 'comments',
-      model: 'Comment',
+      path: "comments",
+      model: "Comment",
       populate: [
-        { path: 'sightseeing', model: 'Sightseeing', select: 'name' },
-        { path: 'user', model: 'User' },
+        { path: "sightseeing", model: "Sightseeing", select: "name" },
+        { path: "user", model: "User" },
       ],
     },
-  ])
+  ]);
   if (name || description || category || country || location) {
     story = await Sightseeing.find({
       $or: [
-        { name: { $regex: name, $options: 'i' } },
-        { description: { $regex: description, $options: 'i' } },
-        { category: { $regex: category, $options: 'i' } },
-        { country: { $regex: country, $options: 'i' } },
-        { location: { $regex: location, $options: 'i' } },
+        { name: { $regex: name, $options: "i" } },
+        { description: { $regex: description, $options: "i" } },
+        { category: { $regex: category, $options: "i" } },
+        { country: { $regex: country, $options: "i" } },
+        { location: { $regex: location, $options: "i" } },
       ],
-    })
+    });
   }
-  res.status(200).json({ response: story, success: true })
-})
+  res.status(200).json({ response: story, success: true });
+});
 
 storyRouter.post(
-  '/',
-  parser.single('image'),
+  "/",
+  parser.single("image"),
   authenticateUser,
   async (req, res) => {
     const {
@@ -55,8 +55,8 @@ storyRouter.post(
       category,
       rating,
       country,
-    } = req.body
-    const queriedUser = await User.findById(req.user._id)
+    } = req.body;
+    const queriedUser = await User.findById(req.user._id);
     try {
       const story = await new Sightseeing({
         name,
@@ -70,40 +70,40 @@ storyRouter.post(
         category,
         rating,
         user: queriedUser,
-      }).save()
-      story.populate('user')
+      }).save();
+      story.populate("user");
       res.status(201).json({
         response: story,
         success: true,
-      })
+      });
     } catch (error) {
-      res.status(400).json({ errors: error.errors, success: false })
+      res.status(400).json({ errors: error.errors, success: false });
     }
-  },
-)
+  }
+);
 
-storyRouter.delete('/:id', authenticateUser, async (req, res) => {
-  const { id } = req.params
-  const stories = await Sightseeing.find({ user: req.user._id })
+storyRouter.delete("/:id", authenticateUser, async (req, res) => {
+  const { id } = req.params;
+  const stories = await Sightseeing.find({ user: req.user._id });
   if (stories) {
-    const deletedStory = await Sightseeing.findOneAndDelete({ _id: id })
+    const deletedStory = await Sightseeing.findOneAndDelete({ _id: id });
     res.status(200).json({
       response: deletedStory,
       success: true,
-    })
+    });
   } else {
-    res.status(404).json({ response: 'Story not found', success: false })
+    res.status(404).json({ response: "Story not found", success: false });
   }
-})
+});
 
-storyRouter.post('/:storyId/comment', authenticateUser, async (req, res) => {
-  const { storyId } = req.params
-  const { message } = req.body
+storyRouter.post("/:storyId/comment", authenticateUser, async (req, res) => {
+  const { storyId } = req.params;
+  const { message } = req.body;
   try {
     const comment = await new Comment({
       message,
       user: req.user._id,
-    }).save()
+    }).save();
 
     const postRelated = await Sightseeing.findByIdAndUpdate(
       storyId,
@@ -112,32 +112,32 @@ storyRouter.post('/:storyId/comment', authenticateUser, async (req, res) => {
           comments: comment,
         },
       },
-      { new: true },
+      { new: true }
     ).populate({
-      path: 'comments',
-      model: 'Comment',
-      populate: { path: 'user', model: 'User' },
-    })
+      path: "comments",
+      model: "Comment",
+      populate: { path: "user", model: "User" },
+    });
 
     if (postRelated) {
-      res.status(200).json({ response: postRelated, success: true })
+      res.status(200).json({ response: postRelated, success: true });
     } else {
-      res.status(404).json({ response: 'post not found', success: false })
+      res.status(404).json({ response: "post not found", success: false });
     }
   } catch (error) {
-    res.status(400).json({ errors: error, success: false })
+    res.status(400).json({ errors: error, success: false });
   }
-})
+});
 
 storyRouter.delete(
-  '/:storyId/comments/:commentId',
+  "/:storyId/comments/:commentId",
   authenticateUser,
   async (req, res) => {
-    const { commentId, storyId } = req.params
-    console.log(commentId)
-    console.log(storyId)
+    const { commentId, storyId } = req.params;
+
     try {
-      const oneComment = await Comment.findById(commentId)
+      const oneComment = await Comment.findById(commentId);
+
       const commentRelated = await Sightseeing.findByIdAndUpdate(
         storyId,
         {
@@ -145,25 +145,25 @@ storyRouter.delete(
             comments: commentId,
           },
         },
-        { new: true },
+        { new: true }
       ).populate({
-        path: 'comments',
-        model: 'Comment',
-        populate: { path: 'user', model: 'User' },
-      })
+        path: "comments",
+        model: "Comment",
+        populate: { path: "user", model: "User" },
+      });
       if (oneComment) {
-        res.status(200).json({ response: commentRelated, success: true })
+        res.status(200).json({ response: commentRelated, success: true });
       } else {
-        res.status(404).json({ response: 'Comment not found', success: false })
+        res.status(404).json({ response: "Comment not found", success: false });
       }
     } catch (error) {
-      res.status(400).json({ errors: error, success: false })
+      res.status(400).json({ errors: error, success: false });
     }
-  },
-)
+  }
+);
 
-storyRouter.post('/:storyId/like', async (req, res) => {
-  const { storyId } = req.params
+storyRouter.post("/:storyId/like", async (req, res) => {
+  const { storyId } = req.params;
   try {
     const addLike = await Sightseeing.findByIdAndUpdate(
       storyId,
@@ -172,20 +172,60 @@ storyRouter.post('/:storyId/like', async (req, res) => {
           likes: 1,
         },
       },
-      { new: true },
-    )
+      { new: true }
+    );
     if (addLike) {
-      res.status(200).json({ response: addLike, success: true })
+      res.status(200).json({ response: addLike, success: true });
     } else {
-      res.status(404).json({ response: 'invalid id', success: false })
+      res.status(404).json({ response: "invalid id", success: false });
     }
   } catch (error) {
     res.status(400).json({
       response: "can't find a story with this id",
       errors: error.error,
       success: false,
-    })
+    });
   }
-})
+});
 
-module.exports = storyRouter
+storyRouter.get("/saved", authenticateUser, async (req, res) => {
+  try {
+    const mySaved = await User.findById(req.user._id, "savedPosts");
+
+    if (mySaved) {
+      res.status(200).json({ response: mySaved, success: true });
+    } else {
+      res.status(404).json({ response: "posts not found", success: false });
+    }
+  } catch (error) {
+    res.status(400).json({ errors: error, success: false });
+  }
+});
+
+storyRouter.post("/saved/:storyId", authenticateUser, async (req, res) => {
+  const { storyId } = req.params;
+
+  try {
+    const specific = await Sightseeing.findById(storyId);
+
+    const saved = await User.findByIdAndUpdate(
+      req.user._id,
+      {
+        $addToSet: {
+          savedPosts: specific,
+        },
+      },
+      { new: true }
+    );
+
+    if (saved) {
+      res.status(200).json({ response: saved, success: true });
+    } else {
+      res.status(404).json({ response: "post not found", success: false });
+    }
+  } catch (error) {
+    res.status(400).json({ errors: error, success: false });
+  }
+});
+
+module.exports = storyRouter;
