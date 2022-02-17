@@ -9,7 +9,6 @@ const user = createSlice({
     error: null,
     avatar: "",
     email: "",
-    // savedSights: [],
   },
   reducers: {
     setUsername: (store, action) => {
@@ -27,26 +26,6 @@ const user = createSlice({
     setSavedSights: (store, action) => {
       store.error = action.payload;
     },
-    // addSavedPost: (store, action) => {
-    //   console.log(action.payload);
-    //   if (store.savedSights?.length === 0) {
-    //     store.savedSights = [action.payload];
-    //   } else if (store.savedSights?.length > 0) {
-    //     const existingPost = store.savedSights.find(
-    //       (item) => item._id === action.payload._id
-    //     );
-    //     if (!existingPost) {
-    //       store.savedSights = [...store.savedSights, action.payload];
-    //     }
-    //   }
-    // },
-    // deleteSavedPost: (store, action) => {
-    //   console.log(action.payload);
-    //   const deletedSavedPost = store.savedSights.filter(
-    //     (item) => item._id !== action.payload
-    //   );
-    //   store.savedSights = deletedSavedPost;
-    // },
     setAvatar: (store, action) => {
       store.avatar = action.payload;
     },

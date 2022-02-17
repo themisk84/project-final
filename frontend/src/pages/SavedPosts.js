@@ -11,7 +11,6 @@ const UserPage = () => {
   const [saved, setSaved] = useState([]);
   const dispatch = useDispatch();
   const accessToken = useSelector((store) => store.user.accessToken);
-  // const saved = useSelector((store) => store?.user?.savedSights);
 
   useEffect(() => {
     const options = {
@@ -25,14 +24,10 @@ const UserPage = () => {
     fetch(API_URL("stories/saved"), options)
       .then((res) => res.json())
       .then((data) => {
-        // console.log(data);
-        if (data.success) {
-          setSaved(data.response.savedPosts);
-          dispatch(ui.actions.setLoading(false));
-        } else {
-          console.log("Problem", data);
-        }
-      });
+        setSaved(data.response.savedPosts);
+        dispatch(ui.actions.setLoading(false));
+      })
+      .catch((err) => console.log(err));
   }, [dispatch, accessToken]);
 
   const sightseeing = useSelector((store) => store.sightseeing.sightseeings);
@@ -60,42 +55,7 @@ const UserPage = () => {
           </div>
         )}
 
-        {/* {savedPosts.length === 1 && (
-          <DeleteContainer>
-            <FaTrash onClick={() => onDeleteSavedPost(saved._id)} />
-            <StyledLink key={saved._id} to={`/activity/${saved._id}`}>
-              <LikedPostWrapper>
-                <ImageContainer image={saved.imageUrl} />{" "}
-                <InfoContainer>
-                  <ActivityName>{saved.name}</ActivityName>
-                  <InfoWrapper>
-                    <FaRegCompass
-                      style={{
-                        marginRight: "6",
-                        height: "14",
-                      }}
-                    />
-                    <p
-                      style={{
-                        fontSize: "14px",
-                        fontStyle: "italic",
-                      }}
-                    >
-                      {saved.location}
-                    </p>
-                  </InfoWrapper>
-                  <InfoWrapper>
-                    <p style={{ margin: 0 }}>Category:</p>
-                    <p style={{ margin: 0, marginLeft: 5 }}>{saved.category}</p>
-                  </InfoWrapper>
-                </InfoContainer>
-              </LikedPostWrapper>
-            </StyledLink>
-          </DeleteContainer>
-        )} */}
-
         {savedPosts?.map((item) => {
-          // console.log(item[0]._id);
           return (
             <>
               <DeleteContainer>
