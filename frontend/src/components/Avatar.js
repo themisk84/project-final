@@ -10,7 +10,6 @@ const Avatar = ({ av, avatar, onChange, image }) => {
           id={av}
           value={av}
           onChange={onChange}
-          required
           checked={avatar === av}
         />
         <Img src={image} alt="avatar" />
