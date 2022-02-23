@@ -37,6 +37,12 @@ const Country = () => {
   const handleCategory = (event) => {
     setCategory(event.target.value);
   };
+
+  const handleLand = (event) => {
+    setLand(event.target.value);
+    navigate(`/country/${event.target.value}`);
+    setCategory("");
+  };
   // FOR ACTIVITY PAGE "ADD A COMMENT"
 
   return (
@@ -55,15 +61,7 @@ const Country = () => {
                 <FilterText>Country</FilterText>
                 <form>
                   <label htmlFor="country"></label>
-                  <Select
-                    id="country"
-                    value={land}
-                    onChange={(event) => {
-                      setLand(event.target.value); //asynchronous
-                      navigate(`/country/${event.target.value}`);
-                      setCategory("");
-                    }}
-                  >
+                  <Select id="country" value={land} onChange={handleLand}>
                     {countries.map((option, index) => (
                       <option key={index} value={option}>
                         {option}
