@@ -37,11 +37,7 @@ const Activity = () => {
   const ratings = thisActivity.rating / 20;
 
   const showInput = () => {
-    if (visible) {
-      setVisible(false);
-    } else {
-      setVisible(true);
-    }
+    setVisible(!visible);
   };
 
   const handleDeletePost = (id) => {
@@ -60,7 +56,6 @@ const Activity = () => {
           if (data.success) {
             dispatch(sightseeing.actions.deletePost(data.response._id));
             navigate(-1);
-          } else {
           }
         });
     }
@@ -100,7 +95,6 @@ const Activity = () => {
         console.log(data);
         if (data.success) {
           dispatch(sightseeing.actions.addComment(data.response));
-        } else {
         }
       });
   };

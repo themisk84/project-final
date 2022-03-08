@@ -47,15 +47,7 @@ const Comment = ({ comment, thisActivity }) => {
         <FaUserCircle style={{ height: 35, width: 35, marginRight: 8 }} />
       )}
       <CommenterWrapper>
-        <div
-          style={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "space-between",
-            marginBottom: 10,
-            marginTop: 3,
-          }}
-        >
+        <CommentText>
           <StyledUsername>{comment.user.username}</StyledUsername>
           <div style={{ display: "flex", alignItems: "center" }}>
             <StyledDate>{moment(comment.createdAt).fromNow()}</StyledDate>
@@ -66,7 +58,7 @@ const Comment = ({ comment, thisActivity }) => {
               />
             )}
           </div>
-        </div>
+        </CommentText>
         <StyledParagraph>{comment.message}</StyledParagraph>
       </CommenterWrapper>
     </CommentContainer>
@@ -80,9 +72,18 @@ const CommentContainer = styled.div`
   border-bottom: 2px solid #36baa0;
   display: flex;
 `;
+
 const CommenterWrapper = styled.div`
   width: 100%;
   margin-bottom: 10px;
+`;
+
+const CommentText = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px;
+  margin-top: 3px;
 `;
 const StyledDate = styled.p`
   margin: 0;
@@ -91,11 +92,13 @@ const StyledDate = styled.p`
   font-size: 14px;
   font-weight: 600;
 `;
+
 const StyledUsername = styled.h5`
   margin: 0;
   font-size: 16px;
   font-weight: 600;
 `;
+
 const StyledParagraph = styled.p`
   margin: 0;
   font-size: 16px;

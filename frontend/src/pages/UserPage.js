@@ -44,18 +44,11 @@ const UserPage = () => {
                       height: "14",
                     }}
                   />
-                  <p
-                    style={{
-                      fontSize: "14px",
-                      fontStyle: "italic",
-                    }}
-                  >
-                    {item.location}
-                  </p>
+                  <LocationParagraph>{item.location}</LocationParagraph>
                 </InfoWrapper>
                 <InfoWrapper>
                   <p>Category:</p>
-                  <p style={{ marginLeft: 5 }}>{item.category}</p>
+                  <CategoryParagraph>{item.category}</CategoryParagraph>
                 </InfoWrapper>
               </InfoContainer>
             </PostWrapper>
@@ -124,4 +117,11 @@ const ActivityName = styled.h3`
 const InfoWrapper = styled.div`
   display: flex;
   align-items: center;
+`;
+const LocationParagraph = styled.p`
+  font-size: 14px;
+  font-style: italic;
+`;
+const CategoryParagraph = styled.p`
+  margin-left: 5px;
 `;

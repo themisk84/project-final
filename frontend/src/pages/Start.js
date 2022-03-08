@@ -25,7 +25,6 @@ const Start = () => {
             dispatch(sightseeing.actions.addSightseeing(data.response));
             dispatch(ui.actions.setLoading(false));
           }, 100);
-        } else {
         }
       });
   }, [dispatch]);
@@ -53,8 +52,8 @@ const Start = () => {
             <Searchbar />
             <StyledChooseCountry>Choose a country</StyledChooseCountry>
             <StyledContainerCountry>
-              {cities.map((item, index) => (
-                <StyledLink key={index} to={`/country/${item}`}>
+              {cities.map((item) => (
+                <StyledLink key={item} to={`/country/${item}`}>
                   <StyledCountryWrapper>
                     <StyledCountry item={item}></StyledCountry>
                     <StyledTitle item={item}>{item}</StyledTitle>

@@ -65,8 +65,6 @@ const Signin = () => {
               dispatch(user.actions.setError(data.response));
             } else if (mode === "signup") {
               dispatch(user.actions.setError(data.response.code));
-            } else {
-              console.log("Problem");
             }
           });
         }
@@ -125,10 +123,10 @@ const Signin = () => {
                   </Label>
                 </LabelContainer>
                 <AvatarContainer>
-                  {avatars.map((av, index) => (
+                  {avatars.map((av) => (
                     <Avatar
                       required
-                      key={index}
+                      key={av}
                       av={av}
                       avatar={avatar}
                       image={require(`../avatarAssets/${av}.png`)}

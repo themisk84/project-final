@@ -96,13 +96,7 @@ const Navbar = () => {
               </>
             ) : (
               <>
-                <div
-                  style={{
-                    display: "flex",
-                    alignItems: "center",
-                    marginBottom: 20,
-                  }}
-                >
+                <UserContainer>
                   <FaUserCircle
                     style={{
                       height: 50,
@@ -111,19 +105,11 @@ const Navbar = () => {
                       marginRight: 10,
                     }}
                   />
-                  <div
-                    style={{
-                      display: "flex",
-                      flexDirection: "column",
-                      color: "#00005a",
-                    }}
-                  >
-                    <p style={{ margin: 0, marginBottom: 5, fontSize: 17 }}>
-                      {username}
-                    </p>
-                    <p style={{ margin: 0, fontSize: 14 }}>{email}</p>
-                  </div>
-                </div>
+                  <UserInnerContainer>
+                    <UsernameParagraph>{username}</UsernameParagraph>
+                    <EmailParagraph>{email}</EmailParagraph>
+                  </UserInnerContainer>
+                </UserContainer>
                 <StyledOption onClick={onAddPostClick}>
                   Create new post
                 </StyledOption>
@@ -152,9 +138,9 @@ const Navbar = () => {
       </StyledNav>
       {!accessToken ? (
         <StyledHamburger onClick={showMenu}>
-          <div></div>
-          <div></div>
-          <div></div>
+          <HamburgerDiv></HamburgerDiv>
+          <HamburgerDiv></HamburgerDiv>
+          <HamburgerDiv></HamburgerDiv>
         </StyledHamburger>
       ) : (
         <AvatarImgContainer onClick={showMenu}>
@@ -193,15 +179,15 @@ const StyledHamburger = styled.div`
   height: 25px;
   flex-direction: column;
   justify-content: space-between;
-  div {
-    width: 30px;
-    height: 4px;
-    background-color: #56baa0;
-    border-radius: 5px;
-  }
   @media (min-width: 768px) {
     display: none;
   }
+`;
+const HamburgerDiv = styled.div`
+  width: 30px;
+  height: 4px;
+  background-color: #56baa0;
+  border-radius: 5px;
 `;
 const AvatarImgContainer = styled.div`
   display: flex;
@@ -265,12 +251,29 @@ const StyledMobileNav = styled.div`
     margin: 0 0 auto auto;
   }
 `;
+const UserContainer = styled.div`
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+`;
+const UserInnerContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  color: #00005a;
+`;
+const UsernameParagraph = styled.p`
+  font-size: 17px;
+  margin: 0 0 5px 0;
+`;
+const EmailParagraph = styled.p`
+  font-size: 14px;
+  margin: 0;
+`;
 const StyledLink = styled(Link)`
   text-decoration: none;
   color: #56baa0;
   cursor: pointer;
 `;
-
 const StyledOption = styled.p`
   color: #00005a;
   margin: 10px 0;

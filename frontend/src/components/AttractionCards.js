@@ -1,39 +1,38 @@
-import React from 'react'
-import styled from 'styled-components'
-import { useNavigate } from 'react-router-dom'
+import React from "react";
+import styled from "styled-components";
+import { useNavigate } from "react-router-dom";
+import { FaRegCompass } from "react-icons/fa";
 
-import Like from './Like'
-import { FaRegCompass } from 'react-icons/fa'
+import Like from "./Like";
 
 const AttractionCards = ({ item }) => {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const onAttractionClick = (id) => {
-    navigate(`/activity/${id}`)
-  }
+    navigate(`/activity/${id}`);
+  };
   return (
-    <>
-      <AttractionCard
-        onClick={() => onAttractionClick(item._id)}
-        style={{ backgroundImage: `url(${item.imageUrl})` }}>
-        <Like item={item} />
-        <HeaderContainer>
-          <Header>{item.name}</Header>
-          <Description>
-            <FaRegCompass
-              style={{
-                marginRight: '6',
-                height: '14',
-              }}
-            />
-            {item.location}, {item.country}
-          </Description>
-        </HeaderContainer>
-      </AttractionCard>
-    </>
-  )
-}
+    <AttractionCard
+      onClick={() => onAttractionClick(item._id)}
+      style={{ backgroundImage: `url(${item.imageUrl})` }}
+    >
+      <Like item={item} />
+      <HeaderContainer>
+        <Header>{item.name}</Header>
+        <Description>
+          <FaRegCompass
+            style={{
+              marginRight: "6",
+              height: "14",
+            }}
+          />
+          {item.location}, {item.country}
+        </Description>
+      </HeaderContainer>
+    </AttractionCard>
+  );
+};
 
-export default AttractionCards
+export default AttractionCards;
 
 const AttractionCard = styled.article`
   display: flex;
@@ -50,7 +49,7 @@ const AttractionCard = styled.article`
   margin-bottom: 30px;
   overflow: hidden;
   margin-right: 20px;
-`
+`;
 const HeaderContainer = styled.section`
   display: flex;
   width: 240px;
@@ -62,14 +61,14 @@ const HeaderContainer = styled.section`
   border-radius: 0 90px 90px 0;
   margin-bottom: 50px;
   margin-right: 40px;
-`
+`;
 const Header = styled.h1`
   color: white;
   font-size: 26px;
   margin: 0;
   margin-bottom: 8px;
   overflow-wrap: break-word;
-`
+`;
 const Description = styled.p`
   color: white;
   font-size: 16px;
@@ -79,4 +78,4 @@ const Description = styled.p`
   align-items: center;
   font-size: 16px;
   margin: 0;
-`
+`;
