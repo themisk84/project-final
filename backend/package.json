@@ -1,13 +1,13 @@
 {
-  "name": "project-auth-backend",
+  "name": "project-go-scandinavia",
   "version": "1.0.0",
-  "description": "Starter project to get up and running with express quickly",
+  "description": "This app is about creating a travel community where everyone can sign up and share their experiences about the wonderfoul parts of Scandinavia",
   "scripts": {
     "start": "babel-node server.js",
     "dev": "nodemon server.js --exec babel-node",
     "lint": "eslint ."
   },
-  "author": "",
+  "author": "julia-nikitina elsa-calström helena-wiklund efthymios-karakasis",
   "license": "ISC",
   "dependencies": {
     "@babel/core": "^7.16.7",

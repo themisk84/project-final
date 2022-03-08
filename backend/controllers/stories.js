@@ -1,3 +1,5 @@
+import multer from "multer";
+
 const express = require("express");
 
 const Comment = require("../models/comment");
@@ -6,8 +8,6 @@ const User = require("../models/user");
 
 const authenticateUser = require("../auth/auth");
 const storage = require("../utils/imageUpload");
-
-import multer from "multer";
 
 const storyRouter = express.Router();
 
