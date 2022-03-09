@@ -10,7 +10,7 @@ const MapLocation = () => {
   const map = useRef(null);
   const [lng, setLng] = useState(18.64);
   const [lat, setLat] = useState(61.01);
-  const [zoom, setZoom] = useState(3);
+  const [zoom, setZoom] = useState(4);
 
   const locations = useSelector((store) => store.sightseeing.sightseeings);
 
