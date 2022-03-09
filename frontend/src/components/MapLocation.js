@@ -3,8 +3,7 @@ import { useSelector } from "react-redux";
 import styled from "styled-components";
 import mapboxgl from "!mapbox-gl"; // eslint-disable-line import/no-webpack-loader-syntax
 
-mapboxgl.accessToken =
-  "pk.eyJ1Ijoic2NhcmZhY2VkNyIsImEiOiJja3o3NmExODUwaWszMnZtdWd4MXJoZGh1In0.xdKCJvY3ROQC7E8AqJIJ9w";
+mapboxgl.accessToken = process.env.REACT_APP_MAPBOX_KEY;
 
 const MapLocation = () => {
   const mapContainer = useRef(null);
