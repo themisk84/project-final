@@ -19,12 +19,9 @@ const Navbar = () => {
   const { pathname } = useLocation();
 
   const showMenu = () => {
-    if (visible) {
-      setVisible(false);
-    } else {
-      setVisible(true);
-    }
+    setVisible(!visible);
   };
+
   useEffect(() => {
     setVisible(false);
   }, [pathname]);

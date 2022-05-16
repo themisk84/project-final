@@ -27,7 +27,7 @@ const MapLocation = () => {
 
     locations.map((location) => {
       const popup = new mapboxgl.Popup({ offset: 25 }).setHTML(
-        `<a href=${location.link} rel="no referrer"><img src=${location.imageUrl} class="imagePopup"/><p>${location.name}</p></a>`
+        `<a href=${location.link} rel="no referrer"><img src=${location.imageUrl} class="image-popup"/><p>${location.name}</p></a>`
       );
 
       const el = document.createElement("div");
@@ -51,7 +51,7 @@ const MapLocation = () => {
 
   return (
     <MapLocationContainer>
-      <Div ref={mapContainer} className="map-container" />
+      <Div ref={mapContainer} />
     </MapLocationContainer>
   );
 };
@@ -73,4 +73,7 @@ const MapLocationContainer = styled.div`
 `;
 const Div = styled.div`
   border-radius: 10px;
+  height: 400px;
+  width: 100%;
+  padding-top: 100px;
 `;

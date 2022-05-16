@@ -21,11 +21,11 @@ code {
   height: 100vh;
 }
 
-.map-container {
+/* .map-container {
   height: 400px;
   width: 100%;
   padding-top: 100px;
-}
+} */
 
 #marker {
   background-image: url("avatarAssets/map_marker.png");
@@ -40,7 +40,7 @@ code {
   max-width: 200px;
 }
 
-.imagePopup {
+.image-popup {
   width: 70px;
   height: 70px;
   border-radius: 50%;
