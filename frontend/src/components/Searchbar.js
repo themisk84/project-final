@@ -13,7 +13,6 @@ const Searchbar = () => {
     event.preventDefault();
     navigate(
       `/search?name=${query}&description=${query}&country=${query}&category=${query}`
-      // `/search?name=${query}&description=${query}&country=${query}&category=${query}&location=${query}`,
     );
   };
 

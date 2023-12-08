@@ -1,84 +1,81 @@
-import React, { useState, useEffect, useRef } from 'react'
-import { Link, useNavigate, useLocation } from 'react-router-dom'
-import { batch, useDispatch, useSelector } from 'react-redux'
-import styled from 'styled-components'
-import { FaUserCircle } from 'react-icons/fa'
+import React, { useState, useEffect, useRef } from "react";
+import { Link, useNavigate, useLocation } from "react-router-dom";
+import { batch, useDispatch, useSelector } from "react-redux";
+import styled from "styled-components";
+import { FaUserCircle } from "react-icons/fa";
 
-import user from '../reducers/user'
+import user from "../reducers/user";
 
 const Navbar = () => {
-  const [visible, setVisible] = useState(false)
-  const navigate = useNavigate()
-  const dispatch = useDispatch()
-  const wrapperRef = useRef(null)
+  const [visible, setVisible] = useState(false);
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const wrapperRef = useRef(null);
 
-  const email = useSelector((store) => store.user.email)
-  const accessToken = useSelector((store) => store.user.accessToken)
-  const avatar = useSelector((store) => store.user.avatar)
-  const username = useSelector((store) => store.user.username)
-  const { pathname } = useLocation()
+  const email = useSelector((store) => store.user.email);
+  const accessToken = useSelector((store) => store.user.accessToken);
+  const avatar = useSelector((store) => store.user.avatar);
+  const username = useSelector((store) => store.user.username);
+  const { pathname } = useLocation();
 
   const showMenu = () => {
-    if (visible) {
-      setVisible(false)
-    } else {
-      setVisible(true)
-    }
-  }
+    setVisible(!visible);
+  };
+
   useEffect(() => {
-    setVisible(false)
-  }, [pathname])
+    setVisible(false);
+  }, [pathname]);
 
   const logOut = () => {
     batch(() => {
-      dispatch(user.actions.setUserId(null))
-      dispatch(user.actions.setUsername(null))
-      dispatch(user.actions.setAccessToken(null))
-      dispatch(user.actions.setAvatar(null))
-      dispatch(user.actions.setEmail(null))
-      dispatch(user.actions.setError(null))
-    })
+      dispatch(user.actions.setUserId(null));
+      dispatch(user.actions.setUsername(null));
+      dispatch(user.actions.setAccessToken(null));
+      dispatch(user.actions.setAvatar(null));
+      dispatch(user.actions.setEmail(null));
+      dispatch(user.actions.setError(null));
+    });
 
-    navigate('/')
-  }
+    navigate("/");
+  };
 
   const onAddPostClick = () => {
-    navigate('/add')
-    setVisible(false)
-  }
+    navigate("/add");
+    setVisible(false);
+  };
   const onMyPostsClick = () => {
-    navigate('/user')
-    setVisible(false)
-  }
+    navigate("/user");
+    setVisible(false);
+  };
   const onSavedPostsClick = () => {
-    navigate('/savedPosts')
-    setVisible(false)
-  }
+    navigate("/savedPosts");
+    setVisible(false);
+  };
   const onAboutClick = () => {
-    navigate('/about')
-    setVisible(false)
-  }
+    navigate("/about");
+    setVisible(false);
+  };
   const onSigninClick = () => {
-    navigate('/signin')
-    setVisible(false)
-  }
+    navigate("/signin");
+    setVisible(false);
+  };
 
   // Function to close the dropdown menu when clicking outside of it
   const OutsideOfMenu = (ref) => {
     useEffect(() => {
       const handleClickOutside = (event) => {
         if (ref.current && !ref.current.contains(event.target)) {
-          setVisible(false)
+          setVisible(false);
         }
-      }
-      document.addEventListener('mousedown', handleClickOutside)
+      };
+      document.addEventListener("mousedown", handleClickOutside);
       return () => {
-        document.removeEventListener('mousedown', handleClickOutside)
-      }
-    }, [ref])
-  }
+        document.removeEventListener("mousedown", handleClickOutside);
+      };
+    }, [ref]);
+  };
 
-  OutsideOfMenu(wrapperRef)
+  OutsideOfMenu(wrapperRef);
 
   return (
     <StyledHeader>
@@ -96,36 +93,26 @@ const Navbar = () => {
               </>
             ) : (
               <>
-                <div
-                  style={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    marginBottom: 20,
-                  }}>
+                <UserContainer>
                   <FaUserCircle
                     style={{
                       height: 50,
                       width: 50,
-                      color: '#00005a',
+                      color: "#00005a",
                       marginRight: 10,
                     }}
                   />
-                  <div
-                    style={{
-                      display: 'flex',
-                      flexDirection: 'column',
-                      color: '#00005a',
-                    }}>
-                    <p style={{ margin: 0, marginBottom: 5, fontSize: 17 }}>
-                      {username}
-                    </p>
-                    <p style={{ margin: 0, fontSize: 14 }}>{email}</p>
-                  </div>
-                </div>
-                <StyledOption onClick={onAddPostClick}>Add a post</StyledOption>
+                  <UserInnerContainer>
+                    <UsernameParagraph>{username}</UsernameParagraph>
+                    <EmailParagraph>{email}</EmailParagraph>
+                  </UserInnerContainer>
+                </UserContainer>
+                <StyledOption onClick={onAddPostClick}>
+                  Create new post
+                </StyledOption>
                 <StyledOption onClick={onMyPostsClick}>My posts</StyledOption>
                 <StyledOption onClick={onSavedPostsClick}>
-                  Saved Posts
+                  Saved posts
                 </StyledOption>
 
                 <StyledOption onClick={logOut} style={{ marginTop: 25 }}>
@@ -148,9 +135,9 @@ const Navbar = () => {
       </StyledNav>
       {!accessToken ? (
         <StyledHamburger onClick={showMenu}>
-          <div></div>
-          <div></div>
-          <div></div>
+          <HamburgerDiv></HamburgerDiv>
+          <HamburgerDiv></HamburgerDiv>
+          <HamburgerDiv></HamburgerDiv>
         </StyledHamburger>
       ) : (
         <AvatarImgContainer onClick={showMenu}>
@@ -162,10 +149,10 @@ const Navbar = () => {
         </AvatarImgContainer>
       )}
     </StyledHeader>
-  )
-}
+  );
+};
 
-export default Navbar
+export default Navbar;
 
 const StyledHeader = styled.header`
   width: 100%;
@@ -182,27 +169,27 @@ const StyledHeader = styled.header`
     height: 100px;
     padding: 25px 50px;
   }
-`
+`;
 const StyledHamburger = styled.div`
   display: flex;
   width: 25px;
   height: 25px;
   flex-direction: column;
   justify-content: space-between;
-  div {
-    width: 30px;
-    height: 4px;
-    background-color: #56baa0;
-    border-radius: 5px;
-  }
   @media (min-width: 768px) {
     display: none;
   }
-`
+`;
+const HamburgerDiv = styled.div`
+  width: 30px;
+  height: 4px;
+  background-color: #56baa0;
+  border-radius: 5px;
+`;
 const AvatarImgContainer = styled.div`
   display: flex;
   cursor: pointer;
-`
+`;
 const UsernameP = styled.div`
   display: none;
   @media (min-width: 768px) {
@@ -212,13 +199,13 @@ const UsernameP = styled.div`
     color: white;
     font-size: 20px;
   }
-`
+`;
 const AvatarImg = styled.img`
   width: 50px;
   @media (min-width: 768px) {
     width: 80px;
   }
-`
+`;
 const StyledNav = styled.nav`
   display: none;
   @media (min-width: 768px) {
@@ -229,13 +216,13 @@ const StyledNav = styled.nav`
     width: 200px;
     font-size: 22px;
   }
-`
+`;
 const StyledList = styled.ul`
   list-style-type: none;
   padding: 0;
-`
+`;
 const StyledLogo = styled.div`
-  background-image: url('/assets/logo.png');
+  background-image: url("/assets/logo.png");
   background-size: contain;
   background-repeat: no-repeat;
   height: 19px;
@@ -244,7 +231,7 @@ const StyledLogo = styled.div`
   @media (min-width: 768px) {
     height: 22px;
   }
-`
+`;
 const StyledMobileNav = styled.div`
   position: absolute;
   display: flex;
@@ -260,15 +247,32 @@ const StyledMobileNav = styled.div`
     top: 100px;
     margin: 0 0 auto auto;
   }
-`
+`;
+const UserContainer = styled.div`
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+`;
+const UserInnerContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  color: #00005a;
+`;
+const UsernameParagraph = styled.p`
+  font-size: 17px;
+  margin: 0 0 5px 0;
+`;
+const EmailParagraph = styled.p`
+  font-size: 14px;
+  margin: 0;
+`;
 const StyledLink = styled(Link)`
   text-decoration: none;
   color: #56baa0;
   cursor: pointer;
-`
-
+`;
 const StyledOption = styled.p`
   color: #00005a;
   margin: 10px 0;
   cursor: pointer;
-`
+`;

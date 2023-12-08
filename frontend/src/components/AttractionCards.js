@@ -1,9 +1,9 @@
 import React from "react";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
+import { FaRegCompass } from "react-icons/fa";
 
 import Like from "./Like";
-import { FaRegCompass } from "react-icons/fa";
 
 const AttractionCards = ({ item }) => {
   const navigate = useNavigate();
@@ -11,26 +11,24 @@ const AttractionCards = ({ item }) => {
     navigate(`/activity/${id}`);
   };
   return (
-    <>
-      <AttractionCard
-        onClick={() => onAttractionClick(item._id)}
-        style={{ backgroundImage: `url(${item.imageUrl})` }}
-      >
-        <Like item={item} />
-        <HeaderContainer>
-          <Header>{item.name}</Header>
-          <Description>
-            <FaRegCompass
-              style={{
-                marginRight: "6",
-                height: "14",
-              }}
-            />
-            {item.location}, {item.country}
-          </Description>
-        </HeaderContainer>
-      </AttractionCard>
-    </>
+    <AttractionCard
+      onClick={() => onAttractionClick(item._id)}
+      style={{ backgroundImage: `url(${item.imageUrl})` }}
+    >
+      <Like item={item} />
+      <HeaderContainer>
+        <Header>{item.name}</Header>
+        <Description>
+          <FaRegCompass
+            style={{
+              marginRight: "6",
+              height: "14",
+            }}
+          />
+          {item.location}, {item.country}
+        </Description>
+      </HeaderContainer>
+    </AttractionCard>
   );
 };
 

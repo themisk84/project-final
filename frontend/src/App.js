@@ -3,8 +3,8 @@ import { createStore, combineReducers } from "@reduxjs/toolkit";
 import { Provider } from "react-redux";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
-import user from "reducers/user";
-import sightseeing from "reducers/sightseeing";
+import user from "./reducers/user";
+import sightseeing from "./reducers/sightseeing";
 import { ui } from "./reducers/ui";
 
 import Start from "./pages/Start";
@@ -14,12 +14,12 @@ import Activity from "./pages/Activity";
 import Signin from "./pages/Signin";
 import PostSightseeing from "./pages/PostSightseeing";
 import SavedPosts from "./pages/SavedPosts";
-import SearchPage from "pages/SearchPage";
+import SearchPage from "./pages/SearchPage";
 import ErrorMessage from "./pages/ErrorMessage";
-import About from "pages/About";
+import About from "./pages/About";
 
-import Navbar from "components/Navbar";
-import GradientBackground from "components/GradientBackground";
+import Navbar from "./components/Navbar";
+import GradientBackground from "./components/GradientBackground";
 
 const reducer = combineReducers({
   user: user.reducer,

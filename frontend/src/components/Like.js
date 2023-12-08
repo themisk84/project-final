@@ -22,7 +22,6 @@ const Like = ({ item }) => {
       .then((data) => {
         if (data.success) {
           dispatch(sightseeing.actions.addLike(data.response));
-        } else {
         }
       });
   };

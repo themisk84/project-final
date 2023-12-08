@@ -3,15 +3,14 @@ import { useSelector } from "react-redux";
 import styled from "styled-components";
 import mapboxgl from "!mapbox-gl"; // eslint-disable-line import/no-webpack-loader-syntax
 
-mapboxgl.accessToken =
-  "pk.eyJ1Ijoic2NhcmZhY2VkNyIsImEiOiJja3o3NmExODUwaWszMnZtdWd4MXJoZGh1In0.xdKCJvY3ROQC7E8AqJIJ9w";
+mapboxgl.accessToken = process.env.REACT_APP_MAPBOX_KEY;
 
 const MapLocation = () => {
   const mapContainer = useRef(null);
   const map = useRef(null);
   const [lng, setLng] = useState(18.64);
   const [lat, setLat] = useState(61.01);
-  const [zoom, setZoom] = useState(3);
+  const [zoom, setZoom] = useState(4);
 
   const locations = useSelector((store) => store.sightseeing.sightseeings);
 
@@ -28,7 +27,7 @@ const MapLocation = () => {
 
     locations.map((location) => {
       const popup = new mapboxgl.Popup({ offset: 25 }).setHTML(
-        `<a href=${location.link} rel="no referrer"><img src=${location.imageUrl} class="imagePopup"/><p>${location.name}</p></a>`
+        `<a href=${location.link} rel="no referrer"><img src=${location.imageUrl} class="image-popup"/><p>${location.name}</p></a>`
       );
 
       const el = document.createElement("div");
@@ -52,7 +51,7 @@ const MapLocation = () => {
 
   return (
     <MapLocationContainer>
-      <Div ref={mapContainer} className="map-container" />
+      <Div ref={mapContainer} />
     </MapLocationContainer>
   );
 };
@@ -74,4 +73,7 @@ const MapLocationContainer = styled.div`
 `;
 const Div = styled.div`
   border-radius: 10px;
+  height: 400px;
+  width: 100%;
+  padding-top: 100px;
 `;
